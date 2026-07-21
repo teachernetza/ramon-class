@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramón's English Portal</title>
+    <style>
+        /* Modern, student-friendly styling */
+        :root {
+            --primary: #4F46E5; /* Indigo */
+            --primary-light: #EEF2FF;
+            --secondary: #10B981; /* Emerald */
+            --text-dark: #1F2937;
+            --text-muted: #6B7280;
+            --bg-color: #F9FAFB;
+            --card-bg: #FFFFFF;
+            --border: #E5E7EB;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Header Layout */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Main Container */
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 0.5rem;
+        }
+
+        /* Instructions Card */
+        .instructions-card {
+            background: linear-gradient(135deg, var(--primary), #6366f1);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .instructions-card h2 {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .instructions-card p {
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+        .instructions-card ul {
+            list-style-type: none;
+            margin-top: 1rem;
+        }
+        .instructions-card li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Search Bar */
+        .search-container {
+            position: relative;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border-radius: 8px;
+            border: 2px solid var(--border);
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: var(--card-bg);
+            color: var(--text-dark);
+        }
+        .search-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+        }
+
+        /* Whiteboard Section (Google Slides) */
+        .whiteboard-section {
+            margin-bottom: 3rem;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border);
+        }
+
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #f3f4f6;
+            border: 1px solid var(--border);
+        }
+
+        .iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Lessons Directory Grid */
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Lesson Cards */
+        .lesson-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lesson-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--primary);
+            transition: width 0.2s ease;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .lesson-card:hover::before {
+            width: 6px;
+        }
+
+        .lesson-date {
+            font-size: 0.875rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .lesson-topic {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-action {
+            margin-top: auto;
+            display: inline-flex;
+            align-items: center;
+            color: var(--secondary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            gap: 0.25rem;
+        }
+
+        /* States */
+        .loading, .error-msg, .empty-msg {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        .error-msg {
+            color: #DC2626;
+            border-color: #FCA5A5;
+            background-color: #FEF2F2;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>👋 Welcome, Ramón!</h1>
+        <p>Your personal English learning portal</p>
+    </header>
+
+    <main>
+        <!-- INSTRUCTIONS SECTION -->
+        <section class="instructions-card">
+            <h2>🧭 How to use your portal</h2>
+            <p>Hello Ramón! Here you will find everything you need for our classes.</p>
+            <ul>
+                <li>📺 <strong>Class Whiteboard:</strong> Below is our live presentation. You don't need to open other tabs!</li>
+                <li>📚 <strong>Lesson Directory:</strong> All your past lessons and homework are saved here.</li>
+                <li>🔍 <strong>Search:</strong> Looking for a specific topic? Use the search bar to find it quickly!</li>
+            </ul>
+        </section>
+
+        <!-- WHITEBOARD SECTION -->
+        <section class="whiteboard-section">
+            <h2 class="section-title">📺 Class Whiteboard</h2>
+            <p style="margin-bottom: 1rem; color: var(--text-muted);">Check our current presentation and notes here. You can click on the slides to navigate.</p>
+            
+            <div class="iframe-container">
+                <!-- ENLACE DE SLIDES ACTUALIZADO A MODO EMBED -->
+                <iframe 
+                    src="https://docs.google.com/presentation/d/1UfPxJuHoRcoV-AMXnd5JyzCoDHOHD1KRW8Uka30bOXk/embed?start=false&loop=false&delayms=3000" 
+                    allowfullscreen="true" 
+                    mozallowfullscreen="true" 
+                    webkitallowfullscreen="true">
+                </iframe>
+            </div>
+        </section>
+
+        <!-- LESSONS DIRECTORY -->
+        <section>
+            <h2 class="section-title">📚 Lesson Directory</h2>
+            <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Click on any lesson below to access your activities and materials.</p>
+            
+            <!-- SEARCH BAR -->
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="search-input" class="search-input" placeholder="Search for a topic or date (e.g., 'Verb To Be' or 'July')...">
+            </div>
+
+            <div class="lessons-grid" id="lessons-container">
+                <div class="loading">⏳ Loading your lessons...</div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // ==========================================
+        // ⚙️ CONFIGURACIÓN DEL REPOSITORIO
+        // ==========================================
+        const CONFIG = {
+            usuario: 'teachernetza', // Ej: 'profe-ingles'
+            repositorio: 'ramon-class',   // Ej: 'clases-ramon'
+            carpeta: 'lecciones'             // La carpeta donde pondrás los HTML
+        };
+        // ==========================================
+
+        let todasLasLecciones = []; // Variable global para guardar las lecciones y filtrarlas
+
+        // Función para renderizar las tarjetas en el HTML
+        function renderizarLecciones(leccionesAMostrar) {
+            const contenedor = document.getElementById('lessons-container');
+            contenedor.innerHTML = ''; // Limpiar contenedor
+
+            if (leccionesAMostrar.length === 0) {
+                contenedor.innerHTML = '<div class="empty-msg">📭 No lessons found matching your search.</div>';
+                return;
+            }
+
+            leccionesAMostrar.forEach(leccion => {
+                const tarjeta = document.createElement('a');
+                tarjeta.href = leccion.url;
+                tarjeta.className = 'lesson-card';
+                
+                tarjeta.innerHTML = `
+                    <div class="lesson-date">📅 ${leccion.fechaFormateada}</div>
+                    <h3 class="lesson-topic">${leccion.tema}</h3>
+                    <div class="lesson-action">Open Lesson <span>→</span></div>
+                `;
+                
+                contenedor.appendChild(tarjeta);
+            });
+        }
+
+        // Evento: Escuchar cambios en la barra de búsqueda
+        document.getElementById('search-input').addEventListener('input', (evento) => {
+            const textoBusqueda = evento.target.value.toLowerCase();
+            
+            const leccionesFiltradas = todasLasLecciones.filter(leccion => {
+                const temaEnMinusculas = leccion.tema.toLowerCase();
+                const fechaEnMinusculas = leccion.fechaFormateada.toLowerCase();
+                // Retorna true si el texto escrito coincide con el tema o la fecha
+                return temaEnMinusculas.includes(textoBusqueda) || fechaEnMinusculas.includes(textoBusqueda);
+            });
+
+            renderizarLecciones(leccionesFiltradas);
+        });
+
+        async function cargarLecciones() {
+            const contenedor = document.getElementById('lessons-container');
+            const url = `https://api.github.com/repos/${CONFIG.usuario}/${CONFIG.repositorio}/contents/${CONFIG.carpeta}`;
+
+            try {
+                const respuesta = await fetch(url);
+                
+                if (!respuesta.ok) {
+                    throw new Error('No se pudo conectar con GitHub. Verifica tu usuario y repositorio.');
+                }
+
+                const archivos = await respuesta.json();
+                
+                // Filtramos solo archivos HTML
+                let archivosHTML = archivos.filter(archivo => archivo.name.endsWith('.html'));
+
+                if (archivosHTML.length === 0) {
+                    contenedor.innerHTML = '<div class="empty-msg">📭 No lessons uploaded yet.</div>';
+                    return;
+                }
+
+                // Parsear los nombres de los archivos para extraer fecha y tema
+                // Formato esperado: YYYY-MM-DD-Tema-de-la-clase.html
+                const regex = /^(\d{4}-\d{2}-\d{2})-(.+)\.html$/;
+                
+                todasLasLecciones = []; // Limpiamos el arreglo antes de llenarlo
+
+                archivosHTML.forEach(archivo => {
+                    const coincidencia = archivo.name.match(regex);
+                    
+                    if (coincidencia) {
+                        const fechaRaw = coincidencia[1]; // Ej: 2026-07-21
+                        let temaRaw = coincidencia[2];    // Ej: Verb-To-Be
+                        
+                        // Limpiar el tema (cambiar guiones por espacios)
+                        const temaLimpio = temaRaw.replace(/-/g, ' ');
+
+                        // Crear un objeto de fecha para formatearlo (inglés)
+                        const [year, month, day] = fechaRaw.split('-');
+                        const fechaObj = new Date(year, month - 1, day);
+                        const opcionesFecha = { year: 'numeric', month: 'long', day: 'numeric' };
+                        const fechaFormateada = fechaObj.toLocaleDateString('en-US', opcionesFecha);
+
+                        todasLasLecciones.push({
+                            nombreArchivo: archivo.name,
+                            url: `./${CONFIG.carpeta}/${archivo.name}`,
+                            fechaFormateada: fechaFormateada,
+                            fechaCruda: fechaRaw, 
+                            tema: temaLimpio
+                        });
+                    } else {
+                        // Si el archivo no sigue el formato
+                        todasLasLecciones.push({
+                            nombreArchivo: archivo.name,
+                            url: `./${CONFIG.carpeta}/${archivo.name}`,
+                            fechaFormateada: "Extra Material",
+                            fechaCruda: "0000-00-00", 
+                            tema: archivo.name.replace('.html', '').replace(/-/g, ' ')
+                        });
+                    }
+                });
+
+                // Ordenar las lecciones de la más reciente a la más antigua
+                todasLasLecciones.sort((a, b) => b.fechaCruda.localeCompare(a.fechaCruda));
+
+                // Usamos la nueva función para imprimir las tarjetas en pantalla
+                renderizarLecciones(todasLasLecciones);
+
+            } catch (error) {
+                console.error(error);
+                contenedor.innerHTML = `<div class="error-msg">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        // Iniciar la carga de las lecciones
+        cargarLecciones();
+    </script>
+</body>
+</html>
