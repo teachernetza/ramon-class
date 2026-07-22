@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase de Inglés para Ramón - Restaurantes (Nivel A2)</title>
+    <!-- Importamos FontAwesome para los íconos de la interfaz -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ==========================================================================
+           VARIABLES GLOBALES Y TEMA
+           ========================================================================== */
+        :root {
+            /* Paleta de colores - Estilo moderno y amigable */
+            --primary: #FF6B35; /* Naranja apetitoso - acento principal */
+            --primary-dark: #E85A28;
+            --primary-light: #FF9B73;
+            --secondary: #2B3A41; /* Pizarra oscuro para textos */
+            --secondary-light: #3E535E;
+            --accent: #FFC837; /* Amarillo mostaza */
+            --background: #F4F7F6;
+            --surface: #FFFFFF;
+            --text-main: #333333;
+            --text-muted: #777777;
+            
+            /* Colores de estado / Feedback */
+            --success: #28C76F;
+            --success-light: #D4F4E2;
+            --error: #EA5455;
+            --error-light: #FCEAEA;
+            --warning: #FF9F43;
+            
+            /* Tipografía */
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            
+            /* Dimensiones y Sombras */
+            --sidebar-width: 280px;
+            --header-height: 70px;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-full: 9999px;
+            
+            /* Transiciones */
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+        }
+
+        /* ==========================================================================
+           RESET Y ESTILOS BASE
+           ========================================================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background);
+            color: var(--text-main);
+            overflow: hidden; /* Prevenimos scroll global, actuará como una app */
+            height: 100vh;
+            display: flex;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            background: none;
+            outline: none;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* ==========================================================================
+           LAYOUT PRINCIPAL (Sidebar + Contenido)
+           ========================================================================== */
+        #app-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Sidebar (Menú lateral de módulos) */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--secondary);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+            z-index: 10;
+            transition: var(--transition-normal);
+        }
+
+        .sidebar-header {
+            padding: 30px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header p {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .modules-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+
+        /* Scrollbar personalizado para el menú */
+        .modules-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .modules-list::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+        }
+
+        .module-item {
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border-left: 4px solid transparent;
+            opacity: 0.7;
+        }
+
+        .module-item:hover {
+            background-color: rgba(255,255,255,0.05);
+            opacity: 1;
+        }
+
+        .module-item.active {
+            background-color: rgba(255,255,255,0.1);
+            border-left-color: var(--primary);
+            opacity: 1;
+        }
+
+        .module-icon {
+            font-size: 1.5rem;
+            width: 30px;
+            text-align: center;
+        }
+
+        .module-info h3 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .module-info span {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* Área principal de la diapositiva */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background-color: var(--background);
+            height: 100vh;
+        }
+
+        /* Barra superior (Progreso y Título del módulo actual) */
+        .top-bar {
+            height: var(--header-height);
+            background-color: var(--surface);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 5;
+        }
+
+        .current-module-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 300px;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .progress-track {
+            flex: 1;
+            height: 10px;
+            background-color: #E2E8F0;
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width var(--transition-slow);
+            border-radius: var(--radius-full);
+        }
+
+        /* Contenedor dinámico de diapositivas */
+        .slide-container {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Barra inferior (Navegación) */
+        .bottom-bar {
+            height: 80px;
+            background-color: var(--surface);
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 5;
+        }
+
+        /* ==========================================================================
+           COMPONENTES REUTILIZABLES (Botones, Títulos, Tarjetas)
+           ========================================================================== */
+        
+        /* Botones Base */
+        .btn {
+            padding: 12px 28px;
+            border-radius: var(--radius-full);
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition-fast);
+        }
+
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--secondary);
+            border: 2px solid #CBD5E1;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--secondary);
+            background-color: #F8FAFC;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+        
+        .btn-audio {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            color: var(--secondary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-fast);
+        }
+        
+        .btn-audio:hover {
+            transform: scale(1.1);
+            background-color: #FFD566;
+        }
+
+        /* Títulos de Diapositivas */
+        .slide-title {
+            font-size: 2.8rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+            text-align: center;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .slide-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            text-align: center;
+            max-width: 800px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        /* Instrucciones para el profesor */
+        .teacher-note {
+            background-color: #FFFBEB;
+            border-left: 4px solid var(--accent);
+            padding: 15px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            color: #92400E;
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        /* Tarjeta de Chunk Léxico (El bloque principal de aprendizaje) */
+        .chunk-presentation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .chunk-card {
+            background: var(--surface);
+            padding: 25px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: var(--transition-normal);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            animation: slideUpFade 0.5s ease backwards;
+        }
+
+        .chunk-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Delay escalonado para la animación de entrada */
+        .chunk-card:nth-child(1) { animation-delay: 0.1s; }
+        .chunk-card:nth-child(2) { animation-delay: 0.2s; }
+        .chunk-card:nth-child(3) { animation-delay: 0.3s; }
+        .chunk-card:nth-child(4) { animation-delay: 0.4s; }
+        .chunk-card:nth-child(5) { animation-delay: 0.5s; }
+        .chunk-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .chunk-icon {
+            font-size: 3rem;
+            background: var(--background);
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .chunk-content {
+            flex: 1;
+        }
+
+        .chunk-en {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .chunk-es {
+            font-size: 1rem;
+            color: var(--text-muted);
+            display: block;
+        }
+
+        /* ==========================================================================
+           ESTILOS DE ACTIVIDADES (JUEGOS)
+           ========================================================================== */
+
+        /* --- 1. Flashcards --- */
+        .flashcards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            max-width: 900px;
+        }
+
+        .flashcard {
+            width: 280px;
+            height: 180px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+            box-shadow: var(--shadow-md);
+            border-radius: var(--radius-lg);
+        }
+
+        .flashcard.is-flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: var(--radius-lg);
+        }
+
+        .flashcard-front {
+            background-color: var(--surface);
+            border: 2px solid var(--accent);
+            color: var(--secondary);
+        }
+
+        .flashcard-back {
+            background-color: var(--primary);
+            color: white;
+            transform: rotateY(180deg);
+        }
+        
+        .fc-text { font-size: 1.5rem; font-weight: 700; }
+        .fc-hint { font-size: 0.9rem; opacity: 0.8; margin-top: 10px; }
+
+        /* --- 2. Matching Game --- */
+        .matching-board {
+            display: flex;
+            gap: 60px;
+            width: 100%;
+            max-width: 900px;
+            justify-content: space-between;
+        }
+
+        .matching-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .match-btn {
+            background: var(--surface);
+            border: 2px solid #E2E8F0;
+            padding: 18px 20px;
+            border-radius: var(--radius-md);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-main);
+            transition: var(--transition-fast);
+            position: relative;
+        }
+
+        .match-btn:hover:not(.matched) {
+            border-color: var(--primary-light);
+            background-color: #FFF5F2;
+            transform: translateX(5px);
+        }
+
+        .match-btn.selected {
+            border-color: var(--primary);
+            background-color: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .match-btn.matched {
+            background-color: var(--success-light);
+            border-color: var(--success);
+            color: #155724;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .match-btn.wrong {
+            animation: shake 0.4s ease-in-out;
+            background-color: var(--error-light);
+            border-color: var(--error);
+            color: #721C24;
+        }
+
+        /* --- 3. Sentence Builder --- */
+        .builder-container {
+            background: var(--surface);
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .builder-target-es {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .builder-dropzone {
+            min-height: 80px;
+            border: 3px dashed #CBD5E1;
+            border-radius: var(--radius-md);
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 15px;
+            transition: var(--transition-fast);
+        }
+
+        .builder-dropzone.success {
+            border-color: var(--success);
+            background-color: var(--success-light);
+        }
+        
+        .builder-dropzone.error-zone {
+            border-color: var(--error);
+            animation: shake 0.4s;
+        }
+
+        .word-bank {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .word-chip {
+            background: var(--secondary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: var(--radius-full);
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .word-chip:hover {
+            background: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .word-chip.used {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        
+        .word-chip.in-dropzone {
+            background: var(--primary);
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        /* --- 4. Roleplay (Simulador de Chat) --- */
+        .chat-simulator {
+            width: 100%;
+            max-width: 700px;
+            background: #E5DDD5; /* Estilo app de mensajería */
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            height: 60vh;
+        }
+
+        .chat-header {
+            background: var(--secondary);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .chat-header .avatar {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .chat-history {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .chat-msg {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            position: relative;
+            animation: slideUpFade 0.3s ease;
+        }
+
+        .msg-customer {
+            background: white;
+            align-self: flex-start;
+            border-top-left-radius: 0;
+            color: var(--text-main);
+        }
+
+        .msg-ramon {
+            background: #DCF8C6;
+            align-self: flex-end;
+            border-top-right-radius: 0;
+            color: var(--text-main);
+        }
+
+        .chat-controls {
+            background: #F0F0F0;
+            padding: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            border-top: 1px solid #CCC;
+        }
+
+        .chat-reply-btn {
+            background: white;
+            border: 1px solid #CCC;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .chat-reply-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* ==========================================================================
+           ANIMACIONES GLOBALES
+           ========================================================================== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(10px); }
+            60% { transform: translateX(-10px); }
+            80% { transform: translateX(10px); }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            40% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Efecto de Confeti (Generado por JS) */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            z-index: 1000;
+            animation: fall 3s linear forwards;
+        }
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Utilidad para transición de diapositivas */
+        .slide-content-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* Gran Texto (Para portadas de módulo) */
+        .mega-title {
+            font-size: 5rem;
+            color: var(--primary);
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* ==========================================================================
+           RESPONSIVE (Adaptación a pantallas más pequeñas)
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            :root {
+                --sidebar-width: 220px;
+            }
+            .slide-title { font-size: 2.2rem; }
+            .mega-title { font-size: 3.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            #app-container { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; max-height: 200px; }
+            .modules-list { display: flex; overflow-x: auto; overflow-y: hidden; padding: 10px; }
+            .module-item { flex-direction: column; text-align: center; min-width: 120px; border-left: none; border-bottom: 4px solid transparent; }
+            .module-item.active { border-left: none; border-bottom-color: var(--primary); }
+            .top-bar { padding: 0 20px; }
+            .progress-container { width: 150px; }
+            .chunk-presentation-grid { grid-template-columns: 1fr; }
+            .matching-board { flex-direction: column; gap: 20px; }
+            .flashcards-container { gap: 15px; }
+            .slide-container { padding: 20px; }
+            .bottom-bar { padding: 0 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CONTENEDOR PRINCIPAL DE LA APP -->
+    <div id="app-container">
+        
+        <!-- SIDEBAR: Menú de Módulos (2 Horas de contenido) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>English for Work</h2>
+                <p>Student: Ramón</p>
+                <p style="font-size: 0.8rem; margin-top:5px; color:#A0AEC0;">Level: A2 (Lexical Approach)</p>
+            </div>
+            <ul class="modules-list" id="modules-list">
+                <!-- Los módulos se inyectan dinámicamente vía JS -->
+            </ul>
+        </aside>
+
+        <!-- ÁREA PRINCIPAL -->
+        <main class="main-content">
+            
+            <!-- Barra Superior: Progreso -->
+            <header class="top-bar">
+                <div class="current-module-title" id="top-module-title">
+                    <i class="fas fa-play-circle"></i> <span>Módulo 1: Introducción</span>
+                </div>
+                <div class="progress-container">
+                    <span class="progress-text" id="progress-text">Slide 1 / 30</span>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenedor dinámico donde se renderiza cada diapositiva (slide) -->
+            <div class="slide-container" id="slide-container">
+                <!-- El contenido se inyecta por JS dependiendo del tipo de actividad -->
+            </div>
+
+            <!-- Barra Inferior: Navegación -->
+            <footer class="bottom-bar">
+                <button class="btn btn-outline" id="btn-prev" onclick="app.prevSlide()">
+                    <i class="fas fa-arrow-left"></i> Atrás
+                </button>
+                
+                <!-- Feedback visual oculto por defecto -->
+                <div id="action-feedback" style="font-size: 1.2rem; font-weight: bold; color: var(--success); opacity: 0; transition: opacity 0.3s;">
+                    ¡Excelente trabajo, Ramón!
+                </div>
+
+                <button class="btn btn-primary" id="btn-next" onclick="app.nextSlide()">
+                    Siguiente <i class="fas fa-arrow-right"></i>
+                </button>
+            </footer>
+        </main>
+    </div>
+
+    <!-- ==========================================================================
+         LÓGICA JAVASCRIPT (Motor de la aplicación y Datos del curso)
+         ========================================================================== -->
+    <script>
+        /**
+         * SISTEMA DE TEXT-TO-SPEECH (TTS)
+         * Permite que Ramón escuche la pronunciación nativa de los chunks.
+         */
+        const tts = {
+            speak: function(text) {
+                if ('speechSynthesis' in window) {
+                    // Cancelar cualquier audio anterior
+                    window.speechSynthesis.cancel();
+                    
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'en-US';
+                    utterance.rate = 0.85; // Un poco más lento para nivel A2
+                    utterance.pitch = 1;
+                    
+                    // Intentar buscar una voz masculina (ya que es para Ramón y usualmente prefieren voces claras de Google/Microsoft)
+                    const voices = window.speechSynthesis.getVoices();
+                    const enVoices = voices.filter(v => v.lang.startsWith('en-'));
+                    if (enVoices.length > 0) {
+                        utterance.voice = enVoices[0]; // Usar la primera disponible
+                    }
+                    
+                    window.speechSynthesis.speak(utterance);
+                } else {
+                    console.log("El navegador no soporta Text-to-Speech");
+                }
+            },
+            // Asegurarnos de cargar las voces al inicio
+            init: function() {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.onvoiceschanged = () => {
+                        window.speechSynthesis.getVoices();
+                    };
+                }
+            }
+        };
+        tts.init();
+
+        /**
+         * BASE DE DATOS DEL CURSO (2 Horas de Contenido)
+         * Enfoque: Lexical Chunks basados en el Verbo To Be y Present Simple.
+         * Estructurado en Módulos -> Diapositivas.
+         */
+        const courseData = {
+            modules: [
+                {
+                    id: "mod_1",
+                    title: "1. Llegando al trabajo",
+                    icon: "fa-door-open",
+                    desc: "Saludos y estados básicos (To be)",
+                    slides: [
+                        {
+                            type: "cover",
+                            title: "Welcome to Work!",
+                            subtitle: "Hoy aprenderemos a comunicarnos desde que entras al restaurante.",
+                            emoji: "👋",
+                            teacherNote: "Profesor: Explícale a Ramón que aprenderemos frases completas. No hablaremos de 'sujetos y verbos', solo del sonido y el significado de la frase completa."
+                        },
+                        {
+                            type: "presentation",
+                            title: "Greetings & States",
+                            subtitle: "Escucha y repite estas frases. Haz clic en el ícono de audio.",
+                            chunks: [
+                                { en: "Good morning, chef.", es: "Buenos días, chef.", icon: "👨‍🍳" },
+                                { en: "I am ready for work.", es: "Estoy listo para trabajar.", icon: "💪" },
+                                { en: "I am here.", es: "Ya estoy aquí / Llegué.", icon: "📍" },
+                                { en: "How are you today?", es: "¿Cómo estás hoy?", icon: "🤝" },
+                                { en: "I am fine, thanks.", es: "Estoy bien, gracias.", icon: "😊" },
+                                { en: "It is busy today.", es: "Hay mucho movimiento hoy.", icon: "🔥" }
+                            ]
+                        },
+                        {
+                            type: "flashcards",
+                            title: "¡Pon a prueba tu memoria!",
+                            subtitle: "Haz clic en la tarjeta para ver el significado en inglés. Trata de decirlo en voz alta primero.",
+                            cards: [
+                                { front: "Estoy listo para trabajar.", back: "I am ready for work." },
+                                { front: "¿Cómo estás hoy?", back: "How are you today?" },
+                                { front: "Ya estoy aquí.", back: "I am here." },
+                                { front: "Hay mucho movimiento hoy.", back: "It is busy today." }
+                            ]
+                        },
+                        {
+                            type: "matching",
+                            title: "Conecta las ideas",
+                            subtitle: "Selecciona una frase en inglés y luego su significado en español.",
+                            pairs: [
+                                { en: "I am fine, thanks.", es: "Estoy bien, gracias." },
+                                { en: "Good morning, chef.", es: "Buenos días, chef." },
+                                { en: "I am ready for work.", es: "Estoy listo para trabajar." },
+                                { en: "It is busy today.", es: "Hay mucho movimiento hoy." }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: "mod_2",
+                    title: "2. En la Cocina (Acciones)",
+                    icon: "fa-fire-burner",
+                    desc: "Rutinas y acciones simples (Present Simple)",
+                    slides: [
+                        {
+                            type: "cover",
+                            title: "Inside the Kitchen",
+                            subtitle: "Acciones que haces todos los días en tu estación de trabajo.",
+                            emoji: "🔪",
+                            teacherNote: "Profesor: Aquí introducimos Present Simple en primera persona, pero presentado como bloques útiles de comunicación con los compañeros."
+                        },
+                        {
+                            type: "presentation",
+                            title: "Kitchen Actions",
+                            subtitle: "Tus herramientas y acciones.",
+                            chunks: [
+                                { en: "I need a knife.", es: "Necesito un cuchillo.", icon: "🔪" },
+                                { en: "I cook the meat.", es: "Yo cocino la carne.", icon: "🥩" },
+                                { en: "I clean the station.", es: "Yo limpio la estación.", icon: "🧽" },
+                                { en: "The plate is hot.", es: "El plato está caliente.", icon: "🔥" },
+                                { en: "I need more time.", es: "Necesito más tiempo.", icon: "⏱️" },
+                                { en: "The food is ready.", es: "La comida está lista.", icon: "🔔" }
+                            ]
+                        },
+                        {
+                            type: "builder",
+                            title: "Construye la frase",
+                            subtitle: "Haz clic en las palabras en el orden correcto para formar el bloque en inglés.",
+                            targetEs: "Necesito un cuchillo.",
+                            words: ["I", "need", "a", "knife."],
+                            correctOrder: ["I", "need", "a", "knife."]
+                        },
+                        {
+                            type: "builder",
+                            title: "Construye la frase",
+                            subtitle: "Haz clic en las palabras en el orden correcto.",
+                            targetEs: "La comida está lista.",
+                            words: ["ready.", "is", "The", "food"],
+                            correctOrder: ["The", "food", "is", "ready."]
+                        }
+                    ]
+                },
+                {
+                    id: "mod_3",
+                    title: "3. El Equipo y Ayuda",
+                    icon: "fa-users",
+                    desc: "Terceras personas y peticiones",
+                    slides: [
+                        {
+                            type: "cover",
+                            title: "Teamwork",
+                            subtitle: "Hablando del equipo y pidiendo/ofreciendo ayuda.",
+                            emoji: "🤝",
+                            teacherNote: "Profesor: Aquí introducimos he/she is de forma natural, y las preguntas 'Do you need...?'. Fomenta la repetición del ritmo de la frase."
+                        },
+                        {
+                            type: "presentation",
+                            title: "Team Communication",
+                            subtitle: "Escucha cómo fluye la conversación en equipo.",
+                            chunks: [
+                                { en: "He is the manager.", es: "Él es el gerente.", icon: "👔" },
+                                { en: "She is a server.", es: "Ella es mesera.", icon: "👩‍🍳" },
+                                { en: "Do you need help?", es: "¿Necesitas ayuda?", icon: "🆘" },
+                                { en: "Yes, please.", es: "Sí, por favor.", icon: "👍" },
+                                { en: "Can you help me?", es: "¿Puedes ayudarme?", icon: "🙏" },
+                                { en: "I don't know.", es: "No lo sé.", icon: "🤷‍♂️" }
+                            ]
+                        },
+                        {
+                            type: "matching",
+                            title: "Review: Preguntas rápidas",
+                            subtitle: "Empareja la frase correcta.",
+                            pairs: [
+                                { en: "Do you need help?", es: "¿Necesitas ayuda?" },
+                                { en: "Can you help me?", es: "¿Puedes ayudarme?" },
+                                { en: "He is the manager.", es: "Él es el gerente." },
+                                { en: "I don't know.", es: "No lo sé." }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: "mod_4",
+                    title: "4. Problemas y Soluciones",
+                    icon: "fa-triangle-exclamation",
+                    desc: "Disculpas y acciones inmediatas",
+                    slides: [
+                        {
+                            type: "cover",
+                            title: "Solving Problems",
+                            subtitle: "Qué decir cuando algo sale mal o falta algo.",
+                            emoji: "⚠️",
+                            teacherNote: "Profesor: Las disculpas y pedir que esperen son vitales. 'Let me check' es un chunk de oro puro para el nivel A2."
+                        },
+                        {
+                            type: "presentation",
+                            title: "Apologies & Action",
+                            subtitle: "Frases de emergencia.",
+                            chunks: [
+                                { en: "I am sorry.", es: "Lo siento / Disculpa.", icon: "😔" },
+                                { en: "It is my mistake.", es: "Es mi error.", icon: "❌" },
+                                { en: "Just a minute, please.", es: "Un minuto, por favor.", icon: "⏳" },
+                                { en: "Let me check.", es: "Déjame revisar.", icon: "👀" },
+                                { en: "We don't have chicken.", es: "No tenemos pollo.", icon: "🍗" },
+                                { en: "I will fix it.", es: "Lo arreglaré.", icon: "🔧" }
+                            ]
+                        },
+                        {
+                            type: "roleplay",
+                            title: "Simulador: Un problema en la línea",
+                            subtitle: "El gerente te habla. Responde usando los botones (chunks) correctos.",
+                            scenario: [
+                                { speaker: "Manager", text: "Ramon, where is the chicken for table 4?" },
+                                { speaker: "Ramon", options: [
+                                    { text: "I am sorry. Just a minute, please.", correct: true },
+                                    { text: "I am a cook.", correct: false }
+                                ]},
+                                { speaker: "Manager", text: "Okay. We need it fast. Are we out of chicken?" },
+                                { speaker: "Ramon", options: [
+                                    { text: "The plate is hot.", correct: false },
+                                    { text: "Let me check.", correct: true }
+                                ]},
+                                { speaker: "Manager", text: "Thank you. Let me know." },
+                                { speaker: "Ramon", options: [
+                                    { text: "I will fix it.", correct: true },
+                                    { text: "Good morning.", correct: false }
+                                ]}
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: "mod_5",
+                    title: "5. Fin del Turno",
+                    icon: "fa-clock",
+                    desc: "Despedidas e impresiones",
+                    slides: [
+                        {
+                            type: "cover",
+                            title: "End of Shift",
+                            subtitle: "El trabajo terminó. Hora de ir a casa.",
+                            emoji: "🏠",
+                            teacherNote: "Profesor: Último módulo. Repaso de estados (tired, done) y despedidas clásicas. Terminaremos con una prueba final."
+                        },
+                        {
+                            type: "presentation",
+                            title: "Saying Goodbye",
+                            subtitle: "Frases para cerrar el día.",
+                            chunks: [
+                                { en: "I am finished.", es: "Ya terminé.", icon: "✅" },
+                                { en: "I am tired.", es: "Estoy cansado.", icon: "🥱" },
+                                { en: "The kitchen is clean.", es: "La cocina está limpia.", icon: "✨" },
+                                { en: "See you tomorrow.", es: "Nos vemos mañana.", icon: "👋" },
+                                { en: "Have a good night.", es: "Que pases buena noche.", icon: "🌙" }
+                            ]
+                        },
+                        {
+                            type: "flashcards",
+                            title: "Repaso Rápido",
+                            subtitle: "Último repaso de memoria.",
+                            cards: [
+                                { front: "Nos vemos mañana.", back: "See you tomorrow." },
+                                { front: "Estoy cansado.", back: "I am tired." },
+                                { front: "Ya terminé.", back: "I am finished." }
+                            ]
+                        },
+                        {
+                            type: "cover",
+                            title: "¡Clase Completada!",
+                            subtitle: "Ramon, you did a great job today. You are ready for the kitchen!",
+                            emoji: "🏆",
+                            teacherNote: "Profesor: ¡Celebra con él! Recuerda decirle que practique repitiendo las frases completas, no palabra por palabra."
+                        }
+                    ]
+                }
+            ]
+        };
+
+        /**
+         * CLASE PRINCIPAL DE LA APLICACIÓN (Controlador de estado y UI)
+         */
+        class EnglishClassApp {
+            constructor(data) {
+                this.data = data;
+                // Aplanar la estructura de módulos para facilitar la navegación lineal
+                this.flatSlides = [];
+                this.data.modules.forEach((mod, modIndex) => {
+                    mod.slides.forEach(slide => {
+                        this.flatSlides.push({
+                            ...slide,
+                            moduleTitle: mod.title,
+                            moduleIndex: modIndex
+                        });
+                    });
+                });
+                
+                this.currentSlideIndex = 0;
+                this.totalSlides = this.flatSlides.length;
+                
+                // Elementos del DOM
+                this.dom = {
+                    sidebarList: document.getElementById('modules-list'),
+                    slideContainer: document.getElementById('slide-container'),
+                    btnPrev: document.getElementById('btn-prev'),
+                    btnNext: document.getElementById('btn-next'),
+                    progressFill: document.getElementById('progress-fill'),
+                    progressText: document.getElementById('progress-text'),
+                    moduleTitle: document.getElementById('top-module-title'),
+                    feedback: document.getElementById('action-feedback')
+                };
+
+                // Estado para juegos
+                this.gameState = {};
+
+                this.init();
+            }
+
+            init() {
+                this.renderSidebar();
+                this.renderCurrentSlide();
+                this.updateUI();
+                
+                // Keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowRight') this.nextSlide();
+                    if (e.key === 'ArrowLeft') this.prevSlide();
+                });
+            }
+
+            renderSidebar() {
+                this.dom.sidebarList.innerHTML = '';
+                this.data.modules.forEach((mod, index) => {
+                    const li = document.createElement('li');
+                    li.className = `module-item ${index === 0 ? 'active' : ''}`;
+                    li.id = `sidebar-mod-${index}`;
+                    
+                    // Al hacer clic en un módulo del menú, ir a su primera diapositiva
+                    li.onclick = () => {
+                        const targetSlideIndex = this.flatSlides.findIndex(s => s.moduleIndex === index);
+                        if(targetSlideIndex !== -1) {
+                            this.currentSlideIndex = targetSlideIndex;
+                            this.renderCurrentSlide();
+                            this.updateUI();
+                        }
+                    };
+
+                    li.innerHTML = `
+                        <div class="module-icon"><i class="fas ${mod.icon}"></i></div>
+                        <div class="module-info">
+                            <h3>${mod.title}</h3>
+                            <span>${mod.desc}</span>
+                        </div>
+                    `;
+                    this.dom.sidebarList.appendChild(li);
+                });
+            }
+
+            updateUI() {
+                // Actualizar Botones
+                this.dom.btnPrev.disabled = this.currentSlideIndex === 0;
+                
+                if (this.currentSlideIndex === this.totalSlides - 1) {
+                    this.dom.btnNext.style.display = 'none';
+                } else {
+                    this.dom.btnNext.style.display = 'flex';
+                }
+
+                // Actualizar Progreso
+                const currentData = this.flatSlides[this.currentSlideIndex];
+                this.dom.progressText.innerText = `Slide ${this.currentSlideIndex + 1} / ${this.totalSlides}`;
+                const progressPercent = ((this.currentSlideIndex + 1) / this.totalSlides) * 100;
+                this.dom.progressFill.style.width = `${progressPercent}%`;
+
+                // Actualizar Título Superior
+                this.dom.moduleTitle.innerHTML = `<i class="fas fa-bookmark"></i> <span>${currentData.moduleTitle}</span>`;
+
+                // Actualizar Sidebar Activo
+                document.querySelectorAll('.module-item').forEach(el => el.classList.remove('active'));
+                const activeModLi = document.getElementById(`sidebar-mod-${currentData.moduleIndex}`);
+                if (activeModLi) activeModLi.classList.add('active');
+            }
+
+            nextSlide() {
+                if (this.currentSlideIndex < this.totalSlides - 1) {
+                    this.currentSlideIndex++;
+                    this.renderCurrentSlide();
+                    this.updateUI();
+                }
+            }
+
+            prevSlide() {
+                if (this.currentSlideIndex > 0) {
+                    this.currentSlideIndex--;
+                    this.renderCurrentSlide();
+                    this.updateUI();
+                }
+            }
+
+            showFeedback(text, type = 'success') {
+                this.dom.feedback.innerText = text;
+                this.dom.feedback.style.color = type === 'success' ? 'var(--success)' : 'var(--error)';
+                this.dom.feedback.style.opacity = 1;
+                setTimeout(() => {
+                    this.dom.feedback.style.opacity = 0;
+                }, 2000);
+            }
+
+            triggerConfetti() {
+                for(let i=0; i<50; i++) {
+                    const conf = document.createElement('div');
+                    conf.className = 'confetti';
+                    conf.style.left = Math.random() * 100 + 'vw';
+                    conf.style.backgroundColor = ['#FF6B35', '#FFC837', '#28C76F', '#3E535E'][Math.floor(Math.random()*4)];
+                    conf.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    document.body.appendChild(conf);
+                    setTimeout(() => conf.remove(), 4000);
+                }
+            }
+
+            // ==========================================================================
+            // RENDERIZADORES DE VISTAS (Inyectan HTML según el 'type' de la slide)
+            // ==========================================================================
+            renderCurrentSlide() {
+                const slide = this.flatSlides[this.currentSlideIndex];
+                const wrapper = document.createElement('div');
+                wrapper.className = 'slide-content-wrapper';
+                
+                // Reiniciar estado de juegos
+                this.gameState = {};
+
+                // Elementos comunes (Teacher Note)
+                let noteHTML = '';
+                if (slide.teacherNote) {
+                    noteHTML = `
+                        <div class="teacher-note">
+                            <i class="fas fa-lightbulb" style="font-size:1.2rem; margin-top:2px;"></i>
+                            <div>${slide.teacherNote}</div>
+                        </div>
+                    `;
+                }
+
+                // Generador de vistas (Factory Pattern simplificado)
+                switch(slide.type) {
+                    case 'cover':
+                        wrapper.innerHTML = `
+                            ${noteHTML}
+                            <div class="mega-title">${slide.emoji}</div>
+                            <h1 class="slide-title" style="font-size: 4rem;">${slide.title}</h1>
+                            <p class="slide-subtitle" style="font-size: 1.5rem;">${slide.subtitle}</p>
+                        `;
+                        if (this.currentSlideIndex === this.totalSlides - 1) {
+                            setTimeout(() => this.triggerConfetti(), 500);
+                        }
+                        break;
+                    
+                    case 'presentation':
+                        let chunksHTML = slide.chunks.map(chunk => `
+                            <div class="chunk-card">
+                                <div class="chunk-icon">${chunk.icon}</div>
+                                <div class="chunk-content">
+                                    <span class="chunk-en">${chunk.en}</span>
+                                    <span class="chunk-es">${chunk.es}</span>
+                                </div>
+                                <button class="btn-audio" onclick="tts.speak('${chunk.en.replace(/'/g, "\\'")}')" title="Escuchar pronunciación">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            </div>
+                        `).join('');
+
+                        wrapper.innerHTML = `
+                            ${noteHTML}
+                            <h2 class="slide-title">${slide.title}</h2>
+                            <p class="slide-subtitle">${slide.subtitle}</p>
+                            <div class="chunk-presentation-grid">
+                                ${chunksHTML}
+                            </div>
+                        `;
+                        break;
+
+                    case 'flashcards':
+                        let cardsHTML = slide.cards.map((card, idx) => `
+                            <div class="flashcard" onclick="this.classList.toggle('is-flipped'); tts.speak('${card.back.replace(/'/g, "\\'")}')">
+                                <div class="flashcard-inner">
+                                    <div class="flashcard-front">
+                                        <span class="fc-text">${card.front}</span>
+                                        <span class="fc-hint"><i class="fas fa-hand-pointer"></i> Clic para voltear</span>
+                                    </div>
+                                    <div class="flashcard-back">
+                                        <span class="fc-text">${card.back}</span>
+                                        <span class="fc-hint"><i class="fas fa-volume-up"></i> Escuchando...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('');
+
+                        wrapper.innerHTML = `
+                            ${noteHTML}
+                            <h2 class="slide-title">${slide.title}</h2>
+                            <p class="slide-subtitle">${slide.subtitle}</p>
+                            <div class="flashcards-container">
+                                ${cardsHTML}
+                            </div>
+                        `;
+                        break;
+
+                    case 'matching':
+                        this.renderMatchingGame(wrapper, slide, noteHTML);
+                        break;
+                    
+                    case 'builder':
+                        this.renderSentenceBuilder(wrapper, slide, noteHTML);
+                        break;
+                    
+                    case 'roleplay':
+                        this.renderRoleplay(wrapper, slide, noteHTML);
+                        break;
+                }
+
+                this.dom.slideContainer.innerHTML = '';
+                this.dom.slideContainer.appendChild(wrapper);
+            }
+
+            // ==========================================================================
+            // LÓGICA ESPECÍFICA DE JUEGOS
+            // ==========================================================================
+            
+            /* --- JUEGO: MATCHING --- */
+            renderMatchingGame(wrapper, slide, noteHTML) {
+                this.gameState = {
+                    selectedEn: null, selectedEs: null, matches: 0, total: slide.pairs.length
+                };
+
+                // Crear arrays mezclados
+                let arrEn = slide.pairs.map((p, i) => ({ text: p.en, id: i })).sort(() => Math.random() - 0.5);
+                let arrEs = slide.pairs.map((p, i) => ({ text: p.es, id: i })).sort(() => Math.random() - 0.5);
+
+                const colEnHTML = arrEn.map(item => `<button class="match-btn btn-en" data-id="${item.id}">${item.text}</button>`).join('');
+                const colEsHTML = arrEs.map(item => `<button class="match-btn btn-es" data-id="${item.id}">${item.text}</button>`).join('');
+
+                wrapper.innerHTML = `
+                    ${noteHTML}
+                    <h2 class="slide-title">${slide.title}</h2>
+                    <p class="slide-subtitle">${slide.subtitle}</p>
+                    <div class="matching-board">
+                        <div class="matching-column col-en">${colEnHTML}</div>
+                        <div class="matching-column col-es">${colEsHTML}</div>
+                    </div>
+                `;
+
+                // Event Listeners después de insertar en el DOM temporal (antes de añadir al contenedor principal)
+                setTimeout(() => {
+                    const btnsEn = wrapper.querySelectorAll('.btn-en');
+                    const btnsEs = wrapper.querySelectorAll('.btn-es');
+
+                    const handleSelection = (btn, isEn) => {
+                        if (btn.classList.contains('matched')) return;
+                        
+                        // Limpiar errores visuales previos
+                        wrapper.querySelectorAll('.match-btn').forEach(b => b.classList.remove('wrong'));
+
+                        if (isEn) {
+                            if (this.gameState.selectedEn) this.gameState.selectedEn.classList.remove('selected');
+                            this.gameState.selectedEn = btn;
+                            btn.classList.add('selected');
+                            tts.speak(btn.innerText);
+                        } else {
+                            if (this.gameState.selectedEs) this.gameState.selectedEs.classList.remove('selected');
+                            this.gameState.selectedEs = btn;
+                            btn.classList.add('selected');
+                        }
+
+                        // Comprobar coincidencia
+                        if (this.gameState.selectedEn && this.gameState.selectedEs) {
+                            const idEn = this.gameState.selectedEn.dataset.id;
+                            const idEs = this.gameState.selectedEs.dataset.id;
+
+                            if (idEn === idEs) {
+                                // Correcto
+                                this.gameState.selectedEn.classList.replace('selected', 'matched');
+                                this.gameState.selectedEs.classList.replace('selected', 'matched');
+                                this.gameState.selectedEn = null;
+                                this.gameState.selectedEs = null;
+                                this.gameState.matches++;
+                                this.showFeedback("¡Correcto!");
+                                
+                                if (this.gameState.matches === this.gameState.total) {
+                                    setTimeout(() => this.triggerConfetti(), 500);
+                                    this.showFeedback("¡Sección completada!");
+                                }
+                            } else {
+                                // Incorrecto
+                                this.gameState.selectedEn.classList.add('wrong');
+                                this.gameState.selectedEs.classList.add('wrong');
+                                const sEn = this.gameState.selectedEn;
+                                const sEs = this.gameState.selectedEs;
+                                setTimeout(() => {
+                                    sEn.classList.remove('selected', 'wrong');
+                                    sEs.classList.remove('selected', 'wrong');
+                                }, 500);
+                                this.gameState.selectedEn = null;
+                                this.gameState.selectedEs = null;
+                            }
+                        }
+                    };
+
+                    btnsEn.forEach(b => b.addEventListener('click', () => handleSelection(b, true)));
+                    btnsEs.forEach(b => b.addEventListener('click', () => handleSelection(b, false)));
+                }, 0);
+            }
+
+            /* --- JUEGO: SENTENCE BUILDER --- */
+            renderSentenceBuilder(wrapper, slide, noteHTML) {
+                // Mezclar palabras
+                let shuffledWords = [...slide.words].sort(() => Math.random() - 0.5);
+                this.gameState = { currentSentence: [], correctSentence: slide.correctOrder };
+
+                const chipsHTML = shuffledWords.map((w, i) => `<button class="word-chip" data-word="${w}" data-index="${i}">${w}</button>`).join('');
+
+                wrapper.innerHTML = `
+                    ${noteHTML}
+                    <h2 class="slide-title">${slide.title}</h2>
+                    <p class="slide-subtitle">${slide.subtitle}</p>
+                    <div class="builder-container">
+                        <div class="builder-target-es">"${slide.targetEs}"</div>
+                        <div class="builder-dropzone" id="builder-dropzone">
+                            <!-- Las palabras seleccionadas irán aquí -->
+                        </div>
+                        <div class="word-bank" id="word-bank">
+                            ${chipsHTML}
+                        </div>
+                    </div>
+                `;
+
+                setTimeout(() => {
+                    const bank = wrapper.querySelector('#word-bank');
+                    const dropzone = wrapper.querySelector('#builder-dropzone');
+                    const chips = wrapper.querySelectorAll('.word-chip');
+
+                    chips.forEach(chip => {
+                        chip.addEventListener('click', () => {
+                            if (chip.parentElement === bank) {
+                                // Mover a dropzone
+                                dropzone.appendChild(chip);
+                                chip.classList.add('in-dropzone');
+                                tts.speak(chip.dataset.word);
+                                this.checkBuilder(slide.correctOrder, dropzone, chips);
+                            } else {
+                                // Devolver al banco
+                                bank.appendChild(chip);
+                                chip.classList.remove('in-dropzone');
+                                dropzone.classList.remove('error-zone', 'success'); // Limpiar estados
+                            }
+                        });
+                    });
+                }, 0);
+            }
+
+            checkBuilder(correctOrder, dropzone, allChips) {
+                const currentWords = Array.from(dropzone.children).map(el => el.dataset.word);
+                
+                // Si la cantidad de palabras es la misma, evaluamos
+                if (currentWords.length === correctOrder.length) {
+                    let isCorrect = true;
+                    for(let i=0; i<correctOrder.length; i++){
+                        if(currentWords[i] !== correctOrder[i]) isCorrect = false;
+                    }
+
+                    if (isCorrect) {
+                        dropzone.classList.add('success');
+                        this.showFeedback("¡Frase perfecta!");
+                        tts.speak(correctOrder.join(" "));
+                        this.triggerConfetti();
+                        // Deshabilitar clics
+                        Array.from(dropzone.children).forEach(c => c.style.pointerEvents = 'none');
+                    } else {
+                        dropzone.classList.add('error-zone');
+                        setTimeout(() => dropzone.classList.remove('error-zone'), 500);
+                    }
+                }
+            }
+
+            /* --- JUEGO: ROLEPLAY SIMULATOR --- */
+            renderRoleplay(wrapper, slide, noteHTML) {
+                this.gameState = { step: 0, scenario: slide.scenario };
+                
+                wrapper.innerHTML = `
+                    ${noteHTML}
+                    <h2 class="slide-title">${slide.title}</h2>
+                    <p class="slide-subtitle">${slide.subtitle}</p>
+                    <div class="chat-simulator">
+                        <div class="chat-header">
+                            <div class="avatar">👨‍💼</div>
+                            <div>
+                                <strong>Manager (Jefe)</strong>
+                                <div style="font-size: 0.8rem; opacity: 0.8;">En línea</div>
+                            </div>
+                        </div>
+                        <div class="chat-history" id="chat-history">
+                            <!-- Los mensajes se inyectan aquí -->
+                        </div>
+                        <div class="chat-controls" id="chat-controls">
+                            <!-- Las opciones de respuesta se inyectan aquí -->
+                        </div>
+                    </div>
+                `;
+
+                setTimeout(() => {
+                    this.playNextRoleplayStep(wrapper.querySelector('#chat-history'), wrapper.querySelector('#chat-controls'));
+                }, 0);
+            }
+
+            playNextRoleplayStep(historyDiv, controlsDiv) {
+                const currentStepData = this.gameState.scenario[this.gameState.step];
+                if (!currentStepData) return; // Fin del chat
+
+                if (currentStepData.speaker !== "Ramon") {
+                    // Mensaje del bot (Manager)
+                    controlsDiv.innerHTML = '<span style="color:#888;">Escribiendo...</span>';
+                    setTimeout(() => {
+                        const msgDiv = document.createElement('div');
+                        msgDiv.className = 'chat-msg msg-customer';
+                        msgDiv.innerText = currentStepData.text;
+                        historyDiv.appendChild(msgDiv);
+                        tts.speak(currentStepData.text);
+                        historyDiv.scrollTop = historyDiv.scrollHeight;
+                        
+                        this.gameState.step++;
+                        this.playNextRoleplayStep(historyDiv, controlsDiv);
+                    }, 1000);
+                } else {
+                    // Turno del jugador (Ramón) - Mostrar botones
+                    controlsDiv.innerHTML = '';
+                    currentStepData.options.forEach(opt => {
+                        const btn = document.createElement('button');
+                        btn.className = 'chat-reply-btn';
+                        btn.innerText = opt.text;
+                        btn.onclick = () => {
+                            if (opt.correct) {
+                                // Respuesta correcta
+                                const msgDiv = document.createElement('div');
+                                msgDiv.className = 'chat-msg msg-ramon';
+                                msgDiv.innerText = opt.text;
+                                historyDiv.appendChild(msgDiv);
+                                tts.speak(opt.text);
+                                historyDiv.scrollTop = historyDiv.scrollHeight;
+                                
+                                this.gameState.step++;
+                                this.playNextRoleplayStep(historyDiv, controlsDiv);
+                            } else {
+                                // Respuesta incorrecta
+                                btn.style.backgroundColor = 'var(--error-light)';
+                                btn.style.borderColor = 'var(--error)';
+                                btn.style.color = 'var(--error)';
+                                setTimeout(() => {
+                                    btn.style.backgroundColor = 'white';
+                                    btn.style.borderColor = '#CCC';
+                                    btn.style.color = 'inherit';
+                                }, 800);
+                            }
+                        };
+                        controlsDiv.appendChild(btn);
+                    });
+                }
+                
+                // Si terminó
+                if (this.gameState.step >= this.gameState.scenario.length) {
+                    controlsDiv.innerHTML = '<strong style="color:var(--success);">Conversación completada con éxito.</strong>';
+                    this.triggerConfetti();
+                }
+            }
+        }
+
+        // ==========================================================================
+        // INICIALIZACIÓN
+        // ==========================================================================
+        let app;
+        window.onload = () => {
+            app = new EnglishClassApp(courseData);
+        };
+
+    </script>
+</body>
+</html>
