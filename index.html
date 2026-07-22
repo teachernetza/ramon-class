@@ -1,431 +1,604 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" class="dark"> <!-- Por defecto en oscuro, se puede cambiar -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ramón's English Portal</title>
+    <title>Ramón Classes | Teacher Netza</title>
+    
+    <!-- Tailwind CSS para la estructura responsive -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome para iconos modernos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts (Inter & Poppins) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Script de configuración inicial para evitar parpadeos de tema -->
+    <script>
+        if (localStorage.theme === 'light' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+            document.documentElement.classList.remove('dark')
+            document.documentElement.classList.add('light')
+        } else {
+            document.documentElement.classList.add('dark')
+            document.documentElement.classList.remove('light')
+        }
+    </script>
+
     <style>
-        /* Modern, student-friendly styling */
+        /* ==========================================
+           🎨 VARIABLES DE TEMA (MODO CLARO Y OSCURO)
+           ========================================== */
         :root {
-            --primary: #4F46E5; /* Indigo */
-            --primary-light: #EEF2FF;
-            --secondary: #10B981; /* Emerald */
-            --text-dark: #1F2937;
-            --text-muted: #6B7280;
-            --bg-color: #F9FAFB;
-            --card-bg: #FFFFFF;
-            --border: #E5E7EB;
+            /* Modo Oscuro (Por defecto) */
+            --bg-body: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.7);
+            --bg-card-hover: rgba(30, 41, 59, 0.9);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-primary: #3b82f6; /* Azul brillante */
+            --accent-secondary: #8b5cf6; /* Púrpura */
+            --border-color: rgba(255, 255, 255, 0.1);
+            --glow-color: rgba(59, 130, 246, 0.5);
+            
+            /* Fondos animados */
+            --blob-1: #3b82f6;
+            --blob-2: #8b5cf6;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        html.light {
+            /* Modo Claro */
+            --bg-body: #f8fafc;
+            --bg-card: rgba(255, 255, 255, 0.8);
+            --bg-card-hover: rgba(255, 255, 255, 1);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --accent-primary: #2563eb;
+            --accent-secondary: #7c3aed;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --glow-color: rgba(37, 99, 235, 0.3);
+            
+            --blob-1: #93c5fd;
+            --blob-2: #c4b5fd;
         }
 
+        /* ==========================================
+           🚀 ESTILOS GLOBALES
+           ========================================== */
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-
-        /* Header Layout */
-        header {
-            background-color: var(--primary);
-            color: white;
-            padding: 2rem 1rem;
-            text-align: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        /* Main Container */
-        main {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-        }
-
-        /* Section Titles */
-        .section-title {
-            font-size: 1.5rem;
-            color: var(--text-dark);
-            margin-bottom: 1rem;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            border-bottom: 2px solid var(--primary-light);
-            padding-bottom: 0.5rem;
-        }
-
-        /* Instructions Card */
-        .instructions-card {
-            background: linear-gradient(135deg, var(--primary), #6366f1);
-            color: white;
-            padding: 1.5rem 2rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-        .instructions-card h2 {
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .instructions-card p {
-            opacity: 0.9;
-            margin-bottom: 0.5rem;
-        }
-        .instructions-card ul {
-            list-style-type: none;
-            margin-top: 1rem;
-        }
-        .instructions-card li {
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        /* Search Bar */
-        .search-container {
+            flex-direction: column;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
             position: relative;
-            margin-bottom: 2rem;
-            max-width: 600px;
         }
-        .search-input {
-            width: 100%;
-            padding: 1rem 1rem 1rem 3rem;
-            border-radius: 8px;
-            border: 2px solid var(--border);
-            font-size: 1rem;
-            transition: all 0.3s;
-            background-color: var(--card-bg);
-            color: var(--text-dark);
+
+        h1, h2, h3, h4, .font-poppins {
+            font-family: 'Poppins', sans-serif;
         }
-        .search-input:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px var(--primary-light);
+
+        /* ==========================================
+           ✨ EFECTOS DE FONDO (BLOBS)
+           ========================================== */
+        .bg-blobs {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
         }
-        .search-icon {
+        
+        .blob {
             position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.2rem;
+            filter: blur(80px);
+            opacity: 0.4;
+            border-radius: 50%;
+            animation: float 20s infinite alternate ease-in-out;
+            transition: background-color 0.5s ease;
         }
 
-        /* Whiteboard Section (Google Slides) */
-        .whiteboard-section {
-            margin-bottom: 3rem;
-            background: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-            border: 1px solid var(--border);
+        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background-color: var(--blob-1); }
+        .blob-2 { bottom: -10%; right: -10%; width: 40vw; height: 40vw; background-color: var(--blob-2); animation-delay: -10s; }
+
+        /* ==========================================
+           💎 COMPONENTES GLASSMORPHISM & CARTAS
+           ========================================== */
+        .glass-panel {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
+        /* Tarjeta de Bloque - ESTADO DISPONIBLE */
+        .block-card.available {
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .block-card.available:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: var(--bg-card-hover);
+            border-color: var(--accent-primary);
+            box-shadow: 0 15px 30px -5px var(--glow-color);
+        }
+
+        /* Brillo al hacer hover en bloque disponible */
+        .block-card.available::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+            transform: skewX(-25deg);
+            transition: all 0.75s ease;
+        }
+        
+        .block-card.available:hover::before {
+            left: 125%;
+        }
+
+        /* Tarjeta de Bloque - ESTADO VACÍO (Próximamente) */
+        .block-card.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+            filter: grayscale(0.8);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ==========================================
+           🎬 ANIMACIONES KEYFRAMES
+           ========================================== */
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(30px, 50px) rotate(10deg); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulseSoft {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .animate-fade-in-up { animation: fadeInUp 0.6s ease forwards; opacity: 0; }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .animate-pulse-soft { animation: pulseSoft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+        /* Estilos del iframe interactivo */
         .iframe-container {
             position: relative;
             width: 100%;
             padding-top: 56.25%; /* 16:9 Aspect Ratio */
-            border-radius: 8px;
-            overflow: hidden;
-            background-color: #f3f4f6;
-            border: 1px solid var(--border);
-        }
-
-        .iframe-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* Lessons Directory Grid */
-        .lessons-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        /* Lesson Cards */
-        .lesson-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 1.5rem;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s ease;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-            position: relative;
             overflow: hidden;
+            border: 2px solid var(--border-color);
+        }
+        .iframe-container iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;
         }
 
-        .lesson-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background-color: var(--primary);
-            transition: width 0.2s ease;
+        /* Inputs y Botones */
+        .input-glass {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
         }
-
-        .lesson-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            border-color: var(--primary);
-        }
-
-        .lesson-card:hover::before {
-            width: 6px;
-        }
-
-        .lesson-date {
-            font-size: 0.875rem;
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .lesson-topic {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .lesson-action {
-            margin-top: auto;
-            display: inline-flex;
-            align-items: center;
-            color: var(--secondary);
-            font-weight: 600;
-            font-size: 0.9rem;
-            gap: 0.25rem;
-        }
-
-        /* States */
-        .loading, .error-msg, .empty-msg {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 2rem;
-            background: var(--card-bg);
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-        }
-
-        .error-msg {
-            color: #DC2626;
-            border-color: #FCA5A5;
-            background-color: #FEF2F2;
+        .input-glass:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--glow-color);
         }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-    <header>
-        <h1>👋 Welcome, Ramón!</h1>
-        <p>Your personal English learning portal</p>
-    </header>
+    <!-- Fondos dinámicos -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
 
-    <main>
-        <!-- INSTRUCTIONS SECTION -->
-        <section class="instructions-card">
-            <h2>🧭 How to use your portal</h2>
-            <p>Hello Ramón! Here you will find everything you need for our classes.</p>
-            <ul>
-                <li>📺 <strong>Class Whiteboard:</strong> Below is our live presentation. You don't need to open other tabs!</li>
-                <li>📚 <strong>Lesson Directory:</strong> All your past lessons and homework are saved here.</li>
-                <li>🔍 <strong>Search:</strong> Looking for a specific topic? Use the search bar to find it quickly!</li>
-            </ul>
-        </section>
+    <!-- Navegación superior -->
+    <nav class="w-full glass-panel sticky top-0 z-50 border-b-0 border-x-0 border-t-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <span class="font-poppins font-bold text-lg tracking-wide hidden sm:block">Teacher Netza</span>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <span class="text-sm font-medium opacity-80 border-r border-gray-400 pr-4">Student Portal</span>
+                    <!-- Botón de Modo Oscuro/Claro -->
+                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-500/20 transition-colors" title="Cambiar Tema">
+                        <i id="theme-icon" class="fa-solid fa-moon text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-        <!-- WHITEBOARD SECTION -->
-        <section class="whiteboard-section">
-            <h2 class="section-title">📺 Class Whiteboard</h2>
-            <p style="margin-bottom: 1rem; color: var(--text-muted);">Check our current presentation and notes here. You can click on the slides to navigate.</p>
-            
-            <div class="iframe-container">
-                <!-- ENLACE DE SLIDES ACTUALIZADO A MODO EMBED -->
-                <iframe 
-                    src="https://docs.google.com/presentation/d/1UfPxJuHoRcoV-AMXnd5JyzCoDHOHD1KRW8Uka30bOXk/embed?start=false&loop=false&delayms=3000" 
-                    allowfullscreen="true" 
-                    mozallowfullscreen="true" 
-                    webkitallowfullscreen="true">
-                </iframe>
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        
+        <!-- HEADER HERO -->
+        <header class="text-center mb-12 animate-fade-in-up">
+            <div class="inline-block px-4 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-500 font-semibold text-sm mb-4">
+                ✨ Exclusive Learning Space
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4">
+                Welcome to <br class="md:hidden"/> <span class="text-gradient">Ramón Classes</span>
+            </h1>
+            <p class="text-lg md:text-xl" style="color: var(--text-muted)">
+                Everything you need to master English, organized and ready for you.
+            </p>
+        </header>
+
+        <!-- PIZARRÓN INTERACTIVO -->
+        <section class="mb-16 animate-fade-in-up delay-100">
+            <div class="glass-panel p-1 rounded-2xl p-6 relative">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl text-white" style="background: linear-gradient(135deg, #FF6B6B, #EE5A24)">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold">Class Whiteboard</h2>
+                        <p class="text-sm" style="color: var(--text-muted)">Live presentation and class notes</p>
+                    </div>
+                </div>
+                <div class="iframe-container shadow-2xl">
+                    <iframe 
+                        src="https://docs.google.com/presentation/d/1UfPxJuHoRcoV-AMXnd5JyzCoDHOHD1KRW8Uka30bOXk/embed?start=false&loop=false&delayms=3000" 
+                        allowfullscreen="true" 
+                        mozallowfullscreen="true" 
+                        webkitallowfullscreen="true">
+                    </iframe>
+                </div>
             </div>
         </section>
 
-        <!-- LESSONS DIRECTORY -->
-        <section>
-            <h2 class="section-title">📚 Lesson Directory</h2>
-            <p style="margin-bottom: 1.5rem; color: var(--text-muted);">Click on any lesson below to access your activities and materials.</p>
+        <!-- ÁREA DINÁMICA: Bloques o Lista de Lecciones -->
+        <section id="dynamic-content-area" class="min-h-[400px] relative animate-fade-in-up delay-200">
             
-            <!-- SEARCH BAR -->
-            <div class="search-container">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="search-input" class="search-input" placeholder="Search for a topic or date (e.g., 'Verb To Be' or 'July')...">
+            <!-- VIEW 1: GRID DE BLOQUES -->
+            <div id="blocks-view" class="block">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl text-white" style="background: linear-gradient(135deg, #10B981, #059669)">
+                        <i class="fa-solid fa-folder-tree"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold">Learning Blocks</h2>
+                        <p class="text-sm" style="color: var(--text-muted)">Select a block to explore your lessons</p>
+                    </div>
+                </div>
+
+                <!-- Grid de carpetas -->
+                <div id="blocks-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Los bloques se renderizan por JS -->
+                    <div class="col-span-full text-center py-12 animate-pulse-soft">
+                        <i class="fa-solid fa-circle-notch fa-spin text-4xl mb-4" style="color: var(--accent-primary)"></i>
+                        <p class="font-medium text-lg">Cargando progreso del repositorio...</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="lessons-grid" id="lessons-container">
-                <div class="loading">⏳ Loading your lessons...</div>
+            <!-- VIEW 2: LISTA DE LECCIONES DENTRO DE UN BLOQUE -->
+            <div id="lessons-view" class="hidden">
+                <button id="btn-back" class="mb-6 px-4 py-2 rounded-lg glass-panel hover:bg-gray-500/20 flex items-center gap-2 font-medium transition-colors">
+                    <i class="fa-solid fa-arrow-left"></i> Volver a los Bloques
+                </button>
+
+                <div class="glass-panel p-6 rounded-2xl mb-8">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                        <div>
+                            <h2 id="current-block-title" class="text-3xl font-bold text-gradient">Bloque X</h2>
+                            <p class="text-sm mt-1" style="color: var(--text-muted)">Select any lesson to review the content.</p>
+                        </div>
+                        
+                        <!-- Buscador -->
+                        <div class="relative w-full md:w-72">
+                            <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2" style="color: var(--text-muted)"></i>
+                            <input type="text" id="search-input" class="w-full pl-10 pr-4 py-3 rounded-xl input-glass transition-all" placeholder="Buscar lección o fecha...">
+                        </div>
+                    </div>
+
+                    <div id="lessons-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Las lecciones se insertan aquí -->
+                    </div>
+                </div>
             </div>
+            
         </section>
     </main>
 
+    <footer class="mt-auto border-t glass-panel border-b-0 border-x-0 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h3 class="font-poppins font-bold text-xl mb-2 text-gradient">Keep learning, Ramón!</h3>
+            <p class="mb-4" style="color: var(--text-muted)">"The limits of my language mean the limits of my world."</p>
+            <div class="flex items-center justify-center gap-2 text-sm opacity-70">
+                <span>Designed for Ramón classes</span>
+                <span>•</span>
+                <span>Created by Teacher Netza <i class="fa-solid fa-code text-blue-500"></i></span>
+            </div>
+        </div>
+    </footer>
+
     <script>
         // ==========================================
-        // ⚙️ CONFIGURACIÓN DEL REPOSITORIO
+        // ⚙️ CONFIGURACIÓN DE GITHUB
         // ==========================================
         const CONFIG = {
-            usuario: 'teachernetza', // Ej: 'profe-ingles'
-            repositorio: 'ramon-class',   // Ej: 'clases-ramon'
-            carpeta: 'lecciones'             // La carpeta donde pondrás los HTML
+            usuario: 'teachernetza',
+            repositorio: 'ramon-class'
         };
+
+        // Estado Global de la App
+        const appState = {
+            // Estructura de bloques esperada
+            blocks: [
+                { id: 'bloque-1', name: 'Bloque 1', folderMatch: 'bloque 1', icon: 'fa-book-open', data: [] },
+                { id: 'bloque-2', name: 'Bloque 2', folderMatch: 'bloque 2', icon: 'fa-compass', data: [] },
+                { id: 'bloque-3', name: 'Bloque 3', folderMatch: 'bloque 3', icon: 'fa-rocket', data: [] },
+                { id: 'bloque-4', name: 'Bloque 4', folderMatch: 'bloque 4', icon: 'fa-graduation-cap', data: [] }
+            ],
+            currentBlockId: null,
+            filteredLessons: []
+        };
+
         // ==========================================
+        // 🌓 LOGICA DEL TEMA (MODO CLARO/OSCURO)
+        // ==========================================
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const htmlElement = document.documentElement;
 
-        let todasLasLecciones = []; // Variable global para guardar las lecciones y filtrarlas
-
-        // Función para renderizar las tarjetas en el HTML
-        function renderizarLecciones(leccionesAMostrar) {
-            const contenedor = document.getElementById('lessons-container');
-            contenedor.innerHTML = ''; // Limpiar contenedor
-
-            if (leccionesAMostrar.length === 0) {
-                contenedor.innerHTML = '<div class="empty-msg">📭 No lessons found matching your search.</div>';
-                return;
+        function updateThemeIcon() {
+            if (htmlElement.classList.contains('dark')) {
+                themeIcon.className = 'fa-solid fa-sun text-yellow-400 text-xl';
+            } else {
+                themeIcon.className = 'fa-solid fa-moon text-blue-600 text-xl';
             }
-
-            leccionesAMostrar.forEach(leccion => {
-                const tarjeta = document.createElement('a');
-                tarjeta.href = leccion.url;
-                tarjeta.className = 'lesson-card';
-                
-                tarjeta.innerHTML = `
-                    <div class="lesson-date">📅 ${leccion.fechaFormateada}</div>
-                    <h3 class="lesson-topic">${leccion.tema}</h3>
-                    <div class="lesson-action">Open Lesson <span>→</span></div>
-                `;
-                
-                contenedor.appendChild(tarjeta);
-            });
         }
 
-        // Evento: Escuchar cambios en la barra de búsqueda
-        document.getElementById('search-input').addEventListener('input', (evento) => {
-            const textoBusqueda = evento.target.value.toLowerCase();
-            
-            const leccionesFiltradas = todasLasLecciones.filter(leccion => {
-                const temaEnMinusculas = leccion.tema.toLowerCase();
-                const fechaEnMinusculas = leccion.fechaFormateada.toLowerCase();
-                // Retorna true si el texto escrito coincide con el tema o la fecha
-                return temaEnMinusculas.includes(textoBusqueda) || fechaEnMinusculas.includes(textoBusqueda);
-            });
-
-            renderizarLecciones(leccionesFiltradas);
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                htmlElement.classList.add('light');
+                localStorage.theme = 'light';
+            } else {
+                htmlElement.classList.remove('light');
+                htmlElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+            updateThemeIcon();
         });
+        updateThemeIcon(); // Inicializar icono
 
-        async function cargarLecciones() {
-            const contenedor = document.getElementById('lessons-container');
-            const url = `https://api.github.com/repos/${CONFIG.usuario}/${CONFIG.repositorio}/contents/${CONFIG.carpeta}`;
-
+        // ==========================================
+        // 📡 CONSUMO DE API GITHUB Y PROCESAMIENTO
+        // ==========================================
+        async function fetchGitHubData() {
+            // Usamos la API de Trees con HEAD para obtener todos los archivos de todas las carpetas en 1 sola llamada
+            const url = `https://api.github.com/repos/${CONFIG.usuario}/${CONFIG.repositorio}/git/trees/HEAD?recursive=1`;
+            
             try {
-                const respuesta = await fetch(url);
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Repositorio no encontrado o vacío.');
                 
-                if (!respuesta.ok) {
-                    throw new Error('No se pudo conectar con GitHub. Verifica tu usuario y repositorio.');
-                }
-
-                const archivos = await respuesta.json();
+                const data = await response.json();
                 
                 // Filtramos solo archivos HTML
-                let archivosHTML = archivos.filter(archivo => archivo.name.endsWith('.html'));
+                const htmlFiles = data.tree.filter(item => item.type === 'blob' && item.path.endsWith('.html'));
 
-                if (archivosHTML.length === 0) {
-                    contenedor.innerHTML = '<div class="empty-msg">📭 No lessons uploaded yet.</div>';
-                    return;
-                }
-
-                // Parsear los nombres de los archivos para extraer fecha y tema
-                // Formato esperado: YYYY-MM-DD-Tema-de-la-clase.html
-                const regex = /^(\d{4}-\d{2}-\d{2})-(.+)\.html$/;
-                
-                todasLasLecciones = []; // Limpiamos el arreglo antes de llenarlo
-
-                archivosHTML.forEach(archivo => {
-                    const coincidencia = archivo.name.match(regex);
+                // Clasificamos los archivos en los bloques
+                htmlFiles.forEach(file => {
+                    // file.path será algo como "Bloque 1/2026-07-21-Tema.html"
+                    const lowerPath = file.path.toLowerCase();
                     
-                    if (coincidencia) {
-                        const fechaRaw = coincidencia[1]; // Ej: 2026-07-21
-                        let temaRaw = coincidencia[2];    // Ej: Verb-To-Be
-                        
-                        // Limpiar el tema (cambiar guiones por espacios)
-                        const temaLimpio = temaRaw.replace(/-/g, ' ');
-
-                        // Crear un objeto de fecha para formatearlo (inglés)
-                        const [year, month, day] = fechaRaw.split('-');
-                        const fechaObj = new Date(year, month - 1, day);
-                        const opcionesFecha = { year: 'numeric', month: 'long', day: 'numeric' };
-                        const fechaFormateada = fechaObj.toLocaleDateString('en-US', opcionesFecha);
-
-                        todasLasLecciones.push({
-                            nombreArchivo: archivo.name,
-                            url: `./${CONFIG.carpeta}/${archivo.name}`,
-                            fechaFormateada: fechaFormateada,
-                            fechaCruda: fechaRaw, 
-                            tema: temaLimpio
-                        });
-                    } else {
-                        // Si el archivo no sigue el formato
-                        todasLasLecciones.push({
-                            nombreArchivo: archivo.name,
-                            url: `./${CONFIG.carpeta}/${archivo.name}`,
-                            fechaFormateada: "Extra Material",
-                            fechaCruda: "0000-00-00", 
-                            tema: archivo.name.replace('.html', '').replace(/-/g, ' ')
-                        });
+                    // Buscamos a qué bloque pertenece
+                    const targetBlock = appState.blocks.find(b => lowerPath.includes(b.folderMatch));
+                    
+                    if (targetBlock) {
+                        // Extraemos el nombre del archivo de la ruta
+                        const fileName = file.path.split('/').pop();
+                        const parsedData = parseLessonData(fileName, file.path);
+                        targetBlock.data.push(parsedData);
                     }
                 });
 
-                // Ordenar las lecciones de la más reciente a la más antigua
-                todasLasLecciones.sort((a, b) => b.fechaCruda.localeCompare(a.fechaCruda));
+                // Ordenar las clases de cada bloque (las más nuevas primero)
+                appState.blocks.forEach(block => {
+                    block.data.sort((a, b) => b.rawDate.localeCompare(a.rawDate));
+                });
 
-                // Usamos la nueva función para imprimir las tarjetas en pantalla
-                renderizarLecciones(todasLasLecciones);
+                renderBlocks();
 
             } catch (error) {
                 console.error(error);
-                contenedor.innerHTML = `<div class="error-msg">❌ Error: ${error.message}</div>`;
+                document.getElementById('blocks-grid').innerHTML = `
+                    <div class="col-span-full glass-panel p-8 rounded-xl border-red-500 text-center">
+                        <i class="fa-solid fa-triangle-exclamation text-4xl text-red-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Error de conexión</h3>
+                        <p style="color: var(--text-muted)">No pudimos cargar los archivos. Verifica que el repositorio "${CONFIG.repositorio}" exista, sea público y contenga una rama principal activa.</p>
+                    </div>
+                `;
             }
         }
 
-        // Iniciar la carga de las lecciones
-        cargarLecciones();
+        // Función para limpiar el nombre del archivo y extraer fecha/tema
+        function parseLessonData(fileName, fullPath) {
+            // Asume formato: YYYY-MM-DD-Nombre-Del-Tema.html
+            const regex = /^(\d{4}-\d{2}-\d{2})-(.+)\.html$/;
+            const match = fileName.match(regex);
+            
+            let formattedDate = "Lesson Material";
+            let topic = fileName.replace('.html', '').replace(/-/g, ' ');
+            let rawDate = "0000-00-00";
+
+            if (match) {
+                rawDate = match[1];
+                let topicRaw = match[2];
+                topic = topicRaw.replace(/-/g, ' ');
+
+                const [year, month, day] = rawDate.split('-');
+                const dateObj = new Date(year, month - 1, day);
+                formattedDate = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            }
+
+            return {
+                title: topic,
+                date: formattedDate,
+                rawDate: rawDate,
+                // fullPath ya incluye el nombre de la carpeta, ej: "Bloque 1/archivo.html"
+                url: `./${fullPath}`
+            };
+        }
+
+        // ==========================================
+        // 🖼️ RENDERIZADO DE LA INTERFAZ
+        // ==========================================
+        
+        function renderBlocks() {
+            const container = document.getElementById('blocks-grid');
+            container.innerHTML = '';
+
+            appState.blocks.forEach((block, index) => {
+                const count = block.data.length;
+                const isAvailable = count > 0;
+                
+                const card = document.createElement('div');
+                // Asignamos clases base de Tailwind + Custom CSS
+                card.className = `glass-panel rounded-2xl p-6 flex flex-col h-full animate-fade-in-up delay-${(index+1)*100} block-card ${isAvailable ? 'available' : 'locked'}`;
+                
+                // Evento click solo si hay archivos
+                if (isAvailable) {
+                    card.onclick = () => openBlock(block.id);
+                }
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-14 h-14 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-2xl" style="color: var(--accent-primary)">
+                            <i class="fa-solid ${block.icon}"></i>
+                        </div>
+                        ${isAvailable 
+                            ? `<span class="px-3 py-1 text-xs font-bold rounded-full bg-green-500/20 text-green-500 border border-green-500/30">Disponible</span>`
+                            : `<span class="px-3 py-1 text-xs font-bold rounded-full bg-gray-500/20 text-gray-400 border border-gray-500/30"><i class="fa-solid fa-lock mr-1"></i> Próximamente</span>`
+                        }
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 font-poppins">${block.name}</h3>
+                    <p class="text-sm mb-4 flex-grow" style="color: var(--text-muted)">
+                        ${isAvailable ? `${count} lecciones disponibles para revisión.` : `El material para este bloque aún no se ha publicado.`}
+                    </p>
+                    ${isAvailable ? `
+                        <div class="mt-auto font-semibold text-sm flex items-center gap-2" style="color: var(--accent-secondary)">
+                            Enter folder <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-2"></i>
+                        </div>
+                    ` : ''}
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ==========================================
+        // 🔄 NAVEGACIÓN Y BÚSQUEDA DENTRO DE CARPETAS
+        // ==========================================
+
+        const viewBlocks = document.getElementById('blocks-view');
+        const viewLessons = document.getElementById('lessons-view');
+        const searchInput = document.getElementById('search-input');
+
+        function openBlock(blockId) {
+            appState.currentBlockId = blockId;
+            const block = appState.blocks.find(b => b.id === blockId);
+            
+            document.getElementById('current-block-title').textContent = block.name;
+            appState.filteredLessons = [...block.data]; // Copia de los datos
+            searchInput.value = ''; // Limpiar buscador
+            
+            renderLessons();
+            
+            // Transición de vistas
+            viewBlocks.classList.add('hidden');
+            viewLessons.classList.remove('hidden');
+            viewLessons.classList.add('animate-fade-in-up');
+        }
+
+        document.getElementById('btn-back').addEventListener('click', () => {
+            appState.currentBlockId = null;
+            viewLessons.classList.add('hidden');
+            viewBlocks.classList.remove('hidden');
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const block = appState.blocks.find(b => b.id === appState.currentBlockId);
+            
+            appState.filteredLessons = block.data.filter(lesson => 
+                lesson.title.toLowerCase().includes(query) || 
+                lesson.date.toLowerCase().includes(query)
+            );
+            
+            renderLessons();
+        });
+
+        function renderLessons() {
+            const container = document.getElementById('lessons-grid');
+            container.innerHTML = '';
+
+            if (appState.filteredLessons.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <i class="fa-regular fa-folder-open text-4xl mb-3 opacity-50"></i>
+                        <p class="text-lg opacity-70">No se encontraron lecciones.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            appState.filteredLessons.forEach((lesson, index) => {
+                const card = document.createElement('a');
+                card.href = lesson.url;
+                card.className = `glass-panel rounded-xl p-5 block transition-all hover:-translate-y-1 hover:border-[var(--accent-primary)] group animate-fade-in-up delay-${(index%4)*100}`;
+                
+                card.innerHTML = `
+                    <div class="text-xs font-bold uppercase tracking-wider mb-2" style="color: var(--accent-primary)">
+                        <i class="fa-regular fa-calendar mr-1"></i> ${lesson.date}
+                    </div>
+                    <h4 class="text-lg font-bold mb-4 font-poppins group-hover:text-[var(--accent-secondary)] transition-colors">${lesson.title}</h4>
+                    <div class="flex items-center text-sm opacity-80 group-hover:opacity-100 transition-opacity">
+                        <span class="mr-2">Review Material</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ==========================================
+        // 🚀 INICIALIZACIÓN
+        // ==========================================
+        fetchGitHubData();
+
     </script>
 </body>
 </html>
