@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tarea: "To Be" Chunks | Teacher Netza</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Quicksand', 'sans-serif'],
+                        display: ['Nunito', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f5f3ff', 100: '#ede9fe', 200: '#ddd6fe', 300: '#c4b5fd', 400: '#a78bfa',
+                            500: '#8b5cf6', 600: '#7c3aed', 700: '#6d28d9', 800: '#5b21b6', 900: '#4c1d95',
+                        },
+                        wa: {
+                            bg: '#efeae2', bubble: '#d9fdd3', header: '#008069'
+                        }
+                    },
+                    boxShadow: {
+                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                        'floating': '0 10px 25px -5px rgba(0,0,0,0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            background-color: #f8fafc; color: #334155;
+            -webkit-tap-highlight-color: transparent;
+            overscroll-behavior-y: none; /* Previene bounce en mobile */
+        }
+
+        /* Ocultar scrollbars visualmente pero mantener funcionalidad */
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* SPA Pages */
+        .spa-page { display: none; padding-bottom: 100px; } 
+        .spa-page.active { display: block; animation: fadeIn 0.3s ease-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Bottom Nav Active State */
+        .nav-btn { transition: all 0.2s; color: #94a3b8; }
+        .nav-btn.active { color: #7c3aed; }
+        .nav-btn.active i { transform: translateY(-3px) scale(1.1); color: #7c3aed; }
+        .nav-btn.active span { font-weight: 700; color: #7c3aed; }
+
+        /* Toast Notifications */
+        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; width: 90%; max-width: 400px; }
+        .toast { background: #1e293b; color: white; padding: 12px 20px; border-radius: 16px; font-weight: 600; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: toastIn 0.3s forwards; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .toast-error { background: #ef4444; }
+        .toast.toast-out { animation: toastOut 0.3s forwards; }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes toastOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); } }
+
+        /* Interactive Elements */
+        .chunk-card { transition: transform 0.2s; cursor: pointer; }
+        .chunk-card:active { transform: scale(0.96); }
+        
+        .word-block { transition: all 0.2s; cursor: pointer; user-select: none; }
+        .word-block:active { transform: scale(0.95); }
+        .word-block.used { opacity: 0.3; pointer-events: none; }
+
+        /* WhatsApp Simulator */
+        .chat-bubble { max-width: 85%; padding: 8px 12px; border-radius: 12px; margin-bottom: 8px; position: relative; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-shadow: 0 1px 1px rgba(0,0,0,0.1); font-size: 15px; }
+        .chat-received { background-color: #ffffff; align-self: flex-start; border-top-left-radius: 0; }
+        .chat-received::before { content: ''; position: absolute; top: 0; left: -8px; border-top: 10px solid #ffffff; border-left: 10px solid transparent; }
+        .chat-sent { background-color: #d9fdd3; align-self: flex-end; border-top-right-radius: 0; }
+        .chat-sent::before { content: ''; position: absolute; top: 0; right: -8px; border-top: 10px solid #d9fdd3; border-right: 10px solid transparent; }
+        .typing-dot { width: 6px; height: 6px; background-color: #8b959a; border-radius: 50%; display: inline-block; animation: typing 1.4s infinite ease-in-out both; margin: 0 2px; }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; } .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+
+        /* Input Blanks */
+        .blank-input { border: none; border-bottom: 2px dashed #94a3b8; background: transparent; color: #7c3aed; font-weight: 700; text-align: center; width: 100px; outline: none; transition: all 0.3s; border-radius: 0; }
+        .blank-input:focus { border-bottom-color: #7c3aed; border-bottom-style: solid; background-color: #f5f3ff; }
+        
+        /* Note Boxes */
+        .mini-note { animation: slideDown 0.3s ease-out; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Certificate */
+        .cert-bg { background-image: radial-gradient(circle at top right, #f5f3ff, #ede9fe); border: 8px solid #7c3aed; outline: 2px solid #ddd6fe; outline-offset: -12px; }
+    </style>
+</head>
+<body class="flex flex-col h-screen bg-slate-50 w-full overflow-hidden relative text-slate-800">
+
+    <div id="toast-container"></div>
+    <canvas id="confetti" class="fixed top-0 left-0 w-full h-full pointer-events-none z-[9999] hidden"></canvas>
+
+    <header class="bg-white px-5 py-4 flex items-center justify-between shadow-sm z-40 relative border-b border-slate-100">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-brand-500 rounded-xl flex items-center justify-center text-white shadow-md">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-slate-900 font-display leading-tight">Homework App</h1>
+                <p class="text-[10px] font-bold text-brand-600 uppercase tracking-widest">Teacher Netza</p>
+            </div>
+        </div>
+        <button onclick="unlockAudio(this)" class="bg-slate-100 text-slate-500 hover:text-brand-600 px-3 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition-colors">
+            <i class="fa-solid fa-volume-xmark" id="audio-icon-off"></i>
+            <i class="fa-solid fa-volume-high hidden text-brand-500" id="audio-icon-on"></i>
+            <span>Audio</span>
+        </button>
+    </header>
+
+    <main class="flex-1 overflow-y-auto hide-scroll w-full" id="main-scroll-container">
+        <div class="max-w-2xl mx-auto w-full p-4 sm:p-6">
+
+            <!-- ==========================================
+                 PÁGINA 1: APRENDER Y ERRORES COMUNES
+                 ========================================== -->
+            <section id="page-learn" class="spa-page active">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-black font-display text-slate-900">1. Los "Chunks"</h2>
+                    <p class="text-slate-500 mt-1 font-medium">Escucha y repite. Aprende la frase completa, no traduzcas palabra por palabra.</p>
+                </div>
+
+                <div class="space-y-4 mb-10">
+                    <div onclick="playAudio('I\'m a student', this)" class="chunk-card bg-white p-4 rounded-2xl shadow-card border border-slate-100 flex items-center gap-4 group">
+                        <div class="w-14 h-14 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center text-2xl group-hover:bg-blue-500 group-hover:text-white transition-colors"><i class="fa-solid fa-book"></i></div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-xl text-slate-800">I'm a <span class="text-brand-600">student</span>.</h3>
+                            <p class="text-sm text-slate-400 font-medium">Ocupación (Soy estudiante)</p>
+                        </div>
+                        <i class="fa-solid fa-volume-high text-slate-300 group-hover:text-brand-500 text-xl"></i>
+                    </div>
+
+                    <div onclick="playAudio('I\'m tired', this)" class="chunk-card bg-white p-4 rounded-2xl shadow-card border border-slate-100 flex items-center gap-4 group">
+                        <div class="w-14 h-14 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center text-2xl group-hover:bg-amber-500 group-hover:text-white transition-colors"><i class="fa-solid fa-face-tired"></i></div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-xl text-slate-800">I'm <span class="text-amber-600">tired</span>.</h3>
+                            <p class="text-sm text-slate-400 font-medium">Sentimiento (Estoy cansado)</p>
+                        </div>
+                        <i class="fa-solid fa-volume-high text-slate-300 group-hover:text-brand-500 text-xl"></i>
+                    </div>
+
+                    <div onclick="playAudio('I\'m at home', this)" class="chunk-card bg-white p-4 rounded-2xl shadow-card border border-slate-100 flex items-center gap-4 group">
+                        <div class="w-14 h-14 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center text-2xl group-hover:bg-emerald-500 group-hover:text-white transition-colors"><i class="fa-solid fa-house"></i></div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-xl text-slate-800">I'm at <span class="text-emerald-600">home</span>.</h3>
+                            <p class="text-sm text-slate-400 font-medium">Ubicación (Estoy en casa)</p>
+                        </div>
+                        <i class="fa-solid fa-volume-high text-slate-300 group-hover:text-brand-500 text-xl"></i>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h2 class="text-3xl font-black font-display text-slate-900">Tips de Oro 💡</h2>
+                    <p class="text-slate-500 mt-1 font-medium">Evita estos errores comunes al hablar inglés.</p>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Tips cards omitted from this diff for brevity but kept in mind... Wait, I am outputting full file. -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="bg-slate-100 p-2 text-center text-sm font-bold text-slate-500 uppercase tracking-widest">Para decir tu edad</div>
+                        <div class="p-4 flex flex-col gap-3">
+                            <div class="flex items-center gap-3 text-red-500 opacity-60">
+                                <i class="fa-solid fa-xmark text-xl"></i> <span class="font-bold line-through">I have 25 years.</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-emerald-600">
+                                <i class="fa-solid fa-check text-xl"></i> <span class="font-bold text-lg">I'm 25.</span> 
+                                <button onclick="playAudio('I\'m 25')" class="ml-auto w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center hover:bg-emerald-200"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">En inglés, no "tienes" años, "eres" tus años. Usa siempre <strong class="text-brand-600">I'm</strong>.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="bg-slate-100 p-2 text-center text-sm font-bold text-slate-500 uppercase tracking-widest">Para las profesiones</div>
+                        <div class="p-4 flex flex-col gap-3">
+                            <div class="flex items-center gap-3 text-red-500 opacity-60">
+                                <i class="fa-solid fa-xmark text-xl"></i> <span class="font-bold line-through">I doctor.</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-emerald-600">
+                                <i class="fa-solid fa-check text-xl"></i> <span class="font-bold text-lg">I'm a doctor.</span>
+                                <button onclick="playAudio('I\'m a doctor')" class="ml-auto w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center hover:bg-emerald-200"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">No olvides el verbo To Be (I'm) y la letra <strong>"a"</strong> antes del trabajo.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="bg-slate-100 p-2 text-center text-sm font-bold text-slate-500 uppercase tracking-widest">Para otras personas</div>
+                        <div class="p-4 flex flex-col gap-3">
+                            <div class="flex items-center gap-3 text-red-500 opacity-60">
+                                <i class="fa-solid fa-xmark text-xl"></i> <span class="font-bold line-through">She angry.</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-emerald-600">
+                                <i class="fa-solid fa-check text-xl"></i> <span class="font-bold text-lg">She's angry.</span>
+                                <button onclick="playAudio('She\'s angry')" class="ml-auto w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center hover:bg-emerald-200"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-1">Acostúmbrate a usar las formas cortas: <strong class="text-brand-600">He's, She's, They're</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="navTo('page-practice')" class="w-full mt-8 bg-brand-600 text-white font-bold py-4 rounded-2xl shadow-lg hover:bg-brand-700 active:scale-95 transition-all flex justify-center items-center gap-2">
+                    Ir a Practicar <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </section>
+
+            <!-- ==========================================
+                 PÁGINA 2: PRÁCTICA (GRAMÁTICA VISUAL)
+                 ========================================== -->
+            <section id="page-practice" class="spa-page">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-black font-display text-slate-900">2. Práctica</h2>
+                    <p class="text-slate-500 mt-1 font-medium">Completa los ejercicios cuidadosamente.</p>
+                </div>
+
+                <!-- Actividad 1: Fill in the blanks -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 mb-8">
+                    <h3 class="font-bold text-lg mb-4 text-brand-600"><i class="fa-solid fa-pen-clip mr-2"></i> Completa la frase</h3>
+                    <p class="text-sm text-slate-500 mb-6">Escribe la palabra o "chunk" que falta.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-end text-lg sm:text-xl">
+                            <span class="mr-2">1. I'm</span> <input type="text" id="p1-in1" class="blank-input" placeholder="___" autocomplete="off" autocorrect="off"> <span class="ml-2">home. (Ubicación)</span>
+                        </div>
+                        <div class="flex items-end text-lg sm:text-xl">
+                            <span class="mr-2">2.</span> <input type="text" id="p1-in2" class="blank-input" placeholder="___" autocomplete="off" autocorrect="off"> <span class="ml-2">a chef. (Yo soy)</span>
+                        </div>
+                        <div class="flex items-end text-lg sm:text-xl">
+                            <span class="mr-2">3.</span> <input type="text" id="p1-in3" class="blank-input" placeholder="___" autocomplete="off" autocorrect="off"> <span class="ml-2">my parents. (Ellos)</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Contenedor para nota de práctica 1 -->
+                    <div id="p1-note-box" class="hidden mt-4 bg-amber-50 border border-amber-200 text-amber-800 text-sm p-4 rounded-xl mini-note"></div>
+
+                    <button onclick="checkPractice1()" class="mt-6 bg-slate-900 text-white w-full py-3 rounded-xl font-bold shadow-md active:scale-95 transition-all">Revisar Respuestas</button>
+                </div>
+
+                <!-- Actividad 2: Multiple Choice -->
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200 mb-6">
+                    <h3 class="font-bold text-lg mb-4 text-brand-600"><i class="fa-solid fa-list-check mr-2"></i> Selecciona la correcta</h3>
+                    
+                    <div class="space-y-8" id="mc-container">
+                        <!-- Q1 -->
+                        <div>
+                            <p class="font-bold text-slate-800 mb-3 text-lg">Para decir tu edad:</p>
+                            <div class="flex flex-col gap-2">
+                                <button onclick="selectMC(this, 1, false, 'Error. No uses \'have\'. Recuerda que en inglés \'eres\' tus años.')" class="mc-btn-1 w-full text-left p-3 rounded-xl border border-slate-200 bg-slate-50 font-medium transition-colors">I have 22.</button>
+                                <button onclick="selectMC(this, 1, true, '¡Correcto! En inglés siempre usamos I\'m (To Be) para la edad.')" class="mc-btn-1 w-full text-left p-3 rounded-xl border border-slate-200 bg-slate-50 font-medium transition-colors">I'm 22.</button>
+                            </div>
+                            <div id="mc-note-1" class="hidden mt-2 p-3 text-sm rounded-lg border font-medium mini-note"></div>
+                        </div>
+                        <!-- Q2 -->
+                        <div>
+                            <p class="font-bold text-slate-800 mb-3 text-lg">Para describir un lugar (ubicación):</p>
+                            <div class="flex flex-col gap-2">
+                                <button onclick="selectMC(this, 2, true, '¡Excelente! \nShe\'s at work = Ella está en el trabajo.')" class="mc-btn-2 w-full text-left p-3 rounded-xl border border-slate-200 bg-slate-50 font-medium transition-colors">She's at work.</button>
+                                <button onclick="selectMC(this, 2, false, '¡Te faltó la preposición! \'She is work\' significaría \'Ella es el trabajo\'.')" class="mc-btn-2 w-full text-left p-3 rounded-xl border border-slate-200 bg-slate-50 font-medium transition-colors">She's work.</button>
+                            </div>
+                            <div id="mc-note-2" class="hidden mt-2 p-3 text-sm rounded-lg border font-medium mini-note"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="navTo('page-listen')" class="w-full mt-4 bg-brand-600 text-white font-bold py-4 rounded-2xl shadow-lg hover:bg-brand-700 active:scale-95 transition-all flex justify-center items-center gap-2">
+                    Ir a Listening <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </section>
+
+            <!-- ==========================================
+                 PÁGINA 3: ESCUCHAR (LISTENING)
+                 ========================================== -->
+            <section id="page-listen" class="spa-page">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-black font-display text-slate-900">3. Escuchar</h2>
+                    <p class="text-slate-500 mt-1 font-medium">Entrena tu oído con estos ejercicios interactivos.</p>
+                </div>
+
+                <!-- Actividad 1: Sentence Builder -->
+                <div class="bg-slate-900 rounded-3xl p-6 shadow-floating text-white mb-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-lg text-brand-300"><i class="fa-solid fa-puzzle-piece mr-2"></i> Arma la Frase</h3>
+                        <span class="text-xs bg-slate-800 px-2 py-1 rounded text-slate-400" id="build-progress">1/3</span>
+                    </div>
+                    
+                    <p class="text-sm text-slate-400 mb-4">Toca el botón para escuchar, luego arma la oración en orden.</p>
+                    
+                    <div class="flex justify-center mb-6">
+                        <button onclick="playBuilderAudio()" class="w-16 h-16 bg-brand-500 rounded-full flex items-center justify-center text-3xl shadow-[0_0_15px_rgba(139,92,246,0.5)] active:scale-90 transition-transform">
+                            <i class="fa-solid fa-play ml-1"></i>
+                        </button>
+                    </div>
+
+                    <!-- Target Area -->
+                    <div class="bg-slate-800 min-h-[60px] rounded-2xl p-3 mb-6 flex flex-wrap gap-2 items-center border border-slate-700" id="builder-target">
+                        <span class="text-slate-500 text-sm italic w-full text-center" id="builder-placeholder">Toca las palabras abajo...</span>
+                    </div>
+
+                    <!-- Source Words -->
+                    <div class="flex flex-wrap gap-2 justify-center mb-6" id="builder-source">
+                        <!-- JS injects words -->
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button onclick="resetBuilder()" class="flex-1 bg-slate-800 text-slate-300 py-3 rounded-xl font-bold active:scale-95 transition-transform text-sm"><i class="fa-solid fa-rotate-left mr-1"></i> Limpiar</button>
+                        <button onclick="checkBuilder()" class="flex-1 bg-brand-500 text-white py-3 rounded-xl font-bold active:scale-95 transition-transform text-sm shadow-md">Revisar</button>
+                    </div>
+                </div>
+
+                <button onclick="navTo('page-chat')" class="w-full bg-brand-600 text-white font-bold py-4 rounded-2xl shadow-lg hover:bg-brand-700 active:scale-95 transition-all flex justify-center items-center gap-2">
+                    Ir al Simulador Chat <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </section>
+
+            <!-- ==========================================
+                 PÁGINA 4: SIMULADOR DE CHAT
+                 ========================================== -->
+            <section id="page-chat" class="spa-page">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-black font-display text-slate-900">4. SmartChat</h2>
+                    <p class="text-slate-500 mt-1 font-medium text-sm">Tu amigo Alex te está escribiendo. Responde eligiendo el bloque correcto. <strong>Lee con atención.</strong></p>
+                </div>
+
+                <div class="bg-black p-2 rounded-[2.5rem] shadow-floating mb-6 max-w-sm mx-auto">
+                    <div class="bg-wa-bg w-full h-[550px] max-h-[70vh] rounded-[2rem] overflow-hidden flex flex-col relative">
+                        <!-- WA Header -->
+                        <div class="bg-wa-header text-white px-4 py-3 flex items-center gap-3 shadow-sm z-10">
+                            <button onclick="initChat()" class="opacity-80 hover:opacity-100"><i class="fa-solid fa-rotate-left"></i></button>
+                            <div class="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center text-xl overflow-hidden">👨🏼‍🦱</div>
+                            <div>
+                                <h3 class="font-bold leading-none text-base">Alex</h3>
+                                <p id="chat-status" class="text-[11px] text-green-200 mt-0.5">en línea</p>
+                            </div>
+                        </div>
+
+                        <!-- Chat History -->
+                        <div id="chat-history" class="flex-1 p-3 overflow-y-auto flex flex-col hide-scroll">
+                            <!-- JS injects bubbles -->
+                        </div>
+
+                        <!-- Options Panel -->
+                        <div id="chat-options-panel" class="bg-slate-50 border-t border-slate-200 p-3 transition-transform duration-300 transform translate-y-full z-20">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase text-center mb-2">Elige tu respuesta:</p>
+                            <div class="flex flex-col gap-2" id="chat-options"></div>
+                        </div>
+
+                        <!-- Success Overlay -->
+                        <div id="chat-success" class="absolute inset-0 bg-white/95 z-30 hidden flex-col items-center justify-center p-6 text-center">
+                            <span class="text-6xl mb-4">🎉</span>
+                            <h4 class="text-2xl font-black text-slate-800 mb-2">¡Chat Completado!</h4>
+                            <p class="text-slate-500 text-sm mb-6">Usaste los chunks perfectamente en una conversación real.</p>
+                            <button onclick="navTo('page-exam')" class="bg-brand-500 text-white font-bold py-3 px-8 rounded-full shadow-md active:scale-95">Ir a Evaluación</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 PÁGINA 5: EXAMEN Y CERTIFICADO
+                 ========================================== -->
+            <section id="page-exam" class="spa-page">
+                
+                <!-- Contenedor del Quiz -->
+                <div id="quiz-container">
+                    <div class="mb-6 text-center">
+                        <span class="inline-block bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-2"><i class="fa-solid fa-file-pen mr-1"></i> Prueba Final</span>
+                        <h2 class="text-3xl font-black font-display text-slate-900">Examen Final</h2>
+                        <p class="text-slate-500 mt-1 font-medium text-sm">Lee cuidadosamente cada nota antes de continuar.</p>
+                    </div>
+
+                    <div class="bg-white rounded-3xl p-6 shadow-card border border-slate-200">
+                        <div class="flex justify-between items-center mb-6">
+                            <span id="q-counter" class="text-sm font-bold text-brand-500 bg-brand-50 px-2 py-1 rounded">Q 1/10</span>
+                        </div>
+                        
+                        <div class="h-1.5 w-full bg-slate-100 rounded-full mb-6 overflow-hidden">
+                            <div id="quiz-progress" class="h-full bg-brand-500 transition-all duration-300" style="width: 0%"></div>
+                        </div>
+
+                        <h3 id="q-text" class="text-xl font-bold text-slate-800 mb-6 leading-snug">...</h3>
+
+                        <div class="space-y-3" id="q-opts">
+                            <!-- JS Injects options -->
+                        </div>
+
+                        <!-- Mini nota de retroalimentación (Oculta al inicio) -->
+                        <div id="exam-feedback-container" class="hidden mt-6">
+                            <div id="exam-note-box" class="p-4 rounded-xl text-sm font-medium border mb-4">
+                                <!-- JS Injects notes -->
+                            </div>
+                            <button id="next-exam-btn" onclick="nextExamQuestion()" class="w-full bg-slate-900 text-white py-3 rounded-xl font-bold active:scale-95 transition-all shadow-md">Siguiente Pregunta <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="cert-container" class="hidden">
+                    <div class="cert-bg rounded-3xl p-8 flex flex-col items-center text-center shadow-floating relative overflow-hidden bg-white mb-6">
+                        <div class="absolute -top-10 -left-10 text-9xl opacity-5 text-brand-500"><i class="fa-solid fa-award"></i></div>
+                        
+                        <div class="w-20 h-20 bg-amber-100 text-amber-500 rounded-full flex items-center justify-center text-4xl mb-4 relative z-10 shadow-sm border-4 border-white">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                        
+                        <h2 class="text-2xl font-black font-display text-slate-800 mb-1 relative z-10">Certificate of Completion</h2>
+                        <p class="text-brand-600 font-bold text-sm uppercase tracking-widest mb-6 relative z-10">The "To Be" Chunks</p>
+                        
+                        <p class="text-slate-500 text-sm mb-2 relative z-10">Awarded to:</p>
+                        <input type="text" placeholder="Escribe tu nombre..." class="text-center font-bold text-xl text-slate-900 border-b-2 border-slate-300 bg-transparent outline-none focus:border-brand-500 mb-6 w-full max-w-[250px] relative z-10 placeholder-slate-300">
+                        
+                        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 w-full mb-4 relative z-10 flex justify-around">
+                            <div>
+                                <p class="text-[10px] text-slate-400 font-bold uppercase">Calificación</p>
+                                <p class="text-2xl font-black text-brand-600"><span id="cert-score">0</span><span class="text-sm text-slate-400">/10</span></p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-slate-400 font-bold uppercase">Fecha</p>
+                                <p class="text-lg font-bold text-slate-700 mt-1" id="cert-date">--/--/--</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-400 font-bold relative z-10">Teacher Netza - Daily Life English</p>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-center">
+                        <p class="font-bold text-amber-800"><i class="fa-solid fa-camera mr-2"></i> ¡Instrucción Final!</p>
+                        <p class="text-sm text-amber-700 mt-1">Escribe tu nombre en el certificado, toma una <strong>captura de pantalla</strong> y envíasela a tu maestro.</p>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <nav class="bg-white border-t border-slate-200 fixed bottom-0 w-full z-50 px-2 py-2 flex justify-around shadow-[0_-5px_20px_rgba(0,0,0,0.05)] pb-safe">
+        <button onclick="navTo('page-learn')" id="nav-page-learn" class="nav-btn active flex flex-col items-center p-2 w-16">
+            <i class="fa-solid fa-book-open text-xl mb-1"></i>
+            <span class="text-[10px] font-medium">Aprender</span>
+        </button>
+        <button onclick="navTo('page-practice')" id="nav-page-practice" class="nav-btn flex flex-col items-center p-2 w-16">
+            <i class="fa-solid fa-dumbbell text-xl mb-1"></i>
+            <span class="text-[10px] font-medium">Practicar</span>
+        </button>
+        <button onclick="navTo('page-listen')" id="nav-page-listen" class="nav-btn flex flex-col items-center p-2 w-16">
+            <i class="fa-solid fa-headphones text-xl mb-1"></i>
+            <span class="text-[10px] font-medium">Escuchar</span>
+        </button>
+        <button onclick="navTo('page-chat')" id="nav-page-chat" class="nav-btn flex flex-col items-center p-2 w-16 relative">
+            <i class="fa-solid fa-comment-dots text-xl mb-1"></i>
+            <span class="text-[10px] font-medium">Chat</span>
+            <span class="absolute top-2 right-4 w-2 h-2 bg-red-500 rounded-full"></span>
+        </button>
+        <button onclick="navTo('page-exam')" id="nav-page-exam" class="nav-btn flex flex-col items-center p-2 w-16">
+            <i class="fa-solid fa-file-pen text-xl mb-1"></i>
+            <span class="text-[10px] font-medium">Examen</span>
+        </button>
+    </nav>
+
+
+    <!-- ==========================================
+         JAVASCRIPT ENGINE
+         ========================================== -->
+    <script>
+        // Utilidades Visuales
+        function showToast(msg, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type === 'error' ? 'toast-error' : ''}`;
+            toast.innerHTML = type === 'error' ? `<i class="fa-solid fa-xmark text-xl"></i> <span>${msg}</span>` : `<i class="fa-solid fa-check text-xl text-emerald-400"></i> <span>${msg}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('toast-out');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        // Motor de Audio
+        const synth = window.speechSynthesis;
+        let voiceObj = null;
+        let isAudioUnlocked = false;
+
+        function selectVoice() {
+            const voices = synth.getVoices();
+            voiceObj = voices.find(v => v.name.includes('Google US English')) || voices.find(v => v.lang === 'en-US') || voices[0];
+        }
+        if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = selectVoice;
+
+        function unlockAudio(btnEl = null) {
+            if(isAudioUnlocked) return;
+            isAudioUnlocked = true;
+            selectVoice();
+            let u = new SpeechSynthesisUtterance(''); u.volume = 0; synth.speak(u);
+            
+            if(btnEl) {
+                document.getElementById('audio-icon-off').classList.add('hidden');
+                document.getElementById('audio-icon-on').classList.remove('hidden');
+                btnEl.classList.add('bg-brand-50', 'text-brand-600');
+                btnEl.classList.remove('bg-slate-100', 'text-slate-500');
+                showToast("Audio activado listo para usarse.", "success");
+            }
+        }
+
+        function playAudio(text, btnElement = null, rate = 0.9) {
+            if(!isAudioUnlocked) unlockAudio();
+            if (synth.speaking) synth.cancel();
+            
+            let u = new SpeechSynthesisUtterance(text);
+            u.lang = 'en-US'; u.rate = rate;
+            if(voiceObj) u.voice = voiceObj;
+            
+            if(btnElement) {
+                const icon = btnElement.querySelector('.fa-volume-high');
+                if(icon) {
+                    const origClass = icon.className;
+                    icon.className = "fa-solid fa-spinner fa-spin text-brand-500 text-xl";
+                    u.onend = () => { icon.className = origClass; };
+                }
+            }
+            synth.speak(u);
+        }
+
+        // Navegación SPA
+        function navTo(pageId) {
+            document.querySelectorAll('.spa-page').forEach(el => el.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            const btn = document.getElementById(`nav-${pageId}`);
+            if(btn) btn.classList.add('active');
+            
+            if(pageId === 'page-chat') {
+                const dot = document.querySelector('#nav-page-chat span.bg-red-500');
+                if(dot) dot.remove();
+            }
+
+            document.getElementById('main-scroll-container').scrollTop = 0;
+        }
+
+        // Validación Lógica de Práctica 1 (Más Robusta)
+        function checkPractice1() {
+            // Se limpian los inputs de espacios, mayúsculas y acentos raros para evitar falsos negativos
+            const cleanText = (val) => val.trim().toLowerCase().replace(/['´`]/g, "'");
+            
+            const v1 = cleanText(document.getElementById('p1-in1').value);
+            const v2 = cleanText(document.getElementById('p1-in2').value);
+            const v3 = cleanText(document.getElementById('p1-in3').value);
+            
+            // Arrays de respuestas aceptadas para ser más tolerantes
+            const ans1 = ['at'];
+            const ans2 = ["i'm", "i am", "im"]; 
+            const ans3 = ["they're", "they are", "theyre"];
+            
+            let errors = 0;
+            const checkField = (id, val, correctArr) => {
+                const el = document.getElementById(id);
+                if(correctArr.includes(val)) {
+                    el.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-700'); 
+                    el.classList.remove('border-red-500', 'bg-red-50');
+                    return true;
+                } else {
+                    el.classList.add('border-red-500', 'bg-red-50', 'text-red-700'); 
+                    el.classList.remove('border-emerald-500', 'bg-emerald-50');
+                    errors++;
+                    return false;
+                }
+            };
+
+            const ok1 = checkField('p1-in1', v1, ans1);
+            const ok2 = checkField('p1-in2', v2, ans2);
+            const ok3 = checkField('p1-in3', v3, ans3);
+
+            const noteBox = document.getElementById('p1-note-box');
+            noteBox.classList.remove('hidden');
+
+            if(errors === 0) { 
+                showToast("¡Perfecto! Todo correcto."); playAudio("Perfect"); 
+                noteBox.className = "mt-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm p-4 rounded-xl mini-note";
+                noteBox.innerHTML = "<strong>¡Excelente trabajo!</strong> Has utilizado los Lexical Chunks de forma correcta.";
+            } else { 
+                showToast("Revisa los errores en rojo.", "error"); playAudio("Try again");
+                noteBox.className = "mt-4 bg-amber-50 border border-amber-200 text-amber-800 text-sm p-4 rounded-xl mini-note";
+                noteBox.innerHTML = `<strong>💡 Nota de ayuda:</strong><br>
+                    ${!ok1 ? "1. Recuerda que para lugares como 'home' o 'work' usamos la preposición <strong>at</strong>.<br>" : ""}
+                    ${!ok2 ? "2. Antes de una ocupación siempre debes decir <strong>I'm</strong> (Yo soy).<br>" : ""}
+                    ${!ok3 ? "3. Para hablar de Ellos (parents), la forma es <strong>They're</strong> o <strong>They are</strong>." : ""}
+                `;
+            }
+        }
+
+        // Selección de Práctica 2 (Opción Múltiple con Mini Notas)
+        function selectMC(btn, qNum, isCorrect, explanation) {
+            const allBtns = document.querySelectorAll(`.mc-btn-${qNum}`);
+            const noteBox = document.getElementById(`mc-note-${qNum}`);
+            
+            allBtns.forEach(b => {
+                b.disabled = true;
+                b.classList.remove('bg-slate-50', 'border-slate-200');
+            });
+
+            noteBox.classList.remove('hidden');
+            noteBox.innerHTML = explanation;
+
+            if(isCorrect) {
+                btn.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-800');
+                noteBox.classList.add('bg-emerald-50', 'border-emerald-200', 'text-emerald-800');
+                playAudio("Correct");
+            } else {
+                btn.classList.add('bg-red-100', 'border-red-500', 'text-red-800');
+                noteBox.classList.add('bg-red-50', 'border-red-200', 'text-red-800');
+                playAudio("Incorrect");
+                
+                // Resaltar la correcta
+                allBtns.forEach(b => {
+                    if(b.onclick.toString().includes('true')) {
+                        b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-800');
+                    }
+                });
+            }
+        }
+
+        // --- MÓDULO LISTENING (BUILDER) ---
+        const builderLevels = [
+            { a: "She's at home.", w: ["home.", "She's", "at", "is", "I'm"], t: "She's at home." },
+            { a: "They're tired.", w: ["tired.", "They're", "we", "are"], t: "They're tired." },
+            { a: "I'm a teacher.", w: ["a", "teacher.", "I'm", "student.", "am"], t: "I'm a teacher." }
+        ];
+        let buildLvl = 0;
+        let buildCurrent = [];
+
+        function loadBuilder() {
+            if(buildLvl >= builderLevels.length) {
+                document.getElementById('builder-target').innerHTML = `<span class="text-brand-300 font-bold w-full text-center">¡Módulo completado! 🎉</span>`;
+                document.getElementById('builder-source').innerHTML = '';
+                return;
+            }
+            buildCurrent = [];
+            document.getElementById('build-progress').innerText = `${buildLvl+1}/${builderLevels.length}`;
+            renderBuildTarget();
+            
+            const words = builderLevels[buildLvl].w.sort(()=> 0.5 - Math.random());
+            document.getElementById('builder-source').innerHTML = words.map((w, i) => 
+                `<div id="bw-${i}" onclick="addBW('${w}', 'bw-${i}')" class="word-block bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-xl font-bold border border-slate-600 shadow-sm">${w}</div>`
+            ).join('');
+        }
+
+        function playBuilderAudio() { playAudio(builderLevels[buildLvl].a); }
+
+        function addBW(w, id) {
+            buildCurrent.push({w, id});
+            document.getElementById(id).classList.add('used');
+            renderBuildTarget();
+        }
+
+        function removeBW(idx) {
+            const item = buildCurrent[idx];
+            document.getElementById(item.id).classList.remove('used');
+            buildCurrent.splice(idx, 1);
+            renderBuildTarget();
+        }
+
+        function renderBuildTarget() {
+            const tgt = document.getElementById('builder-target');
+            if(buildCurrent.length === 0) tgt.innerHTML = `<span class="text-slate-500 text-sm italic w-full text-center" id="builder-placeholder">Toca las palabras abajo...</span>`;
+            else tgt.innerHTML = buildCurrent.map((i, idx) => `<div onclick="removeBW(${idx})" class="bg-white text-slate-800 px-3 py-1.5 rounded-lg font-bold shadow-sm cursor-pointer hover:bg-red-50">${i.w}</div>`).join('');
+        }
+
+        function resetBuilder() {
+            buildCurrent.forEach(i => document.getElementById(i.id).classList.remove('used'));
+            buildCurrent = []; renderBuildTarget();
+        }
+
+        function checkBuilder() {
+            if(buildLvl >= builderLevels.length) return;
+            const sentence = buildCurrent.map(i => i.w).join(' ');
+            if(sentence === builderLevels[buildLvl].t) {
+                showToast("¡Excelente!", "success"); playAudio("Excellent");
+                buildLvl++; setTimeout(loadBuilder, 1200);
+            } else {
+                showToast("Incorrecto. Escucha el audio otra vez.", "error"); playAudio("Try again");
+            }
+        }
+
+
+        // --- MÓDULO CHAT SIMULATOR ---
+        const chatScript = [
+            { 
+                in: "Hey! How are you today? 😃", 
+                opts: [
+                    { t: "I'm tired.", c: true }, 
+                    { t: "I tired.", c: false, e: "Recuerda usar 'I'm' para expresar emociones o estados físicos." }
+                ] 
+            },
+            { 
+                in: "Oh no. Where are you right now?", 
+                opts: [
+                    { t: "I at work.", c: false, e: "Falta el verbo. Di 'I'm at work'." }, 
+                    { t: "I'm at work. 🏢", c: true }
+                ] 
+            },
+            { 
+                in: "Ah ok. What do you do there?", 
+                opts: [
+                    { t: "I'm a manager.", c: true }, 
+                    { t: "I manager.", c: false, e: "Para ocupaciones siempre debes usar 'a' o 'an' (I'm a...)." }
+                ] 
+            },
+            { 
+                in: "Nice. And where is your brother?", 
+                opts: [
+                    { t: "He's at home.", c: true }, 
+                    { t: "She's at home.", c: false, e: "Usa 'He's' para referirte a un hombre (brother)." }
+                ] 
+            }
+        ];
+        let chatStep = 0;
+
+        function initChat() {
+            chatStep = 0;
+            document.getElementById('chat-history').innerHTML = `<div class="bg-slate-200/50 text-slate-500 text-[10px] font-bold px-3 py-1 rounded-lg mx-auto mb-4">HOY</div>`;
+            document.getElementById('chat-success').classList.replace('flex', 'hidden');
+            document.getElementById('chat-options-panel').classList.add('translate-y-full');
+            setTimeout(chatReceive, 800);
+        }
+
+        function chatScroll() { const h = document.getElementById('chat-history'); h.scrollTop = h.scrollHeight; }
+
+        function chatReceive() {
+            if(chatStep >= chatScript.length) {
+                setTimeout(() => { document.getElementById('chat-success').classList.replace('hidden', 'flex'); triggerConfetti(); }, 1000);
+                return;
+            }
+            
+            const data = chatScript[chatStep];
+            const tId = 'typ-' + Date.now();
+            document.getElementById('chat-history').insertAdjacentHTML('beforeend', `<div id="${tId}" class="chat-bubble chat-received text-slate-500 flex items-center gap-1 w-12 h-8 justify-center"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`);
+            chatScroll(); document.getElementById('chat-status').innerText = 'escribiendo...';
+
+            setTimeout(() => {
+                document.getElementById(tId).remove(); document.getElementById('chat-status').innerText = 'en línea';
+                document.getElementById('chat-history').insertAdjacentHTML('beforeend', `<div class="chat-bubble chat-received text-slate-800">${data.in}</div>`);
+                chatScroll(); playAudio("Pop", null, 2);
+                renderChatOpts(data.opts);
+            }, 1500);
+        }
+
+        function renderChatOpts(opts) {
+            const cont = document.getElementById('chat-options'); cont.innerHTML = '';
+            opts.sort(()=> 0.5 - Math.random()).forEach(o => {
+                const b = document.createElement('button');
+                b.className = "w-full text-left p-3 bg-white border border-slate-200 rounded-xl font-medium text-slate-700 active:bg-slate-100 shadow-sm transition-colors";
+                b.innerText = o.t;
+                b.onclick = () => chatSelect(o, b);
+                cont.appendChild(b);
+            });
+            document.getElementById('chat-options-panel').classList.remove('translate-y-full');
+        }
+
+        function chatSelect(opt, btn) {
+            const btns = document.getElementById('chat-options').querySelectorAll('button');
+            btns.forEach(b => b.disabled = true);
+
+            if(opt.c) {
+                document.getElementById('chat-options-panel').classList.add('translate-y-full');
+                document.getElementById('chat-history').insertAdjacentHTML('beforeend', `<div class="chat-bubble chat-sent text-slate-800">${opt.t} <span class="text-[10px] text-wa-header ml-1"><i class="fa-solid fa-check-double"></i></span></div>`);
+                chatScroll(); chatStep++; setTimeout(chatReceive, 1000);
+            } else {
+                btn.classList.add('bg-red-50', 'text-red-600', 'border-red-200');
+                showToast(opt.e, "error"); playAudio("Error");
+                setTimeout(() => { btn.classList.remove('bg-red-50', 'text-red-600', 'border-red-200'); btns.forEach(b => b.disabled = false); }, 2500);
+            }
+        }
+
+        // --- MÓDULO EXAMEN FINAL (CON NOTAS EDUCATIVAS) ---
+        const examData = [
+            { q: "Para decir 'Tengo 30 años', debes decir:", o: ["I have 30.", "I'm 30.", "I am 30 years."], a: 1, n: "¡Recuerda! En inglés la edad NO se 'tiene' (have), se 'es' (To Be). Literalmente dices 'Soy 30'." },
+            { q: "Traduce: 'Él es doctor'.", o: ["He's doctor.", "He's a doctor.", "He doctor."], a: 1, n: "Siempre debes incluir la letra 'a' o 'an' antes de una ocupación o profesión singular en inglés." },
+            { q: "¿Cuál describe correctamente un lugar?", o: ["I'm happy.", "She's a chef.", "They're at work."], a: 2, n: "'At work' indica ubicación (en el trabajo). Las otras opciones describen un sentimiento y una profesión." },
+            { q: "Para hablar en plural sobre otras personas (Ellos/Ellas), usamos:", o: ["We're", "He's", "They're"], a: 2, n: "'We're' es para nosotros, 'He's' para él. 'They're' es el correcto para Ellos o Ellas." },
+            { q: "Si te sientes cansado, dices:", o: ["I have tired.", "I'm tired.", "I tired."], a: 1, n: "Los sentimientos físicos y emocionales se expresan usando el verbo To Be (I'm), no con 'have'." },
+            { q: "Completa el espacio: '____ from Mexico.'", o: ["I'm", "I", "Am"], a: 0, n: "Necesitas el sujeto y el verbo: I + am = I'm." },
+            { q: "La forma corta oficial de 'She is' es:", o: ["Shes", "She's", "She"], a: 1, n: "El apóstrofe (') sustituye a la letra 'i' de is, uniendo ambas palabras en 'She's'." },
+            { q: "¿Qué significa el chunk 'I'm hungry'?", o: ["Estoy feliz", "Estoy enojado", "Tengo hambre"], a: 2, n: "'Hungry' es hambriento. Recuerda que en inglés 'eres hambriento', se usa I'm." },
+            { q: "Elige la oración correcta:", o: ["We are at home.", "We at home.", "We're home at."], a: 0, n: "La estructura debe ser completa: Sujeto (We) + Verbo (are) + Lugar (at home)." },
+            { q: "Para describir el trabajo de una compañera (mujer):", o: ["He's a teacher.", "She's a teacher.", "She teacher."], a: 1, n: "Para mujeres usamos 'She's', y no debemos olvidar agregar 'a' antes del trabajo." }
+        ];
+        
+        let examIdx = 0, examScore = 0;
+
+        function loadExamQ() {
+            const d = examData[examIdx];
+            document.getElementById('q-counter').innerText = `Q ${examIdx + 1}/10`;
+            document.getElementById('q-text').innerText = d.q;
+            document.getElementById('quiz-progress').style.width = `${(examIdx/10)*100}%`;
+            
+            // Ocultar retroalimentación
+            document.getElementById('exam-feedback-container').classList.add('hidden');
+            
+            document.getElementById('q-opts').innerHTML = d.o.map((opt, i) => 
+                `<button onclick="selectExamAns(${i})" class="e-btn w-full text-left p-4 rounded-xl border border-slate-200 bg-slate-50 font-bold text-slate-700 hover:bg-slate-100 transition-all shadow-sm">${opt}</button>`
+            ).join('');
+        }
+
+        function selectExamAns(idx) {
+            const d = examData[examIdx];
+            const isCorrect = idx === d.a;
+            
+            // Bloquear botones
+            document.querySelectorAll('.e-btn').forEach((b, i) => {
+                b.disabled = true;
+                if(i === d.a) b.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-800');
+                else if(i === idx && !isCorrect) b.classList.add('bg-red-100', 'border-red-500', 'text-red-800');
+                else b.classList.add('opacity-40'); // Opacar las opciones no elegidas
+            });
+
+            if(isCorrect) {
+                examScore++;
+                playAudio("Correct");
+            } else {
+                playAudio("Incorrect");
+            }
+
+            // Mostrar retroalimentación (Mini Nota)
+            const feedbackBox = document.getElementById('exam-note-box');
+            if (isCorrect) {
+                feedbackBox.className = "p-4 rounded-xl text-sm font-medium border mb-4 bg-emerald-50 border-emerald-200 text-emerald-800 mini-note";
+                feedbackBox.innerHTML = `<strong>¡Correcto!</strong> <br> ${d.n}`;
+            } else {
+                feedbackBox.className = "p-4 rounded-xl text-sm font-medium border mb-4 bg-red-50 border-red-200 text-red-800 mini-note";
+                feedbackBox.innerHTML = `<strong>Error.</strong> <br> ${d.n}`;
+            }
+            
+            document.getElementById('exam-feedback-container').classList.remove('hidden');
+        }
+
+        function nextExamQuestion() {
+            examIdx++;
+            if(examIdx < 10) {
+                loadExamQ();
+            } else {
+                showCertificate();
+            }
+        }
+
+        // --- SISTEMA DE CERTIFICADO ---
+        function showCertificate() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('cert-container').classList.remove('hidden');
+            
+            document.getElementById('cert-score').innerText = examScore;
+            
+            const today = new Date();
+            const dateStr = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth()+1).toString().padStart(2, '0')}/${today.getFullYear()}`;
+            document.getElementById('cert-date').innerText = dateStr;
+            
+            if(examScore >= 8) {
+                setTimeout(triggerConfetti, 500);
+            }
+        }
+
+        function triggerConfetti() {
+            const cvs = document.getElementById('confetti');
+            cvs.classList.remove('hidden');
+            const ctx = cvs.getContext('2d');
+            cvs.width = window.innerWidth; cvs.height = window.innerHeight;
+            const pcs = []; const cols = ['#8b5cf6', '#a78bfa', '#10b981', '#f59e0b', '#ec4899'];
+            for(let i=0; i<100; i++) pcs.push({ x: Math.random()*cvs.width, y: Math.random()*cvs.height-cvs.height, w: Math.random()*8+4, h: Math.random()*8+4, c: cols[Math.floor(Math.random()*cols.length)], vy: Math.random()*5+2, vx: Math.random()*4-2, r: Math.random()*360, rs: Math.random()*10-5 });
+            function draw() {
+                ctx.clearRect(0,0, cvs.width, cvs.height); let act = false;
+                pcs.forEach(p => {
+                    p.y+=p.vy; p.x+=p.vx; p.r+=p.rs; if(p.y<cvs.height) act = true;
+                    ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r*Math.PI/180); ctx.fillStyle = p.c; ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h); ctx.restore();
+                });
+                if(act) requestAnimationFrame(draw); else cvs.classList.add('hidden');
+            }
+            draw();
+        }
+
+        window.onload = () => {
+            loadBuilder();
+            initChat();
+            loadExamQ();
+        };
+
+    </script>
+</body>
+</html>

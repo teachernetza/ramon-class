@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Daily Life English | "To Be" Mastery App</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa',
+                            500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a',
+                        },
+                        wa: {
+                            light: '#e5ddd5', bubble: '#dcf8c6', header: '#075e54', headerLight: '#128c7e'
+                        },
+                        sidebar: '#0f172a' /* slate-900 */
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+                        'floating': '0 20px 40px -10px rgba(0,0,0,0.1)',
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                    },
+                    animation: {
+                        'float-slow': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fade-in': 'fadeIn 0.4s ease-out forwards',
+                        'slide-up': 'slideUp 0.4s ease-out forwards',
+                        'bounce-x': 'bounceX 1s infinite',
+                    },
+                    keyframes: {
+                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-20px)' } },
+                        'pulse-glow': { '0%, 100%': { opacity: 1, transform: 'scale(1)' }, '50%': { opacity: .8, transform: 'scale(1.05)', boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)' } },
+                        fadeIn: { '0%': { opacity: 0 }, '100%': { opacity: 1 } },
+                        slideUp: { '0%': { opacity: 0, transform: 'translateY(20px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } },
+                        bounceX: { '0%, 100%': { transform: 'translateX(0)' }, '50%': { transform: 'translateX(25%)' } }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html, body { 
+            height: 100%; margin: 0; padding: 0; 
+            background-color: #f8fafc; color: #334155;
+            -webkit-font-smoothing: antialiased;
+            overflow: hidden; /* App container handles scroll */
+        }
+
+        /* Custom Scrollbar for Main Content */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* SPA Page Transition Classes */
+        .spa-page { display: none; }
+        .spa-page.active { display: block; animation: slideUp 0.4s ease-out forwards; }
+
+        /* Sidebar Link Active State */
+        .nav-link.active {
+            background-color: rgba(59, 130, 246, 0.15);
+            color: #60a5fa; /* brand-400 */
+            border-left: 4px solid #3b82f6;
+        }
+
+        /* Mobile Bottom Nav Active State */
+        .mob-nav-link.active {
+            color: #3b82f6;
+        }
+        .mob-nav-link.active i { transform: translateY(-4px) scale(1.1); transition: transform 0.2s; }
+
+        /* Audio Wave Animation */
+        .wave-bar {
+            width: 4px; height: 15px; background-color: currentColor; border-radius: 4px;
+            animation: wave 1s ease-in-out infinite alternate; display: inline-block; margin: 0 2px;
+        }
+        .wave-bar:nth-child(2) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes wave { 0% { height: 5px; } 100% { height: 20px; } }
+
+        /* WhatsApp Styles */
+        .wa-bg {
+            background-color: #e5ddd5;
+            background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23d0c9c3" fill-opacity="0.4"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+        }
+        .chat-bubble { max-width: 80%; padding: 8px 12px; border-radius: 12px; position: relative; margin-bottom: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); animation: slideUp 0.3s ease-out forwards; }
+        .chat-received { background-color: white; align-self: flex-start; border-top-left-radius: 0; }
+        .chat-received::before { content: ''; position: absolute; top: 0; left: -8px; width: 0; height: 0; border-top: 10px solid white; border-left: 10px solid transparent; }
+        .chat-sent { background-color: #dcf8c6; align-self: flex-end; border-top-right-radius: 0; }
+        .chat-sent::before { content: ''; position: absolute; top: 0; right: -8px; width: 0; height: 0; border-top: 10px solid #dcf8c6; border-right: 10px solid transparent; }
+        
+        .typing-dot { width: 6px; height: 6px; background-color: #94a3b8; border-radius: 50%; display: inline-block; animation: typing 1.4s infinite ease-in-out both; }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; } .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+
+        /* General Game Elements */
+        .interactive-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; border: 2px solid transparent; }
+        .interactive-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px -5px rgba(59, 130, 246, 0.15); border-color: #bfdbfe; }
+        .interactive-card:active { transform: translateY(0); }
+
+        /* Drag & Drop Hybrid */
+        .drag-source { cursor: grab; user-select: none; }
+        .drag-source:active { cursor: grabbing; transform: scale(1.05); }
+        .drag-source.is-dragging { opacity: 0.4; }
+        .drag-source.tap-selected { box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.4); transform: scale(1.05); border-color: #3b82f6; }
+
+        .drop-target { transition: all 0.3s ease; border: 2px dashed #cbd5e1; }
+        .drop-target.drag-over { background-color: #eff6ff; border-color: #3b82f6; border-style: solid; transform: scale(1.02); }
+        .drop-target.tap-active { animation: pulse-glow 1.5s infinite; border-color: #3b82f6; }
+
+        /* Sentence Builder */
+        .word-block { transition: transform 0.2s, opacity 0.2s; cursor: pointer; user-select: none; }
+        .word-block:active { transform: scale(0.95); }
+        .word-block.used { opacity: 0.3; pointer-events: none; }
+
+        /* Toast Notification */
+        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-col; gap: 10px; pointer-events: none; }
+        .toast { background: #1e293b; color: white; padding: 12px 24px; border-radius: 50px; font-weight: 600; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: toastIn 0.3s ease-out forwards; }
+        .toast.toast-out { animation: toastOut 0.3s ease-in forwards; }
+        @keyframes toastIn { 0% { opacity: 0; transform: translateY(-20px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes toastOut { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-20px); } }
+
+        /* Confetti */
+        #confetti { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9998; }
+    </style>
+</head>
+
+<body class="flex flex-col md:flex-row h-screen bg-slate-50 w-full overflow-hidden relative">
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container"></div>
+    <canvas id="confetti" class="hidden"></canvas>
+
+    <!-- Background Decoration -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div class="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-blue-200/40 rounded-full mix-blend-multiply filter blur-[100px] animate-float-slow"></div>
+        <div class="absolute bottom-[-10%] right-[-5%] w-[600px] h-[600px] bg-emerald-200/30 rounded-full mix-blend-multiply filter blur-[120px] animate-float-slow" style="animation-delay: 2s"></div>
+    </div>
+
+    <!-- ==========================================
+         SIDEBAR (Desktop) 
+         ========================================== -->
+    <aside class="hidden md:flex w-64 bg-sidebar text-slate-300 flex-col h-full shadow-2xl relative z-40">
+        <!-- Logo Area -->
+        <div class="p-6 flex items-center gap-3 border-b border-slate-800">
+            <div class="w-10 h-10 bg-gradient-to-br from-brand-500 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg font-display text-xl font-bold">
+                E
+            </div>
+            <div>
+                <h1 class="font-bold text-white text-lg leading-tight font-display">Daily Life App</h1>
+                <p class="text-[10px] font-bold text-brand-400 uppercase tracking-widest">Premium Version</p>
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="flex-1 py-6 px-3 space-y-2 overflow-y-auto hide-scroll">
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-widest px-4 mb-4">Course Modules</p>
+            
+            <button onclick="navTo('page-intro')" id="link-page-intro" class="nav-link active w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all hover:bg-slate-800 hover:text-white border-left border-transparent text-left">
+                <i class="fa-solid fa-house w-5 text-center"></i> <span>1. Introduction</span>
+            </button>
+            <button onclick="navTo('page-im')" id="link-page-im" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all hover:bg-slate-800 hover:text-white border-left border-transparent text-left">
+                <i class="fa-solid fa-user w-5 text-center"></i> <span>2. The "I'm" Block</span>
+            </button>
+            <button onclick="navTo('page-others')" id="link-page-others" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all hover:bg-slate-800 hover:text-white border-left border-transparent text-left">
+                <i class="fa-solid fa-users w-5 text-center"></i> <span>3. Other People</span>
+            </button>
+            <button onclick="navTo('page-chat')" id="link-page-chat" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all hover:bg-slate-800 hover:text-white border-left border-transparent text-left">
+                <i class="fa-solid fa-mobile-screen w-5 text-center"></i> <span>4. SmartChat</span>
+            </button>
+            <button onclick="navTo('page-profile')" id="link-page-profile" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all hover:bg-slate-800 hover:text-white border-left border-transparent text-left">
+                <i class="fa-regular fa-id-card w-5 text-center"></i> <span>5. Create Profile</span>
+            </button>
+            <button onclick="navTo('page-quiz')" id="link-page-quiz" class="nav-link w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all hover:bg-slate-800 hover:text-white border-left border-transparent text-left">
+                <i class="fa-solid fa-award w-5 text-center"></i> <span>6. Master Quiz</span>
+            </button>
+        </nav>
+
+        <!-- Audio Settings -->
+        <div class="p-6 border-t border-slate-800">
+            <button onclick="unlockAudio(this)" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-colors font-bold text-sm shadow-inner group">
+                <i class="fa-solid fa-volume-xmark group-hover:hidden" id="audio-icon-off-desk"></i>
+                <i class="fa-solid fa-volume-high hidden group-hover:inline-block text-brand-400" id="audio-icon-on-desk"></i>
+                <span id="audio-text-desk">Enable Audio</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- ==========================================
+         MAIN CONTENT AREA
+         ========================================== -->
+    <main class="flex-1 h-full overflow-y-auto relative scroll-smooth bg-transparent pb-20 md:pb-0" id="main-scroll-container">
+        <div class="max-w-5xl mx-auto w-full p-4 sm:p-8 lg:p-12">
+
+            <!-- ==========================================
+                 PAGE 1: INTRODUCTION
+                 ========================================== -->
+            <section id="page-intro" class="spa-page active min-h-[80vh] flex flex-col justify-center pt-8">
+                <div class="text-center relative">
+                    <div class="inline-flex items-center justify-center px-4 py-2 bg-indigo-50 text-indigo-600 rounded-full mb-8 border border-indigo-100 shadow-sm">
+                        <span class="font-bold uppercase tracking-widest text-xs"><i class="fa-solid fa-brain mr-2"></i> Lexical Approach Method</span>
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-7xl font-black text-slate-900 mb-6 font-display tracking-tight leading-tight">
+                        Stop <span class="line-through text-slate-400">Grammar.</span><br>
+                        Start <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-indigo-600">Speaking.</span>
+                    </h1>
+                    
+                    <p class="text-xl text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+                        Today we master the famous verb <strong>"To Be"</strong> for your daily life.<br>
+                        We won't memorize confusing rules. We will learn it using <strong>Lexical Chunks</strong>.
+                    </p>
+
+                    <!-- Visual Pillars -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mx-auto mb-16">
+                        <div class="bg-white p-8 rounded-[2rem] shadow-glass border border-slate-100 flex flex-col items-center text-center">
+                            <span class="text-6xl mb-4 filter drop-shadow-md">💼</span>
+                            <h3 class="font-bold text-xl mb-2 text-slate-800">1. Jobs</h3>
+                            <p class="text-slate-500 text-sm">I'm a doctor.<br>He's a teacher.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-[2rem] shadow-glass border border-slate-100 flex flex-col items-center text-center">
+                            <span class="text-6xl mb-4 filter drop-shadow-md">😃</span>
+                            <h3 class="font-bold text-xl mb-2 text-slate-800">2. Feelings</h3>
+                            <p class="text-slate-500 text-sm">I'm happy.<br>We're tired.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-[2rem] shadow-glass border border-slate-100 flex flex-col items-center text-center">
+                            <span class="text-6xl mb-4 filter drop-shadow-md">🏠</span>
+                            <h3 class="font-bold text-xl mb-2 text-slate-800">3. Locations</h3>
+                            <p class="text-slate-500 text-sm">I'm at home.<br>She's at work.</p>
+                        </div>
+                    </div>
+
+                    <button onclick="navTo('page-im')" class="group relative inline-flex items-center justify-center px-10 py-4 text-lg font-bold text-white transition-all duration-300 bg-slate-900 rounded-full hover:bg-brand-600 shadow-floating active:scale-95">
+                        Start Module 1 
+                        <i class="fa-solid fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 PAGE 2: THE "I'M" BLOCK
+                 ========================================== -->
+            <section id="page-im" class="spa-page">
+                <!-- Header -->
+                <div class="mb-10 flex flex-col md:flex-row gap-4 justify-between md:items-end">
+                    <div>
+                        <span class="text-brand-500 font-bold uppercase tracking-widest text-sm mb-2 block"><i class="fa-solid fa-user"></i> Module 1</span>
+                        <h2 class="text-4xl md:text-5xl font-black font-display text-slate-900">The "I'm" Block</h2>
+                        <p class="text-slate-600 mt-2 text-lg">Use the full block: <strong>I'm + [word]</strong>. Click cards to listen.</p>
+                    </div>
+                </div>
+
+                <!-- Input Area: Grid -->
+                <div class="bg-white rounded-[2.5rem] shadow-glass p-6 md:p-10 border border-slate-100 mb-12">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        <!-- Items -->
+                        <div onclick="playAudio('I\'m a student', this)" class="interactive-card bg-slate-50 p-5 rounded-3xl border border-slate-200 flex justify-between items-center group">
+                            <div class="flex items-center gap-4">
+                                <span class="text-4xl bg-blue-100 p-2 rounded-2xl">👨‍🎓</span>
+                                <div>
+                                    <p class="font-bold text-xl text-slate-800">I'm a <span class="text-brand-600">student</span>.</p>
+                                    <p class="text-xs text-slate-500 uppercase tracking-widest mt-1 font-bold">Job</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-volume-high text-brand-400 group-hover:text-brand-600"></i>
+                        </div>
+                        
+                        <div onclick="playAudio('I\'m tired', this)" class="interactive-card bg-slate-50 p-5 rounded-3xl border border-slate-200 flex justify-between items-center group">
+                            <div class="flex items-center gap-4">
+                                <span class="text-4xl bg-amber-100 p-2 rounded-2xl">😫</span>
+                                <div>
+                                    <p class="font-bold text-xl text-slate-800">I'm <span class="text-amber-600">tired</span>.</p>
+                                    <p class="text-xs text-slate-500 uppercase tracking-widest mt-1 font-bold">Feeling</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-volume-high text-amber-400 group-hover:text-amber-600"></i>
+                        </div>
+
+                        <div onclick="playAudio('I\'m from Mexico', this)" class="interactive-card bg-slate-50 p-5 rounded-3xl border border-slate-200 flex justify-between items-center group">
+                            <div class="flex items-center gap-4">
+                                <span class="text-4xl bg-emerald-100 p-2 rounded-2xl">🌎</span>
+                                <div>
+                                    <p class="font-bold text-xl text-slate-800">I'm from <span class="text-emerald-600">Mexico</span>.</p>
+                                    <p class="text-xs text-slate-500 uppercase tracking-widest mt-1 font-bold">Origin</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-volume-high text-emerald-400 group-hover:text-emerald-600"></i>
+                        </div>
+
+                        <div onclick="playAudio('I\'m at work', this)" class="interactive-card bg-slate-50 p-5 rounded-3xl border border-slate-200 flex justify-between items-center group">
+                            <div class="flex items-center gap-4">
+                                <span class="text-4xl bg-purple-100 p-2 rounded-2xl">🏢</span>
+                                <div>
+                                    <p class="font-bold text-xl text-slate-800">I'm at <span class="text-purple-600">work</span>.</p>
+                                    <p class="text-xs text-slate-500 uppercase tracking-widest mt-1 font-bold">Location</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-volume-high text-purple-400 group-hover:text-purple-600"></i>
+                        </div>
+
+                        <div onclick="playAudio('I\'m hungry', this)" class="interactive-card bg-slate-50 p-5 rounded-3xl border border-slate-200 flex justify-between items-center group">
+                            <div class="flex items-center gap-4">
+                                <span class="text-4xl bg-red-100 p-2 rounded-2xl">🤤</span>
+                                <div>
+                                    <p class="font-bold text-xl text-slate-800">I'm <span class="text-red-600">hungry</span>.</p>
+                                    <p class="text-xs text-slate-500 uppercase tracking-widest mt-1 font-bold">Feeling</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-volume-high text-red-400 group-hover:text-red-600"></i>
+                        </div>
+
+                        <div onclick="playAudio('I\'m 25', this)" class="interactive-card bg-slate-50 p-5 rounded-3xl border border-slate-200 flex justify-between items-center group">
+                            <div class="flex items-center gap-4">
+                                <span class="text-4xl bg-pink-100 p-2 rounded-2xl">🎂</span>
+                                <div>
+                                    <p class="font-bold text-xl text-slate-800">I'm <span class="text-pink-600">25</span>.</p>
+                                    <p class="text-xs text-slate-500 uppercase tracking-widest mt-1 font-bold">Age</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-volume-high text-pink-400 group-hover:text-pink-600"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Practice 1: Stop The Bus -->
+                <div class="mb-6"><h3 class="text-2xl font-bold font-display"><i class="fa-solid fa-gamepad text-amber-500 mr-2"></i> Practice 1: Categorize</h3></div>
+                
+                <div class="bg-white rounded-[2rem] shadow-sm border border-slate-200 p-6 md:p-10 relative overflow-hidden mb-12">
+                    <div class="flex justify-between items-center mb-6">
+                        <p class="text-slate-600 font-medium">Job, Feeling, or Location?</p>
+                        <div class="bg-slate-100 px-4 py-2 rounded-xl font-bold text-slate-700">Score: <span id="bus-score" class="text-brand-600">0</span>/6</div>
+                    </div>
+
+                    <div class="text-center mb-10 h-32 flex items-center justify-center bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200 relative">
+                        <div id="bus-word-container" class="transition-all duration-300 transform scale-100 flex flex-col items-center">
+                            <div class="flex items-center gap-4">
+                                <h3 id="bus-word" class="text-5xl font-black text-slate-800 font-display">...</h3>
+                                <span id="bus-emoji" class="text-5xl"></span>
+                            </div>
+                        </div>
+                        <div id="bus-feedback" class="absolute inset-0 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 rounded-2xl">
+                            <div id="bus-feedback-content" class="px-8 py-4 rounded-xl shadow-lg font-bold text-2xl text-white"></div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <button onclick="checkBusAnswer('job')" class="bg-blue-50 hover:bg-blue-100 border-2 border-blue-200 text-blue-700 rounded-xl p-4 font-bold text-lg transition-colors shadow-sm active:scale-95">I'm a... (Job)</button>
+                        <button onclick="checkBusAnswer('feeling')" class="bg-amber-50 hover:bg-amber-100 border-2 border-amber-200 text-amber-700 rounded-xl p-4 font-bold text-lg transition-colors shadow-sm active:scale-95">I'm... (Feeling)</button>
+                        <button onclick="checkBusAnswer('location')" class="bg-emerald-50 hover:bg-emerald-100 border-2 border-emerald-200 text-emerald-700 rounded-xl p-4 font-bold text-lg transition-colors shadow-sm active:scale-95">I'm at... (Location)</button>
+                    </div>
+                    
+                    <div id="bus-complete-msg" class="hidden absolute inset-0 bg-white/95 backdrop-blur-sm z-10 flex-col items-center justify-center text-center p-6">
+                        <span class="text-6xl mb-4">🏆</span>
+                        <h4 class="text-3xl font-black text-slate-900 font-display mb-2">Well Done!</h4>
+                        <button onclick="resetBusGame()" class="mt-4 px-6 py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-brand-600 transition-colors">Play Again</button>
+                    </div>
+                </div>
+
+                <!-- Practice 2: Listen & Type (NEW) -->
+                <div class="mb-6"><h3 class="text-2xl font-bold font-display"><i class="fa-solid fa-ear-listen text-indigo-500 mr-2"></i> Practice 2: Listen & Type</h3></div>
+                
+                <div class="bg-slate-900 rounded-[2rem] shadow-floating p-6 md:p-10 text-white relative mb-10">
+                    <p class="text-slate-400 mb-8 font-medium">Listen to the audio and type the exact sentence. Don't forget the apostrophe (')!</p>
+                    
+                    <div class="flex flex-col md:flex-row gap-6 items-center w-full">
+                        <button onclick="playDictationAudio()" class="w-20 h-20 bg-brand-500 hover:bg-brand-400 rounded-full flex flex-col items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all flex-shrink-0 active:scale-95">
+                            <i class="fa-solid fa-play text-2xl ml-1 mb-1" id="dict-play-icon"></i>
+                            <span class="text-[10px] font-bold uppercase tracking-widest" id="dict-track-lbl">Track 1</span>
+                        </button>
+                        
+                        <div class="flex-1 w-full">
+                            <input type="text" id="dict-input" class="w-full bg-slate-800 border-2 border-slate-600 focus:border-brand-400 rounded-xl px-6 py-4 text-xl font-medium outline-none transition-colors" placeholder="Type what you hear..." autocomplete="off">
+                            <div class="flex justify-between items-center mt-4">
+                                <span class="text-sm font-bold text-slate-500" id="dict-progress">Sentence 1/4</span>
+                                <button onclick="checkDictation()" class="bg-white text-slate-900 px-6 py-2 rounded-lg font-bold hover:bg-brand-100 transition-colors shadow-sm">Check Answer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Bottom -->
+                <div class="flex justify-end mt-8 border-t border-slate-200 pt-6">
+                    <button onclick="navTo('page-others')" class="flex items-center gap-2 bg-slate-900 text-white px-8 py-3 rounded-xl font-bold hover:bg-brand-600 transition-colors shadow-md">Next Module <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 PAGE 3: OTHER PEOPLE
+                 ========================================== -->
+            <section id="page-others" class="spa-page">
+                <div class="mb-10">
+                    <span class="text-purple-500 font-bold uppercase tracking-widest text-sm mb-2 block"><i class="fa-solid fa-users"></i> Module 2</span>
+                    <h2 class="text-4xl md:text-5xl font-black font-display text-slate-900">He's / She's / They're</h2>
+                    <p class="text-slate-600 mt-2 text-lg">Talk about friends, family, and coworkers using blocks.</p>
+                </div>
+
+                <!-- Input Area: Flex Cards -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+                    <!-- HE -->
+                    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-3xl font-bold">👨</div>
+                            <div>
+                                <h3 class="text-2xl font-black text-slate-800 font-display">He's...</h3>
+                                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">For a man</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <button onclick="playAudio('He\'s my brother.')" class="w-full text-left p-3 rounded-xl bg-slate-50 hover:bg-blue-50 transition-colors flex justify-between items-center group font-medium text-slate-700">He's my brother. <i class="fa-solid fa-volume-high text-slate-300 group-hover:text-blue-500"></i></button>
+                            <button onclick="playAudio('He\'s a doctor.')" class="w-full text-left p-3 rounded-xl bg-slate-50 hover:bg-blue-50 transition-colors flex justify-between items-center group font-medium text-slate-700">He's a doctor. <i class="fa-solid fa-volume-high text-slate-300 group-hover:text-blue-500"></i></button>
+                        </div>
+                    </div>
+                    <!-- SHE -->
+                    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-16 h-16 bg-pink-100 text-pink-600 rounded-2xl flex items-center justify-center text-3xl font-bold">👩</div>
+                            <div>
+                                <h3 class="text-2xl font-black text-slate-800 font-display">She's...</h3>
+                                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">For a woman</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <button onclick="playAudio('She\'s at home.')" class="w-full text-left p-3 rounded-xl bg-slate-50 hover:bg-pink-50 transition-colors flex justify-between items-center group font-medium text-slate-700">She's at home. <i class="fa-solid fa-volume-high text-slate-300 group-hover:text-pink-500"></i></button>
+                            <button onclick="playAudio('She\'s sad.')" class="w-full text-left p-3 rounded-xl bg-slate-50 hover:bg-pink-50 transition-colors flex justify-between items-center group font-medium text-slate-700">She's sad. <i class="fa-solid fa-volume-high text-slate-300 group-hover:text-pink-500"></i></button>
+                        </div>
+                    </div>
+                    <!-- THEY -->
+                    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-16 h-16 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center text-3xl font-bold">👨‍👩‍👦</div>
+                            <div>
+                                <h3 class="text-2xl font-black text-slate-800 font-display">They're...</h3>
+                                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Plural</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <button onclick="playAudio('They\'re students.')" class="w-full text-left p-3 rounded-xl bg-slate-50 hover:bg-purple-50 transition-colors flex justify-between items-center group font-medium text-slate-700">They're students. <i class="fa-solid fa-volume-high text-slate-300 group-hover:text-purple-500"></i></button>
+                            <button onclick="playAudio('They\'re busy.')" class="w-full text-left p-3 rounded-xl bg-slate-50 hover:bg-purple-50 transition-colors flex justify-between items-center group font-medium text-slate-700">They're busy. <i class="fa-solid fa-volume-high text-slate-300 group-hover:text-purple-500"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Practice 1: Guess Who -->
+                <div class="mb-6 flex justify-between items-end">
+                    <h3 class="text-2xl font-bold font-display"><i class="fa-solid fa-hand-pointer text-brand-500 mr-2"></i> Practice 1: Guess Who?</h3>
+                    <button onclick="resetGuessWho()" class="text-sm font-bold text-slate-500 hover:text-brand-600"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+                </div>
+                
+                <div class="bg-white border border-slate-200 rounded-[2rem] p-6 md:p-8 mb-12 shadow-sm">
+                    <p class="text-slate-600 mb-6 font-medium text-center">
+                        <span class="hidden md:inline">Listen & <strong>Drag</strong> the word to the picture.</span>
+                        <span class="md:hidden">Listen. <strong>Tap</strong> a word, then <strong>Tap</strong> the empty box.</span>
+                    </p>
+                    <!-- Labels Bank -->
+                    <div class="bg-slate-50 rounded-2xl p-4 mb-8 border border-slate-200 flex flex-wrap justify-center gap-3" id="labels-bank"></div>
+                    <!-- Characters Grid -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6" id="characters-grid"></div>
+                </div>
+
+                <!-- Practice 2: Sentence Builder (NEW) -->
+                <div class="mb-6 flex justify-between items-end">
+                    <h3 class="text-2xl font-bold font-display"><i class="fa-solid fa-layer-group text-emerald-500 mr-2"></i> Practice 2: Builder</h3>
+                </div>
+
+                <div class="bg-emerald-900 rounded-[2rem] shadow-floating p-6 md:p-10 text-white relative mb-10">
+                    <div class="flex justify-between items-center mb-6">
+                        <p class="text-emerald-100 font-medium">Build the sentence you hear.</p>
+                        <button onclick="playBuilderAudio()" class="bg-emerald-500 hover:bg-emerald-400 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-md transition-colors active:scale-95"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+
+                    <!-- Target Area -->
+                    <div class="bg-emerald-950/50 min-h-[80px] rounded-2xl p-4 mb-6 flex flex-wrap gap-2 items-center border border-emerald-800" id="builder-target">
+                        <!-- Words appear here -->
+                        <span class="text-emerald-800 font-bold select-none italic" id="builder-placeholder">Tap words below to build sentence...</span>
+                    </div>
+
+                    <!-- Source Words -->
+                    <div class="flex flex-wrap gap-3 justify-center mb-8" id="builder-source">
+                        <!-- Words injected by JS -->
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-bold text-emerald-500" id="builder-progress">Level 1/3</span>
+                        <div class="flex gap-3">
+                            <button onclick="resetBuilderSentence()" class="bg-emerald-800 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-bold transition-colors shadow-sm"><i class="fa-solid fa-eraser"></i> Clear</button>
+                            <button onclick="checkBuilder()" class="bg-white text-emerald-900 px-6 py-2 rounded-lg font-bold hover:bg-emerald-50 transition-colors shadow-sm">Check</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between mt-8 border-t border-slate-200 pt-6">
+                    <button onclick="navTo('page-im')" class="text-slate-500 font-bold hover:text-brand-600 transition-colors">Back</button>
+                    <button onclick="navTo('page-chat')" class="flex items-center gap-2 bg-slate-900 text-white px-8 py-3 rounded-xl font-bold hover:bg-brand-600 transition-colors shadow-md">Next Module <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 PAGE 4: WHATSAPP SIMULATOR
+                 ========================================== -->
+            <section id="page-chat" class="spa-page">
+                <div class="mb-10 text-center">
+                    <span class="text-emerald-500 font-bold uppercase tracking-widest text-sm mb-2 block"><i class="fa-solid fa-mobile-screen"></i> Module 3</span>
+                    <h2 class="text-4xl font-black font-display text-slate-900">SmartChat Simulator</h2>
+                    <p class="text-slate-600 mt-2 text-lg">Reply to Alex using the correct "To Be" chunks.</p>
+                </div>
+
+                <div class="max-w-sm mx-auto bg-black rounded-[3rem] p-3 shadow-2xl relative mb-10">
+                    <div class="bg-white w-full h-[600px] rounded-[2.5rem] overflow-hidden flex flex-col relative border border-gray-800">
+                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-black rounded-b-xl z-20"></div>
+
+                        <!-- Header -->
+                        <div class="bg-wa-header text-white px-4 pt-10 pb-3 flex items-center gap-3 shadow-sm z-10 relative">
+                            <button onclick="initWhatsApp()" class="text-xl opacity-80 hover:opacity-100"><i class="fa-solid fa-rotate-left"></i></button>
+                            <div class="w-10 h-10 bg-slate-300 rounded-full flex items-center justify-center text-2xl overflow-hidden">👦🏼</div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-lg leading-none">Alex</h3>
+                                <p id="wa-status" class="text-xs text-wa-light mt-1">online</p>
+                            </div>
+                        </div>
+
+                        <!-- Chat Area -->
+                        <div id="wa-history" class="wa-bg flex-1 p-4 overflow-y-auto flex flex-col hide-scroll relative z-0">
+                            <div class="bg-blue-50/80 text-slate-500 text-xs font-bold px-3 py-1 rounded-lg mx-auto mb-4 backdrop-blur-sm shadow-sm">TODAY</div>
+                        </div>
+
+                        <!-- Options Area -->
+                        <div id="wa-options-container" class="bg-slate-50 border-t border-slate-200 p-4 transition-transform duration-300 transform translate-y-full">
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 text-center">Choose reply:</p>
+                            <div class="flex flex-col gap-2" id="wa-options"></div>
+                        </div>
+
+                        <!-- Success Overlay -->
+                        <div id="wa-success" class="absolute inset-0 bg-white/95 backdrop-blur-sm z-30 hidden flex-col items-center justify-center text-center p-6">
+                            <div class="text-6xl mb-4 animate-[bounce_1s_infinite]">🎉</div>
+                            <h4 class="text-2xl font-black text-slate-800 mb-2 font-display">Chat Complete!</h4>
+                            <p class="text-slate-600 font-medium mb-6">Perfect real-life usage.</p>
+                            <button onclick="initWhatsApp()" class="bg-wa-headerLight text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-wa-header transition-colors">Chat Again</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between mt-8 border-t border-slate-200 pt-6">
+                    <button onclick="navTo('page-others')" class="text-slate-500 font-bold hover:text-brand-600 transition-colors">Back</button>
+                    <button onclick="navTo('page-profile')" class="flex items-center gap-2 bg-slate-900 text-white px-8 py-3 rounded-xl font-bold hover:bg-brand-600 transition-colors shadow-md">Next Module <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 PAGE 5: SOCIAL MEDIA PROFILE
+                 ========================================== -->
+            <section id="page-profile" class="spa-page">
+                <div class="mb-10 text-center">
+                    <span class="text-blue-500 font-bold uppercase tracking-widest text-sm mb-2 block"><i class="fa-regular fa-id-card"></i> Module 4</span>
+                    <h2 class="text-4xl font-black font-display text-slate-900">Create Profile</h2>
+                    <p class="text-slate-600 mt-2 text-lg">Use chunks to talk about yourself.</p>
+                </div>
+
+                <!-- Reading Examples -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex gap-4 items-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-3xl">👨‍🍳</div>
+                        <div>
+                            <p class="text-sm text-slate-600">"I'm David and I'm 30. I'm from Canada. I'm a chef."</p>
+                            <button onclick="playAudio('I\'m David and I\'m 30. I\'m from Canada. I\'m a chef.')" class="text-xs font-bold text-brand-500 mt-2 uppercase"><i class="fa-solid fa-volume-high"></i> Listen</button>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex gap-4 items-center">
+                        <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center text-3xl">👩‍⚕️</div>
+                        <div>
+                            <p class="text-sm text-slate-600">"I'm Sarah and I'm 28. I'm from London. I'm a doctor."</p>
+                            <button onclick="playAudio('I\'m Sarah and I\'m 28. I\'m from London. I\'m a doctor.')" class="text-xs font-bold text-brand-500 mt-2 uppercase"><i class="fa-solid fa-volume-high"></i> Listen</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Create Own Profile -->
+                <div class="max-w-lg mx-auto bg-white rounded-[2rem] shadow-glass border border-slate-200 overflow-hidden mb-10">
+                    <div class="h-32 bg-gradient-to-r from-blue-400 to-indigo-500 relative">
+                        <div class="absolute -bottom-10 left-8 w-24 h-24 bg-white rounded-full border-4 border-white shadow-lg flex items-center justify-center text-5xl">😎</div>
+                    </div>
+                    <div class="pt-14 pb-8 px-8">
+                        <div class="space-y-6">
+                            <div>
+                                <label class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-2">Identity & Age</label>
+                                <div class="flex flex-wrap items-end gap-2 text-lg font-medium text-slate-700">
+                                    <span>I'm</span> <input type="text" id="prof-name" class="border-b-2 border-slate-300 bg-slate-50 focus:bg-blue-50 focus:border-brand-500 px-2 py-1 w-32 outline-none transition-colors text-brand-700" placeholder="Name"> 
+                                    <span>and I'm</span> <input type="number" id="prof-age" class="border-b-2 border-slate-300 bg-slate-50 focus:bg-blue-50 focus:border-brand-500 px-2 py-1 w-20 text-center outline-none transition-colors text-brand-700" placeholder="Age">.
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-2">Origin</label>
+                                <div class="flex flex-wrap items-end gap-2 text-lg font-medium text-slate-700">
+                                    <span>I'm from</span> <input type="text" id="prof-loc" class="border-b-2 border-slate-300 bg-slate-50 focus:bg-blue-50 focus:border-brand-500 px-2 py-1 w-40 outline-none transition-colors text-brand-700" placeholder="City/Country">.
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-2">Job</label>
+                                <div class="flex flex-wrap items-end gap-2 text-lg font-medium text-slate-700">
+                                    <span>I'm a</span> <input type="text" id="prof-job" class="border-b-2 border-slate-300 bg-slate-50 focus:bg-blue-50 focus:border-brand-500 px-2 py-1 w-40 outline-none transition-colors text-brand-700" placeholder="Job">.
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="readProfile()" class="w-full bg-slate-900 hover:bg-brand-600 text-white font-bold py-4 mt-8 rounded-xl shadow-md transition-colors flex items-center justify-center gap-2"><i class="fa-solid fa-bullhorn"></i> Post & Listen</button>
+                    </div>
+                </div>
+
+                <div class="flex justify-between mt-8 border-t border-slate-200 pt-6">
+                    <button onclick="navTo('page-chat')" class="text-slate-500 font-bold hover:text-brand-600 transition-colors">Back</button>
+                    <button onclick="navTo('page-quiz')" class="flex items-center gap-2 bg-slate-900 text-white px-8 py-3 rounded-xl font-bold hover:bg-brand-600 transition-colors shadow-md">Final Quiz <i class="fa-solid fa-flag-checkered"></i></button>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 PAGE 6: FINAL QUIZ
+                 ========================================== -->
+            <section id="page-quiz" class="spa-page mb-10">
+                <div class="mb-10 text-center">
+                    <span class="text-red-500 font-bold uppercase tracking-widest text-sm mb-2 block"><i class="fa-solid fa-award"></i> Final Module</span>
+                    <h2 class="text-4xl font-black font-display text-slate-900">Mastery Quiz</h2>
+                    <p class="text-slate-600 mt-2 text-lg">20 questions to prove you mastered the chunks.</p>
+                </div>
+
+                <div class="bg-white max-w-3xl mx-auto rounded-[2rem] shadow-glass border border-slate-200 overflow-hidden relative min-h-[400px] flex flex-col">
+                    <div class="h-2 w-full bg-slate-100"><div id="quiz-bar" class="h-full bg-brand-500 transition-all duration-300" style="width: 0%"></div></div>
+                    
+                    <div class="p-6 md:p-10 flex-1 flex flex-col" id="quiz-container">
+                        <div class="flex justify-between items-center mb-6">
+                            <span id="q-counter" class="text-sm font-bold text-brand-500 uppercase tracking-widest bg-brand-50 px-3 py-1 rounded-lg border border-brand-100">Q 1/20</span>
+                            <div class="font-bold text-slate-400">Score: <span id="q-score-live" class="text-slate-800">0</span></div>
+                        </div>
+
+                        <h3 id="q-text" class="text-2xl md:text-3xl font-bold text-slate-800 mb-8 font-display leading-tight">...</h3>
+                        <div class="space-y-3 mb-8" id="q-options"></div>
+                        <div id="q-feedback" class="hidden mt-auto p-4 rounded-xl text-sm font-medium border"></div>
+
+                        <div class="mt-6 text-right">
+                            <button id="btn-next-q" onclick="nextQuestion()" class="hidden bg-slate-900 hover:bg-black text-white px-8 py-3 rounded-xl font-bold transition-all shadow-md active:scale-95 text-lg">Next <i class="fa-solid fa-arrow-right ml-2"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- End Screen -->
+                    <div id="quiz-end" class="hidden p-10 text-center flex-col items-center justify-center absolute inset-0 bg-white z-10">
+                        <div class="w-24 h-24 bg-yellow-50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner"><i class="fa-solid fa-crown text-5xl text-yellow-500 animate-pulse-glow"></i></div>
+                        <h2 class="text-4xl font-black text-slate-900 mb-2 font-display">Course Completed!</h2>
+                        <p class="text-slate-500 mb-8 max-w-sm mx-auto">You learned real-life English without grammar rules.</p>
+                        <div class="bg-slate-50 border border-slate-200 rounded-[2rem] p-6 w-full max-w-sm mx-auto mb-8">
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Final Score</p>
+                            <p class="text-6xl font-black text-brand-600 font-display"><span id="final-score">0</span><span class="text-2xl text-slate-300">/20</span></p>
+                        </div>
+                        <button onclick="location.reload()" class="text-slate-500 font-bold hover:text-brand-600 transition-colors"><i class="fa-solid fa-rotate-left"></i> Restart App</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- ==========================================
+         MOBILE BOTTOM NAV 
+         ========================================== -->
+    <nav class="md:hidden bg-white border-t border-slate-200 fixed bottom-0 w-full z-50 flex justify-between px-2 py-2 pb-safe shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
+        <button onclick="navTo('page-intro')" id="mob-page-intro" class="mob-nav-link active flex flex-col items-center flex-1 text-slate-400 p-2 transition-colors">
+            <i class="fa-solid fa-house text-xl mb-1"></i> <span class="text-[10px] font-bold">Intro</span>
+        </button>
+        <button onclick="navTo('page-im')" id="mob-page-im" class="mob-nav-link flex flex-col items-center flex-1 text-slate-400 p-2 transition-colors">
+            <i class="fa-solid fa-user text-xl mb-1"></i> <span class="text-[10px] font-bold">I'm</span>
+        </button>
+        <button onclick="navTo('page-others')" id="mob-page-others" class="mob-nav-link flex flex-col items-center flex-1 text-slate-400 p-2 transition-colors">
+            <i class="fa-solid fa-users text-xl mb-1"></i> <span class="text-[10px] font-bold">Others</span>
+        </button>
+        <button onclick="navTo('page-chat')" id="mob-page-chat" class="mob-nav-link flex flex-col items-center flex-1 text-slate-400 p-2 transition-colors">
+            <i class="fa-solid fa-mobile-screen text-xl mb-1"></i> <span class="text-[10px] font-bold">Chat</span>
+        </button>
+        <button onclick="navTo('page-quiz')" id="mob-page-quiz" class="mob-nav-link flex flex-col items-center flex-1 text-slate-400 p-2 transition-colors">
+            <i class="fa-solid fa-award text-xl mb-1"></i> <span class="text-[10px] font-bold">Quiz</span>
+        </button>
+    </nav>
+
+
+    <!-- ==========================================
+         JAVASCRIPT ENGINE
+         ========================================== -->
+    <script>
+        // --- 1. Notification Toast System ---
+        function showToast(msg, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type === 'error' ? '!bg-red-600' : ''}`;
+            toast.innerHTML = `<i class="fa-solid fa-${type === 'error' ? 'xmark' : 'check'} mr-2"></i> ${msg}`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('toast-out');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        // --- 2. Audio Engine ---
+        const synth = window.speechSynthesis;
+        let voiceObj = null;
+        let isAudioUnlocked = false;
+
+        function selectVoice() {
+            const voices = synth.getVoices();
+            voiceObj = voices.find(v => v.name.includes('Google US English')) || voices.find(v => v.lang === 'en-US') || voices[0];
+        }
+
+        if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = selectVoice;
+
+        function unlockAudio(btnEl = null) {
+            if(isAudioUnlocked) return;
+            isAudioUnlocked = true;
+            selectVoice();
+            let u = new SpeechSynthesisUtterance(''); u.volume = 0; synth.speak(u);
+            
+            if(btnEl) {
+                document.getElementById('audio-icon-off-desk').classList.add('hidden');
+                document.getElementById('audio-icon-on-desk').classList.remove('hidden');
+                document.getElementById('audio-text-desk').innerText = "Audio Ready";
+                btnEl.classList.add('bg-brand-900', 'text-brand-400');
+                btnEl.classList.remove('bg-slate-800', 'text-slate-300');
+                showToast("Audio Unlocked successfully.");
+            }
+        }
+
+        function playAudio(text, btnElement = null, rate = 0.9) {
+            if(!isAudioUnlocked) unlockAudio();
+            if (synth.speaking) synth.cancel();
+            
+            let u = new SpeechSynthesisUtterance(text);
+            u.lang = 'en-US'; u.rate = rate;
+            if(voiceObj) u.voice = voiceObj;
+            
+            if(btnElement) {
+                const icon = btnElement.querySelector('i');
+                if(icon) {
+                    const origClass = icon.className;
+                    icon.className = "fa-solid fa-spinner fa-spin text-brand-500";
+                    u.onend = () => { icon.className = origClass; };
+                }
+            }
+            synth.speak(u);
+        }
+
+        // --- 3. SPA Navigation ---
+        function navTo(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.spa-page').forEach(el => el.classList.remove('active'));
+            // Show target
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update Sidebar links
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+            const sideLink = document.getElementById(`link-${pageId}`);
+            if(sideLink) sideLink.classList.add('active');
+
+            // Update Mobile links (ignoring profile on bottom nav due to space, it routes but no active state)
+            document.querySelectorAll('.mob-nav-link').forEach(el => el.classList.remove('active'));
+            const mobLink = document.getElementById(`mob-${pageId}`);
+            if(mobLink) mobLink.classList.add('active');
+
+            // Scroll top
+            document.getElementById('main-scroll-container').scrollTop = 0;
+        }
+
+        // --- 4. Game: Stop the Bus ---
+        const busWords = [
+            { w: "Teacher", e: "👨‍🏫", c: "job" }, { w: "Happy", e: "😃", c: "feeling" },
+            { w: "At Home", e: "🏠", c: "location" }, { w: "Doctor", e: "🏥", c: "job" },
+            { w: "Hungry", e: "🤤", c: "feeling" }, { w: "At Work", e: "🏢", c: "location" }
+        ];
+        let busIdx = 0, busScore = 0;
+
+        function loadBusWord() {
+            if(busIdx >= busWords.length) {
+                document.getElementById('bus-complete-msg').classList.remove('hidden');
+                document.getElementById('bus-complete-msg').classList.add('flex');
+                return;
+            }
+            const data = busWords[busIdx];
+            document.getElementById('bus-word').innerText = data.w;
+            document.getElementById('bus-emoji').innerText = data.e;
+            document.getElementById('bus-word-container').classList.replace('scale-90', 'scale-100');
+            document.getElementById('bus-word-container').classList.replace('opacity-0', 'opacity-100');
+        }
+
+        function checkBusAnswer(cat) {
+            if(busIdx >= busWords.length) return;
+            const isCorrect = cat === busWords[busIdx].c;
+            const fbBox = document.getElementById('bus-feedback');
+            const fbCont = document.getElementById('bus-feedback-content');
+            
+            document.getElementById('bus-word-container').classList.replace('scale-100', 'scale-90');
+            document.getElementById('bus-word-container').classList.replace('opacity-100', 'opacity-0');
+
+            if(isCorrect) {
+                busScore++; document.getElementById('bus-score').innerText = busScore;
+                fbCont.className = "px-8 py-4 rounded-xl shadow-lg font-bold text-2xl text-white bg-emerald-500 border-2 border-white";
+                fbCont.innerHTML = `<i class="fa-solid fa-check"></i> Correct!`;
+                playAudio("Correct");
+            } else {
+                fbCont.className = "px-8 py-4 rounded-xl shadow-lg font-bold text-2xl text-white bg-red-500 border-2 border-white";
+                fbCont.innerHTML = `<i class="fa-solid fa-xmark"></i> Oops!`;
+                playAudio("Oops");
+            }
+
+            fbBox.classList.replace('opacity-0', 'opacity-100');
+            setTimeout(() => {
+                fbBox.classList.replace('opacity-100', 'opacity-0');
+                busIdx++; loadBusWord();
+            }, 1000);
+        }
+
+        function resetBusGame() {
+            busIdx = 0; busScore = 0; busWords.sort(() => Math.random() - 0.5);
+            document.getElementById('bus-score').innerText = '0';
+            document.getElementById('bus-complete-msg').classList.add('hidden');
+            document.getElementById('bus-complete-msg').classList.remove('flex');
+            loadBusWord();
+        }
+
+        // --- 5. Game: Dictation ---
+        const dictTracks = [
+            "I'm tired.", "I'm a student.", "I'm from Mexico.", "I'm at home."
+        ];
+        let dictIdx = 0;
+
+        function playDictationAudio() { playAudio(dictTracks[dictIdx]); }
+
+        function checkDictation() {
+            if(dictIdx >= dictTracks.length) return;
+            const input = document.getElementById('dict-input');
+            const val = input.value.trim().toLowerCase().replace(/[.]/g, ''); // ignore dots
+            const target = dictTracks[dictIdx].toLowerCase().replace(/[.]/g, '');
+
+            if(val === target) {
+                showToast("Perfect!");
+                playAudio("Perfect!");
+                dictIdx++;
+                if(dictIdx < dictTracks.length) {
+                    input.value = "";
+                    document.getElementById('dict-progress').innerText = `Sentence ${dictIdx+1}/${dictTracks.length}`;
+                    document.getElementById('dict-track-lbl').innerText = `Track ${dictIdx+1}`;
+                } else {
+                    input.value = "Module Complete! 🎉";
+                    input.disabled = true;
+                }
+            } else {
+                showToast("Incorrect. Check spelling and apostrophe.", "error");
+                input.classList.add('border-red-500');
+                setTimeout(()=> input.classList.remove('border-red-500'), 1000);
+            }
+        }
+
+        // --- 6. Game: Guess Who ---
+        const gwData = [
+            { id: "g1", icon: "👨‍🍳", bg: "bg-amber-100", label: "Cook", a: "He's a cook." },
+            { id: "g2", icon: "😭", bg: "bg-blue-100", label: "Sad", a: "She's sad." },
+            { id: "g3", icon: "🏫", bg: "bg-emerald-100", label: "At School", a: "They're at school." },
+            { id: "g4", icon: "👩‍🚀", bg: "bg-purple-100", label: "Astronaut", a: "I'm an astronaut." }
+        ];
+        let activeGwTap = null;
+
+        function initGuessWho() {
+            const bank = document.getElementById('labels-bank');
+            const grid = document.getElementById('characters-grid');
+            bank.innerHTML = ''; grid.innerHTML = ''; activeGwTap = null;
+
+            let sLabels = [...gwData].sort(()=> 0.5 - Math.random());
+            sLabels.forEach(d => {
+                bank.innerHTML += `<div class="drag-source bg-white text-slate-800 px-4 py-2 rounded-lg font-bold shadow-sm border-2 border-transparent text-sm" draggable="true" id="gwl-${d.id}" data-match="${d.id}" onclick="handleGwTap('gwl-${d.id}')" ondragstart="handleGwDrag(event)">${d.label}</div>`;
+            });
+
+            let sChars = [...gwData].sort(()=> 0.5 - Math.random());
+            sChars.forEach(d => {
+                grid.innerHTML += `
+                    <div class="flex flex-col items-center gap-2">
+                        <button onclick="playAudio('${d.a}')" class="w-16 h-16 sm:w-20 sm:h-20 ${d.bg} rounded-2xl flex items-center justify-center text-3xl sm:text-4xl shadow-sm hover:scale-105 transition-transform active:scale-95 relative border-2 border-white">
+                            ${d.icon}
+                            <div class="absolute -bottom-2 -right-2 w-6 h-6 bg-slate-800 text-white rounded-full flex items-center justify-center text-[10px]"><i class="fa-solid fa-volume-high"></i></div>
+                        </button>
+                        <div class="drop-target w-full h-12 rounded-xl flex items-center justify-center cursor-pointer bg-slate-50" data-target="${d.id}" onclick="handleGwDropTap(this)" ondragover="event.preventDefault()" ondrop="handleGwDrop(event, this)">
+                            <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest pointer-events-none">Drop</span>
+                        </div>
+                    </div>`;
+            });
+        }
+        
+        function handleGwDrag(e) { e.dataTransfer.setData("text", e.target.id); activeGwTap = null; }
+        function handleGwDrop(e, zone) { e.preventDefault(); processGwMatch(e.dataTransfer.getData("text"), zone); }
+        function handleGwTap(id) { activeGwTap = id; document.querySelectorAll('.drag-source').forEach(el=>el.classList.remove('tap-selected')); document.getElementById(id).classList.add('tap-selected'); }
+        function handleGwDropTap(zone) { if(activeGwTap && !zone.classList.contains('matched')) processGwMatch(activeGwTap, zone); }
+
+        function processGwMatch(lblId, zone) {
+            const lbl = document.getElementById(lblId);
+            if(zone.dataset.target === lbl.dataset.match) {
+                zone.classList.add('matched', 'bg-emerald-100', 'border-emerald-500', 'border-solid');
+                zone.innerHTML = `<span class="font-bold text-emerald-800 text-xs">${lbl.innerText} <i class="fa-solid fa-check"></i></span>`;
+                lbl.style.visibility = 'hidden'; playAudio("Match!"); showToast("Match!");
+            } else {
+                zone.classList.add('bg-red-100', 'border-red-500', 'border-solid');
+                playAudio("Oops"); showToast("Incorrect match", "error");
+                setTimeout(()=> { zone.classList.remove('bg-red-100', 'border-red-500', 'border-solid'); }, 800);
+            }
+            activeGwTap = null; document.querySelectorAll('.drag-source').forEach(el=>el.classList.remove('tap-selected'));
+        }
+        function resetGuessWho() { initGuessWho(); }
+
+        // --- 7. Game: Sentence Builder ---
+        const buildLevels = [
+            { audio: "She's my friend.", words: ["friend.", "She's", "my", "is", "They"], target: "She's my friend." },
+            { audio: "They're at work.", words: ["work.", "They're", "at", "home.", "We"], target: "They're at work." },
+            { audio: "He's a doctor.", words: ["a", "doctor.", "He's", "teacher.", "she"], target: "He's a doctor." }
+        ];
+        let buildIdx = 0;
+        let currentBuild = [];
+
+        function loadBuilder() {
+            if(buildIdx >= buildLevels.length) {
+                document.getElementById('builder-target').innerHTML = `<span class="text-emerald-300 font-bold">Module Complete! 🎉</span>`;
+                document.getElementById('builder-source').innerHTML = '';
+                return;
+            }
+            const data = buildLevels[buildIdx];
+            currentBuild = [];
+            renderBuildTarget();
+            document.getElementById('builder-progress').innerText = `Level ${buildIdx+1}/${buildLevels.length}`;
+            
+            const src = document.getElementById('builder-source');
+            src.innerHTML = data.words.sort(()=> 0.5 - Math.random()).map((w, i) => 
+                `<div id="bw-${i}" onclick="addBuildWord('${w}', 'bw-${i}')" class="word-block bg-emerald-700 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl font-bold border border-emerald-500 shadow-sm">${w}</div>`
+            ).join('');
+        }
+
+        function playBuilderAudio() { playAudio(buildLevels[buildIdx].audio); }
+
+        function addBuildWord(word, blockId) {
+            currentBuild.push({w: word, id: blockId});
+            document.getElementById(blockId).classList.add('used');
+            renderBuildTarget();
+        }
+
+        function removeBuildWord(index) {
+            const item = currentBuild[index];
+            document.getElementById(item.id).classList.remove('used');
+            currentBuild.splice(index, 1);
+            renderBuildTarget();
+        }
+
+        function renderBuildTarget() {
+            const tgt = document.getElementById('builder-target');
+            if(currentBuild.length === 0) {
+                tgt.innerHTML = `<span class="text-emerald-800 font-bold select-none italic" id="builder-placeholder">Tap words below...</span>`;
+            } else {
+                tgt.innerHTML = currentBuild.map((item, i) => 
+                    `<div onclick="removeBuildWord(${i})" class="bg-white text-emerald-900 px-3 py-1.5 rounded-lg font-bold cursor-pointer hover:bg-red-50 hover:text-red-600 transition-colors">${item.w}</div>`
+                ).join('');
+            }
+        }
+
+        function resetBuilderSentence() {
+            currentBuild.forEach(item => document.getElementById(item.id).classList.remove('used'));
+            currentBuild = []; renderBuildTarget();
+        }
+
+        function checkBuilder() {
+            if(buildIdx >= buildLevels.length) return;
+            const sentence = currentBuild.map(i => i.w).join(' ');
+            if(sentence === buildLevels[buildIdx].target) {
+                showToast("Perfect sentence!"); playAudio("Perfect");
+                buildIdx++; setTimeout(loadBuilder, 1000);
+            } else {
+                showToast("Incorrect. Try again.", "error"); playAudio("Try again");
+                document.getElementById('builder-target').classList.add('border-red-500', 'bg-red-900/30');
+                setTimeout(()=> document.getElementById('builder-target').classList.remove('border-red-500', 'bg-red-900/30'), 800);
+            }
+        }
+
+        // --- 8. Game: WhatsApp Simulator ---
+        const waScript = [
+            { inc: "Hey! How are you today? 🌟", opts: [{ t: "I'm great, thanks!", c: true }, { t: "I great, thanks!", c: false, err: "Missing 'm (am)" }] },
+            { inc: "Nice! Where are you right now?", opts: [{ t: "I'm at work.", c: true }, { t: "I'm work.", c: false, err: "Missing 'at' for location" }] },
+            { inc: "Oh, cool. What do you do there?", opts: [{ t: "I'm a designer.", c: true }, { t: "I'm designer.", c: false, err: "Don't forget 'a' for jobs" }] },
+            { inc: "And is your sister with you?", opts: [{ t: "No, she's at home.", c: true }, { t: "No, she at home.", c: false, err: "Needs 's (is) for She" }] },
+            { inc: "Ah ok. How is she feeling?", opts: [{ t: "She's sick. 🤧", c: true }, { t: "She's a sick.", c: false, err: "No 'a' for feelings" }] },
+            { inc: "Oh no! And your parents? Where are they?", opts: [{ t: "They're at the hospital.", c: true }, { t: "They's at the hospital.", c: false, err: "Use 're (are) for They" }] }
+        ];
+        let waStep = 0;
+
+        function initWhatsApp() {
+            waStep = 0;
+            document.getElementById('wa-history').innerHTML = `<div class="bg-blue-50/80 text-slate-500 text-xs font-bold px-3 py-1 rounded-lg mx-auto mb-4 backdrop-blur-sm shadow-sm">TODAY</div>`;
+            document.getElementById('wa-success').classList.replace('flex', 'hidden');
+            setTimeout(receiveWaMsg, 800);
+        }
+
+        function scrollWa() { const h = document.getElementById('wa-history'); h.scrollTop = h.scrollHeight; }
+        
+        function receiveWaMsg() {
+            if(waStep >= waScript.length) {
+                setTimeout(() => { document.getElementById('wa-success').classList.replace('hidden', 'flex'); triggerConfetti(); }, 800);
+                return;
+            }
+            const data = waScript[waStep];
+            const tId = 'typing-' + Date.now();
+            document.getElementById('wa-history').insertAdjacentHTML('beforeend', `<div id="${tId}" class="chat-bubble chat-received text-slate-500 flex items-center gap-1 w-12 h-8 justify-center"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`);
+            scrollWa(); document.getElementById('wa-status').innerText = 'typing...';
+
+            setTimeout(() => {
+                document.getElementById(tId).remove(); document.getElementById('wa-status').innerText = 'online';
+                document.getElementById('wa-history').insertAdjacentHTML('beforeend', `<div class="chat-bubble chat-received text-slate-800 text-[15px]">${data.inc}</div>`);
+                scrollWa(); renderWaOpts(data.opts); playAudio("Pop", null, 1.5);
+            }, 1200);
+        }
+
+        function renderWaOpts(opts) {
+            const cont = document.getElementById('wa-options'); cont.innerHTML = '';
+            opts.sort(()=> 0.5 - Math.random()).forEach(opt => {
+                const b = document.createElement('button');
+                b.className = "w-full text-left p-3 bg-white border border-slate-200 rounded-xl hover:bg-wa-bubble transition-colors text-slate-700 font-medium text-[15px]";
+                b.innerText = opt.t;
+                b.onclick = () => handleWaSelect(opt, b);
+                cont.appendChild(b);
+            });
+            document.getElementById('wa-options-container').classList.replace('translate-y-full', 'translate-y-0');
+        }
+
+        function handleWaSelect(opt, btn) {
+            const btns = document.getElementById('wa-options').querySelectorAll('button');
+            btns.forEach(b => b.disabled = true);
+
+            if(opt.c) {
+                document.getElementById('wa-options-container').classList.replace('translate-y-0', 'translate-y-full');
+                document.getElementById('wa-history').insertAdjacentHTML('beforeend', `<div class="chat-bubble chat-sent text-slate-800 text-[15px]">${opt.t} <span class="text-[10px] text-wa-headerLight ml-2"><i class="fa-solid fa-check-double"></i></span></div>`);
+                scrollWa(); waStep++; setTimeout(receiveWaMsg, 800);
+            } else {
+                btn.classList.add('bg-red-100', 'text-red-700'); showToast(opt.err, "error"); playAudio("Error");
+                setTimeout(() => { btn.classList.remove('bg-red-100', 'text-red-700'); btns.forEach(b => b.disabled = false); }, 1500);
+            }
+        }
+
+        // --- 9. Profile Logic ---
+        function readProfile() {
+            const n = document.getElementById('prof-name').value || 'John';
+            const a = document.getElementById('prof-age').value || '25';
+            const l = document.getElementById('prof-loc').value || 'New York';
+            const j = document.getElementById('prof-job').value || 'designer';
+            const text = `I'm ${n} and I'm ${a}. I'm from ${l}. I'm a ${j}.`;
+            playAudio(text); showToast("Profile Posted!");
+        }
+
+        // --- 10. Master Quiz (20 Qs) ---
+        const mQuiz = [
+            { q: "Translate: 'Estoy cansado'", o: ["I tired.", "I'm tired.", "I have tired."], a: 1 },
+            { q: "Location chunk:", o: ["I'm work.", "I at work.", "I'm at work."], a: 2 },
+            { q: "Age in English:", o: ["I have 20.", "I'm 20.", "I 20."], a: 1 },
+            { q: "Which is a JOB?", o: ["I'm hungry.", "I'm a chef.", "I'm at home."], a: 1 },
+            { q: "For a man (He):", o: ["He's my brother.", "He my brother.", "He are my brother."], a: 0 },
+            { q: "Plural (Ellos están):", o: ["They're at home.", "They at home.", "We're at home."], a: 0 },
+            { q: "Origin:", o: ["I am Mexico.", "I'm from Mexico.", "I from Mexico."], a: 1 },
+            { q: "Maria is angry:", o: ["She angry.", "She's angry.", "He's angry."], a: 1 },
+            { q: "Short form of 'I am':", o: ["Im", "Am", "I'm"], a: 2 },
+            { q: "Complete: ____ a student.", o: ["I'm", "I", "Are"], a: 0 },
+            { q: "Correct sentence:", o: ["They're busy.", "They busy.", "They's busy."], a: 0 },
+            { q: "Meaning of 🤤:", o: ["I'm hungry.", "I'm sad.", "I'm a chef."], a: 0 },
+            { q: "Translate 'Él es doctor':", o: ["He's a doctor.", "He doctor.", "He's doctor."], a: 0 },
+            { q: "Feeling good:", o: ["I'm sad.", "I'm happy.", "I'm angry."], a: 1 },
+            { q: "She ___ my friend.", o: ["'m", "'re", "'s"], a: 2 },
+            { q: "They ___ late.", o: ["'s", "'re", "'m"], a: 1 },
+            { q: "Where is Carlos?", o: ["He's at school.", "She's at school.", "He's a school."], a: 0 },
+            { q: "How are you?", o: ["I'm a server.", "I'm fine.", "I'm at fine."], a: 1 },
+            { q: "What do you do?", o: ["I'm a manager.", "I'm at work.", "I'm happy."], a: 0 },
+            { q: "Are they doctors?", o: ["Yes, they're doctors.", "Yes, they doctor.", "Yes, she's a doctor."], a: 0 }
+        ];
+        let qzIdx = 0, qzScore = 0;
+
+        function loadQz() {
+            const d = mQuiz[qzIdx];
+            document.getElementById('q-counter').innerText = `Q ${qzIdx + 1}/20`;
+            document.getElementById('q-text').innerText = d.q;
+            document.getElementById('btn-next-q').classList.add('hidden');
+            
+            document.getElementById('q-options').innerHTML = d.o.map((opt, i) => `
+                <button onclick="selQz(${i})" class="q-opt w-full text-left p-4 rounded-xl border-2 border-slate-100 hover:bg-slate-50 transition-all font-bold text-slate-700 bg-white shadow-sm text-lg">${opt}</button>
+            `).join('');
+            document.getElementById('quiz-bar').style.width = `${((qzIdx) / 20) * 100}%`;
+        }
+
+        function selQz(idx) {
+            const d = mQuiz[qzIdx]; const isC = idx === d.a;
+            const btns = document.querySelectorAll('.q-opt');
+            
+            btns.forEach((b, i) => {
+                b.disabled = true;
+                if(i === d.a) b.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-800');
+                else if(i === idx && !isC) b.classList.add('border-red-500', 'bg-red-50', 'text-red-800', 'opacity-50');
+                else b.classList.add('opacity-50');
+            });
+
+            if(isC) { qzScore++; document.getElementById('q-score-live').innerText = qzScore; playAudio("Correct"); } 
+            else { playAudio("Incorrect"); }
+
+            document.getElementById('btn-next-q').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            qzIdx++;
+            if(qzIdx < 20) loadQz();
+            else {
+                document.getElementById('quiz-bar').style.width = '100%';
+                document.getElementById('quiz-container').classList.add('hidden');
+                document.getElementById('quiz-end').classList.replace('hidden', 'flex');
+                document.getElementById('final-score').innerText = qzScore;
+                if(qzScore === 20) { playAudio("Perfect score!"); triggerConfetti(); }
+                else playAudio("Quiz completed.");
+            }
+        }
+
+        // --- 11. Confetti ---
+        function triggerConfetti() {
+            const cvs = document.getElementById('confetti'); cvs.classList.remove('hidden');
+            const ctx = cvs.getContext('2d'); cvs.width = window.innerWidth; cvs.height = window.innerHeight;
+            const pcs = []; const cols = ['#3b82f6', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6'];
+            for(let i=0; i<150; i++) pcs.push({ x: Math.random()*cvs.width, y: Math.random()*cvs.height-cvs.height, w: Math.random()*10+5, h: Math.random()*10+5, c: cols[Math.floor(Math.random()*cols.length)], vy: Math.random()*6+2, vx: Math.random()*4-2, r: Math.random()*360, rs: Math.random()*10-5 });
+            function draw() {
+                ctx.clearRect(0,0, cvs.width, cvs.height); let act = false;
+                pcs.forEach(p => {
+                    p.y+=p.vy; p.x+=p.vx; p.r+=p.rs; if(p.y<cvs.height) act = true;
+                    ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r*Math.PI/180); ctx.fillStyle = p.c; ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h); ctx.restore();
+                });
+                if(act) requestAnimationFrame(draw); else cvs.classList.add('hidden');
+            }
+            draw();
+        }
+
+        // --- Init ---
+        window.onload = () => {
+            loadBusWord(); initGuessWho(); loadBuilder(); initWhatsApp(); loadQz();
+        };
+
+    </script>
+</body>
+</html>
