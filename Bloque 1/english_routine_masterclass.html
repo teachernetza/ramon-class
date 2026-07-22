@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routine Masterclass - 1 Hour English Course</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        
+        .slide-enter { animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .pulse-soft { animation: pulseSoft 3s infinite; }
+        @keyframes pulseSoft {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 h-screen w-screen overflow-hidden flex flex-col selection:bg-blue-200 selection:text-blue-900">
+
+    <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-6 shrink-0 z-20 shadow-sm relative">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shadow-md shadow-blue-500/20">
+                <i class="fas fa-graduation-cap text-white text-xl"></i>
+            </div>
+            <h1 class="text-xl font-extrabold text-slate-800 hidden sm:block tracking-tight">
+                English <span class="text-blue-600">Masterclass</span>
+            </h1>
+        </div>
+        
+        <div class="hidden md:flex flex-col items-center w-1/3">
+            <span class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1" id="progress-text">Slide 1 / 30</span>
+            <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200 shadow-inner">
+                <div id="progress-bar" class="h-full bg-gradient-to-r from-blue-500 to-teal-400 transition-all duration-500 w-0"></div>
+            </div>
+        </div>
+
+        <button onclick="toggleDictionary()" class="flex items-center gap-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 px-4 py-2 rounded-xl font-bold transition-colors border border-emerald-200 shadow-sm">
+            <i class="fas fa-book-open"></i> <span class="hidden sm:inline">Dictionary</span>
+        </button>
+    </header>
+
+    <main class="flex-1 overflow-y-auto relative p-4 md:p-8 flex flex-col items-center bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-fixed">
+        
+        <div id="slides-container" class="w-full max-w-5xl mx-auto pb-20">
+            
+            <!-- SLIDE 1: INTRO -->
+            <div class="slide slide-enter text-center mt-10">
+                <div class="inline-block p-6 rounded-full bg-white mb-6 border border-slate-100 shadow-lg pulse-soft">
+                    <span class="text-7xl">☕</span>
+                </div>
+                <h2 class="text-5xl md:text-7xl font-black mb-6 tracking-tight text-slate-900">
+                    Your <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-500">Daily Life</span> in English
+                </h2>
+                <p class="text-xl text-slate-600 mb-10 max-w-2xl mx-auto font-medium leading-relaxed">
+                    Learn to describe your daily routine and free time. We will master the 'S' rule, frequency adverbs, prepositions, and how to ask questions!
+                </p>
+                <div class="inline-block bg-amber-50 text-amber-700 font-bold px-4 py-2 rounded-lg mb-8 border border-amber-200">
+                    <i class="fas fa-clock mr-2"></i> Comprehensive Course: 1 Hour
+                </div>
+                <br>
+                <button onclick="nextSlide()" class="px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold text-xl transition-all shadow-xl shadow-blue-600/30 hover:-translate-y-1">
+                    Start Class <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+
+            <!-- SLIDE 2: L1 EXPLANATION -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-6 flex items-center gap-3">
+                    <span class="bg-blue-100 text-blue-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Lesson 1</span>
+                    <h2 class="text-4xl font-black text-slate-800">My Own Routine (I, We, They)</h2>
+                </div>
+                <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-md mb-6">
+                    <p class="text-slate-600 text-xl mb-6">To talk about what <strong>you do</strong> (I), or what a group does (We, They, You), we use the verb in its <strong class="text-blue-600 bg-blue-50 px-2 py-1 rounded">base form</strong>. It's super easy, it doesn't change!</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="flex items-center gap-5 bg-slate-50 p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
+                            <div class="w-16 h-16 bg-white rounded-xl flex items-center justify-center text-4xl shadow-sm border border-slate-100">🥱</div>
+                            <div>
+                                <p class="text-xl font-bold text-slate-800">I <span class="text-blue-600">wake up</span>.</p>
+                                <p class="text-slate-500 font-medium">An action I do myself.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-5 bg-slate-50 p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
+                            <div class="w-16 h-16 bg-white rounded-xl flex items-center justify-center text-4xl shadow-sm border border-slate-100">🎮</div>
+                            <div>
+                                <p class="text-xl font-bold text-slate-800">We <span class="text-blue-600">play</span> games.</p>
+                                <p class="text-slate-500 font-medium">An action a group does.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 3: L1 VOCABULARY -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-6 flex justify-between items-end">
+                    <div>
+                        <span class="bg-purple-100 text-purple-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Vocabulary</span>
+                        <h2 class="text-3xl font-black text-slate-800 mt-2">Common Actions</h2>
+                    </div>
+                    <p class="text-sm font-bold text-slate-500 hidden sm:block bg-white px-3 py-1 rounded-lg shadow-sm border border-slate-200"><i class="fas fa-hand-pointer mr-1"></i> Tap to flip & listen</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="vocab-1">
+                    <!-- Flashcards JS -->
+                </div>
+            </div>
+
+            <!-- SLIDE 4: L1 EXERCISE 1 -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-8 text-center">
+                    <span class="bg-emerald-100 text-emerald-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Practice 1.1</span>
+                    <h2 class="text-4xl font-black mt-2 text-slate-800">Complete your routine</h2>
+                </div>
+                <div class="bg-white p-10 rounded-3xl border border-slate-200 max-w-2xl mx-auto shadow-xl text-center">
+                    <span class="text-6xl mb-6 block">🥞</span>
+                    <p class="text-3xl text-slate-800 font-medium mb-10">Every morning, I <span id="l1e1-blank" class="inline-block w-32 h-10 border-b-4 border-dashed border-slate-300 text-blue-600 font-bold mx-2">___</span> breakfast.</p>
+                    <div class="flex justify-center gap-4">
+                        <button onclick="checkAnswer('l1e1', this, false)" class="px-8 py-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl font-bold transition border-2 border-slate-200">eats</button>
+                        <button onclick="checkAnswer('l1e1', this, true, 'eat')" class="px-8 py-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl font-bold transition border-2 border-slate-200">eat</button>
+                        <button onclick="checkAnswer('l1e1', this, false)" class="px-8 py-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl font-bold transition border-2 border-slate-200">eating</button>
+                    </div>
+                    <div id="l1e1-feedback" class="mt-8 text-center text-lg font-bold hidden p-4 rounded-xl"></div>
+                </div>
+            </div>
+
+            <!-- SLIDE 5: L1 EXERCISE 2 -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-8 text-center">
+                    <span class="bg-emerald-100 text-emerald-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Practice 1.2</span>
+                    <h2 class="text-4xl font-black mt-2 text-slate-800">Free Time</h2>
+                </div>
+                <div class="bg-white p-10 rounded-3xl border border-slate-200 max-w-2xl mx-auto shadow-xl text-center">
+                    <span class="text-6xl mb-8 block">🎧</span>
+                    <p class="text-2xl text-slate-800 font-medium mb-8">Which sentence is grammatically correct?</p>
+                    <div class="grid grid-cols-1 gap-4 mt-6">
+                        <button onclick="checkAnswer('l1e2', this, false)" class="p-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl text-left font-bold transition border-2 border-slate-200">A) We listens to music.</button>
+                        <button onclick="checkAnswer('l1e2', this, true)" class="p-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl text-left font-bold transition border-2 border-slate-200">B) We listen to music.</button>
+                        <button onclick="checkAnswer('l1e2', this, false)" class="p-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl text-left font-bold transition border-2 border-slate-200">C) We listening to music.</button>
+                    </div>
+                    <div id="l1e2-feedback" class="mt-8 text-center text-lg font-bold hidden p-4 rounded-xl"></div>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: L2 EXPLANATION -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-6 flex items-center gap-3">
+                    <span class="bg-rose-100 text-rose-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Lesson 2</span>
+                    <h2 class="text-4xl font-black text-slate-800">The Routine of Others (He/She) 👑</h2>
+                </div>
+                <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-xl mb-6">
+                    <p class="text-slate-600 text-xl mb-6">When we talk about <strong>He</strong>, <strong>She</strong>, or <strong>It</strong>, the verb changes. Get to know ALL the famous "S" rules!</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <!-- Rule 1 -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border-l-8 border-blue-500 shadow-sm">
+                            <h4 class="font-black text-slate-800 text-lg mb-1">1. General Rule (+s)</h4>
+                            <p class="text-slate-500 text-sm mb-3">Add 's' to most verbs.</p>
+                            <div class="flex justify-between items-center"><span class="font-medium text-slate-700">wake</span> <i class="fas fa-arrow-right text-slate-300"></i> <strong class="text-blue-600 text-lg">wakes</strong></div>
+                            <div class="flex justify-between items-center mt-1"><span class="font-medium text-slate-700">read</span> <i class="fas fa-arrow-right text-slate-300"></i> <strong class="text-blue-600 text-lg">reads</strong></div>
+                        </div>
+                        
+                        <!-- Rule 2 -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border-l-8 border-rose-500 shadow-sm">
+                            <h4 class="font-black text-slate-800 text-lg mb-1">2. Ends in: o, x, ss, ch, sh (+es)</h4>
+                            <p class="text-slate-500 text-sm mb-3">Add 'es' so we can pronounce it.</p>
+                            <div class="flex justify-between items-center"><span class="font-medium text-slate-700">go</span> <i class="fas fa-arrow-right text-slate-300"></i> <strong class="text-rose-600 text-lg">goes</strong></div>
+                            <div class="flex justify-between items-center mt-1"><span class="font-medium text-slate-700">watch</span> <i class="fas fa-arrow-right text-slate-300"></i> <strong class="text-rose-600 text-lg">watches</strong></div>
+                        </div>
+
+                        <!-- Rule 3 -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border-l-8 border-amber-500 shadow-sm">
+                            <h4 class="font-black text-slate-800 text-lg mb-1">3. Consonant + Y (+ies)</h4>
+                            <p class="text-slate-500 text-sm mb-3">Drop the 'y' and add 'ies'.</p>
+                            <div class="flex justify-between items-center"><span class="font-medium text-slate-700">stud<span class="line-through">y</span></span> <i class="fas fa-arrow-right text-slate-300"></i> <strong class="text-amber-600 text-lg">studies</strong></div>
+                            <div class="flex justify-between items-center mt-1"><span class="font-medium text-slate-700">cr<span class="line-through">y</span></span> <i class="fas fa-arrow-right text-slate-300"></i> <strong class="text-amber-600 text-lg">cries</strong></div>
+                        </div>
+
+                        <!-- Rule 4 -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border-l-8 border-purple-500 shadow-sm">
+                            <h4 class="font-black text-slate-800 text-lg mb-1">4. Irregular Exception</h4>
+                            <p class="text-slate-500 text-sm mb-3">The verb "Have" changes completely.</p>
+                            <div class="flex justify-between items-center"><span class="font-medium text-slate-700">have</span> <i class="fas fa-arrow-right text-slate-300"></i> <strong class="text-purple-600 text-2xl">has</strong></div>
+                            <div class="text-slate-500 text-sm mt-2 italic bg-white p-2 rounded-lg border border-slate-100">Ex: He has breakfast.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 7: L2 VOCABULARY -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-6">
+                    <span class="bg-purple-100 text-purple-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Vocabulary</span>
+                    <h2 class="text-3xl font-black text-slate-800 mt-2">Third Person & Free Time</h2>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="vocab-2">
+                    <!-- Flashcards JS -->
+                </div>
+            </div>
+
+            <!-- SLIDE 8: L2 EXERCISE 1 -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-8 text-center">
+                    <span class="bg-rose-100 text-rose-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Practice 2.1</span>
+                    <h2 class="text-4xl font-black mt-2 text-slate-800">Apply the Rule (-o, -sh, -ch)</h2>
+                </div>
+                <div class="bg-white p-10 rounded-3xl border border-slate-200 max-w-2xl mx-auto shadow-xl text-center">
+                    <span class="text-7xl mb-6 block">📺</span>
+                    <p class="text-3xl text-slate-800 font-medium mb-10">My mom <span id="l2e1-blank" class="inline-block w-36 h-10 border-b-4 border-dashed border-slate-300 text-rose-500 font-bold mx-2 pb-1">___</span> movies.</p>
+                    <div class="flex justify-center gap-4">
+                        <button onclick="checkAnswer('l2e1', this, false)" class="px-6 py-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl font-bold border-2 border-slate-200 transition">watch</button>
+                        <button onclick="checkAnswer('l2e1', this, false)" class="px-6 py-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl font-bold border-2 border-slate-200 transition">watchs</button>
+                        <button onclick="checkAnswer('l2e1', this, true, 'watches')" class="px-6 py-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl font-bold border-2 border-slate-200 transition">watches</button>
+                    </div>
+                    <div id="l2e1-feedback" class="mt-8 text-center text-lg font-bold hidden p-4 rounded-xl"></div>
+                </div>
+            </div>
+
+            <!-- SLIDE 9: L2 EXERCISE 2 -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-8 text-center">
+                    <span class="bg-rose-100 text-rose-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Practice 2.2</span>
+                    <h2 class="text-4xl font-black mt-2 text-slate-800">The Irregular Verb</h2>
+                </div>
+                <div class="bg-white p-10 rounded-3xl border border-slate-200 max-w-2xl mx-auto shadow-xl text-center">
+                    <p class="text-xl text-slate-500 font-bold mb-6">Remember the exception for "Have" in the third person.</p>
+                    <span class="text-7xl mb-6 block">🥪</span>
+                    <p class="text-3xl text-slate-800 font-medium mb-10">He <span id="l2e2-blank" class="inline-block w-32 h-10 border-b-4 border-dashed border-slate-300 text-rose-500 font-bold mx-2">___</span> lunch at 1:00 PM.</p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="checkAnswer('l2e2', this, false)" class="p-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl font-bold border-2 border-slate-200">haves</button>
+                        <button onclick="checkAnswer('l2e2', this, true, 'has')" class="p-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl font-bold border-2 border-slate-200">has</button>
+                    </div>
+                    <div id="l2e2-feedback" class="mt-8 text-center text-lg font-bold hidden p-4 rounded-xl"></div>
+                </div>
+            </div>
+
+            <!-- SLIDE 10: L3 EXPLANATION (FREQUENCY) -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-6 flex items-center gap-3">
+                    <span class="bg-amber-100 text-amber-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Lesson 3</span>
+                    <h2 class="text-4xl font-black text-slate-800">Adverbs of Frequency 📊</h2>
+                </div>
+                <p class="text-xl text-slate-600 mb-8 font-medium">They tell us <strong>how often</strong> we do something. They go <span class="bg-amber-100 text-amber-800 px-2 py-1 rounded font-black">BEFORE</span> the main verb.</p>
+                
+                <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-xl">
+                    <div class="space-y-6">
+                        <!-- Always -->
+                        <div class="flex items-center gap-4">
+                            <span class="w-32 text-xl font-black text-emerald-500 text-right">Always</span>
+                            <div class="flex-1 h-8 bg-slate-100 rounded-full overflow-hidden border border-slate-200 shadow-inner">
+                                <div class="w-full h-full bg-emerald-500 flex items-center justify-end px-3 text-white font-bold text-sm">100%</div>
+                            </div>
+                        </div>
+                        <!-- Usually -->
+                        <div class="flex items-center gap-4">
+                            <span class="w-32 text-xl font-black text-blue-500 text-right">Usually</span>
+                            <div class="flex-1 h-8 bg-slate-100 rounded-full overflow-hidden border border-slate-200 shadow-inner">
+                                <div class="w-4/5 h-full bg-blue-500 flex items-center justify-end px-3 text-white font-bold text-sm">80%</div>
+                            </div>
+                        </div>
+                        <!-- Sometimes -->
+                        <div class="flex items-center gap-4">
+                            <span class="w-32 text-xl font-black text-yellow-500 text-right">Sometimes</span>
+                            <div class="flex-1 h-8 bg-slate-100 rounded-full overflow-hidden border border-slate-200 shadow-inner">
+                                <div class="w-1/2 h-full bg-yellow-400 flex items-center justify-end px-3 text-yellow-900 font-bold text-sm">50%</div>
+                            </div>
+                        </div>
+                        <!-- Hardly Ever -->
+                        <div class="flex items-center gap-4">
+                            <span class="w-32 text-xl font-black text-orange-500 text-right">Hardly ever</span>
+                            <div class="flex-1 h-8 bg-slate-100 rounded-full overflow-hidden border border-slate-200 shadow-inner">
+                                <div class="w-[10%] h-full bg-orange-500 flex items-center justify-end text-transparent">.</div>
+                            </div>
+                            <span class="text-slate-400 font-bold w-10 text-sm">10%</span>
+                        </div>
+                        <!-- Never -->
+                        <div class="flex items-center gap-4">
+                            <span class="w-32 text-xl font-black text-red-500 text-right">Never</span>
+                            <div class="flex-1 h-8 bg-slate-100 rounded-full overflow-hidden border border-slate-200 shadow-inner">
+                                <div class="w-0 h-full bg-red-500"></div>
+                            </div>
+                            <span class="text-slate-400 font-bold w-10 text-sm">0%</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 bg-amber-50 p-6 rounded-2xl border-2 border-amber-100 text-center">
+                        <p class="text-xl text-slate-700">"I <strong class="text-amber-600 text-2xl mx-1">always</strong> eat breakfast." 🥞</p>
+                        <p class="text-sm text-amber-600 mt-2 font-bold uppercase tracking-wider">Subject + Adverb + Verb</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 11: L3 EXERCISE 1 -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-8 text-center">
+                    <span class="bg-amber-100 text-amber-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Practice 3.1</span>
+                    <h2 class="text-4xl font-black mt-2 text-slate-800">Word Order</h2>
+                </div>
+                <div class="bg-white p-10 rounded-3xl border border-slate-200 max-w-2xl mx-auto shadow-xl">
+                    <p class="text-xl text-slate-800 text-center mb-6 font-medium">Where do we place the adverb "Usually"?</p>
+                    <div class="grid grid-cols-1 gap-4">
+                        <button onclick="checkAnswer('l3e1', this, true)" class="p-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-lg text-left font-bold border-2 border-slate-200 transition">A) I usually play soccer on Sunday.</button>
+                        <button onclick="checkAnswer('l3e1', this, false)" class="p-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-lg text-left font-bold border-2 border-slate-200 transition">B) I play usually soccer on Sunday.</button>
+                        <button onclick="checkAnswer('l3e1', this, false)" class="p-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-lg text-left font-bold border-2 border-slate-200 transition">C) Usually I play soccer on Sunday.</button>
+                    </div>
+                    <div id="l3e1-feedback" class="mt-8 text-center text-lg font-bold hidden p-4 rounded-xl"></div>
+                </div>
+            </div>
+
+            <!-- SLIDE 12: L3 EXERCISE 2 -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-8 text-center">
+                    <span class="bg-amber-100 text-amber-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Practice 3.2</span>
+                    <h2 class="text-4xl font-black mt-2 text-slate-800">Almost Never</h2>
+                </div>
+                <div class="bg-white p-10 rounded-3xl border border-slate-200 max-w-2xl mx-auto shadow-xl text-center">
+                    <span class="text-6xl mb-6 block">📉</span>
+                    <p class="text-xl text-slate-700 font-medium mb-10">Which adverb represents doing something only <strong>10%</strong> of the time?</p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <button onclick="checkAnswer('l3e2', this, false)" class="px-6 py-4 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl font-bold border-2 border-slate-200 transition">Sometimes</button>
+                        <button onclick="checkAnswer('l3e2', this, true)" class="px-6 py-4 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl font-bold border-2 border-slate-200 transition">Hardly ever</button>
+                        <button onclick="checkAnswer('l3e2', this, false)" class="px-6 py-4 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl font-bold border-2 border-slate-200 transition">Never</button>
+                    </div>
+                    <div id="l3e2-feedback" class="mt-8 text-center text-lg font-bold hidden p-4 rounded-xl"></div>
+                </div>
+            </div>
+
+            <!-- SLIDE 13: L4 EXPLANATION -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-6 flex items-center gap-3">
+                    <span class="bg-teal-100 text-teal-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Lesson 4</span>
+                    <h2 class="text-4xl font-black text-slate-800">Time and Places (In/On/At) 📍</h2>
+                </div>
+                <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-md mb-6">
+                    <p class="text-slate-600 text-lg mb-6">These magic words help us explain <strong>WHERE</strong> and <strong>WHEN</strong> things happen.</p>
+                    
+                    <div class="space-y-4">
+                        <!-- IN -->
+                        <div class="flex flex-col md:flex-row items-center gap-4 bg-cyan-50 p-5 rounded-2xl border border-cyan-100">
+                            <div class="w-16 h-16 bg-white rounded-xl flex items-center justify-center text-3xl font-black text-cyan-600 shadow-sm shrink-0 border border-cyan-100">IN</div>
+                            <div class="flex-1 w-full">
+                                <p class="text-lg font-bold text-slate-800"><i class="fas fa-box text-cyan-500 mr-2"></i>Enclosed spaces & Parts of the day</p>
+                                <p class="text-cyan-700 font-medium">in the kitchen, in my bedroom, <strong class="bg-cyan-100 px-1 rounded">in the morning</strong>.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- ON -->
+                        <div class="flex flex-col md:flex-row items-center gap-4 bg-fuchsia-50 p-5 rounded-2xl border border-fuchsia-100">
+                            <div class="w-16 h-16 bg-white rounded-xl flex items-center justify-center text-3xl font-black text-fuchsia-600 shadow-sm shrink-0 border border-fuchsia-100">ON</div>
+                            <div class="flex-1 w-full">
+                                <p class="text-lg font-bold text-slate-800"><i class="fas fa-road text-fuchsia-500 mr-2"></i>Surfaces & Days of the week</p>
+                                <p class="text-fuchsia-700 font-medium">on the bus, on the street, <strong class="bg-fuchsia-100 px-1 rounded">on Monday</strong>.</p>
+                            </div>
+                        </div>
+
+                        <!-- AT -->
+                        <div class="flex flex-col md:flex-row items-center gap-4 bg-yellow-50 p-5 rounded-2xl border border-yellow-100">
+                            <div class="w-16 h-16 bg-white rounded-xl flex items-center justify-center text-3xl font-black text-yellow-600 shadow-sm shrink-0 border border-yellow-100">AT</div>
+                            <div class="flex-1 w-full">
+                                <p class="text-lg font-bold text-slate-800"><i class="fas fa-map-pin text-yellow-500 mr-2"></i>Specific points & Exact times</p>
+                                <p class="text-yellow-700 font-medium">at home, at work, <strong class="bg-yellow-200/60 px-1 rounded">at 8:00 AM, at night</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 14: L4 EXERCISE 1 -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-8 text-center">
+                    <span class="bg-teal-100 text-teal-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Practice 4.1</span>
+                    <h2 class="text-4xl font-black mt-2 text-slate-800">Days and Hours</h2>
+                </div>
+                <div class="bg-white p-10 rounded-3xl border border-slate-200 max-w-2xl mx-auto shadow-xl text-center">
+                    <span class="text-6xl mb-6 block">⏰</span>
+                    <p class="text-3xl text-slate-800 font-medium mb-10">She goes to school <span id="l4e1-blank" class="inline-block w-24 h-10 border-b-4 border-dashed border-slate-300 text-yellow-500 font-bold mx-2 pb-1">___</span> 7:00 AM.</p>
+                    <div class="flex justify-center gap-4">
+                        <button onclick="checkAnswer('l4e1', this, false)" class="px-8 py-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl font-bold border-2 border-slate-200 transition">in</button>
+                        <button onclick="checkAnswer('l4e1', this, false)" class="px-8 py-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl font-bold border-2 border-slate-200 transition">on</button>
+                        <button onclick="checkAnswer('l4e1', this, true, 'at')" class="px-8 py-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl font-bold border-2 border-slate-200 transition">at</button>
+                    </div>
+                    <div id="l4e1-feedback" class="mt-8 text-center text-lg font-bold hidden p-4 rounded-xl"></div>
+                </div>
+            </div>
+
+            <!-- SLIDE 15: L4 EXERCISE 2 -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-8 text-center">
+                    <span class="bg-teal-100 text-teal-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Practice 4.2</span>
+                    <h2 class="text-4xl font-black mt-2 text-slate-800">Specific Locations</h2>
+                </div>
+                <div class="bg-white p-10 rounded-3xl border border-slate-200 max-w-2xl mx-auto shadow-xl text-center">
+                    <span class="text-6xl mb-6 block">🏠</span>
+                    <p class="text-3xl text-slate-800 font-medium mb-10">I hang out with friends <span id="l4e2-blank" class="inline-block w-24 h-10 border-b-4 border-dashed border-slate-300 text-yellow-500 font-bold mx-2 pb-1">___</span> the park.</p>
+                    <div class="flex justify-center gap-4">
+                        <button onclick="checkAnswer('l4e2', this, false)" class="px-8 py-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl font-bold border-2 border-slate-200 transition">in</button>
+                        <button onclick="checkAnswer('l4e2', this, false)" class="px-8 py-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl font-bold border-2 border-slate-200 transition">on</button>
+                        <button onclick="checkAnswer('l4e2', this, true, 'at')" class="px-8 py-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl font-bold border-2 border-slate-200 transition">at</button>
+                    </div>
+                    <div id="l4e2-feedback" class="mt-8 text-center text-lg font-bold hidden p-4 rounded-xl"></div>
+                </div>
+            </div>
+
+            <!-- SLIDE 16: L5 EXPLANATION (QUESTIONS) -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-6 flex items-center gap-3">
+                    <span class="bg-indigo-100 text-indigo-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Lesson 5</span>
+                    <h2 class="text-4xl font-black text-slate-800">Making Questions (Do / Does) ❓</h2>
+                </div>
+                <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-md mb-6">
+                    <p class="text-slate-600 text-xl mb-6">To ask a question in the Present Simple, we need auxiliary verbs: <strong class="text-indigo-600">Do</strong> or <strong class="text-indigo-600">Does</strong>. They always go at the beginning!</p>
+                    
+                    <div class="flex flex-wrap justify-center items-center gap-4 text-xl md:text-2xl font-bold mb-8 bg-indigo-50 p-6 rounded-2xl border border-indigo-100">
+                        <span class="bg-indigo-600 text-white px-4 py-2 rounded-lg">Do / Does</span>
+                        <span class="text-indigo-300">+</span>
+                        <span class="bg-white text-slate-800 px-4 py-2 rounded-lg border border-slate-200">Subject</span>
+                        <span class="text-indigo-300">+</span>
+                        <span class="bg-white text-slate-800 px-4 py-2 rounded-lg border border-slate-200">Verb (Base)</span>
+                        <span class="text-indigo-600 text-3xl">?</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                            <h4 class="text-indigo-600 font-black text-lg mb-2 border-b border-slate-200 pb-2">With "Do" (I, You, We, They)</h4>
+                            <p class="text-xl text-slate-800 font-medium">👉 <span class="text-indigo-600 font-black">Do</span> you like music? 🎧</p>
+                        </div>
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 relative">
+                            <div class="absolute -top-3 -right-3 bg-rose-500 text-white text-xs font-bold px-2 py-1 rounded-lg transform rotate-12 shadow-lg">No 'S' here!</div>
+                            <h4 class="text-indigo-600 font-black text-lg mb-2 border-b border-slate-200 pb-2">With "Does" (He, She, It)</h4>
+                            <p class="text-xl text-slate-800 font-medium">👉 <span class="text-indigo-600 font-black">Does</span> she cook? 🍳</p>
+                            <p class="text-sm text-slate-500 mt-2">The 'S' disappears from the main verb because "Does" already has it.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 17: L5 EXERCISE 1 -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-8 text-center">
+                    <span class="bg-indigo-100 text-indigo-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Practice 5.1</span>
+                    <h2 class="text-4xl font-black mt-2 text-slate-800">Structure the Question</h2>
+                </div>
+                <div class="bg-white p-10 rounded-3xl border border-slate-200 max-w-2xl mx-auto shadow-xl text-center">
+                    <p class="text-xl text-slate-600 mb-8 font-medium">Which is the correct way to ask if he lives in Mexico?</p>
+                    <div class="flex flex-col gap-4">
+                        <button onclick="checkAnswer('l5e1', this, false)" class="p-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-lg text-left font-bold border-2 border-slate-200 transition">A) Do he lives in Mexico?</button>
+                        <button onclick="checkAnswer('l5e1', this, false)" class="p-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-lg text-left font-bold border-2 border-slate-200 transition">B) Does he lives in Mexico?</button>
+                        <button onclick="checkAnswer('l5e1', this, true)" class="p-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-lg text-left font-bold border-2 border-slate-200 transition">C) Does he live in Mexico?</button>
+                    </div>
+                    <div id="l5e1-feedback" class="mt-8 text-center text-lg font-bold hidden p-4 rounded-xl"></div>
+                </div>
+            </div>
+
+            <!-- SLIDE 18: L5 EXERCISE 2 -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-8 text-center">
+                    <span class="bg-indigo-100 text-indigo-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Practice 5.2</span>
+                    <h2 class="text-4xl font-black mt-2 text-slate-800">Do or Does?</h2>
+                </div>
+                <div class="bg-white p-10 rounded-3xl border border-slate-200 max-w-2xl mx-auto shadow-xl text-center">
+                    <span class="text-6xl mb-6 block">🐕</span>
+                    <p class="text-3xl text-slate-800 font-medium mb-10"><span id="l5e2-blank" class="inline-block w-24 h-10 border-b-4 border-dashed border-slate-300 text-indigo-600 font-bold mx-2 pb-1">___</span> your dog eat vegetables?</p>
+                    <div class="flex justify-center gap-4">
+                        <button onclick="checkAnswer('l5e2', this, false)" class="px-8 py-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl font-bold border-2 border-slate-200 transition">Do</button>
+                        <button onclick="checkAnswer('l5e2', this, true, 'Does')" class="px-8 py-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-xl font-bold border-2 border-slate-200 transition">Does</button>
+                    </div>
+                    <div id="l5e2-feedback" class="mt-8 text-center text-lg font-bold hidden p-4 rounded-xl"></div>
+                </div>
+            </div>
+
+            <!-- SLIDE 19: L6 READING 1 -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-6 flex items-center gap-3">
+                    <span class="bg-sky-100 text-sky-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Lesson 6</span>
+                    <h2 class="text-4xl font-black text-slate-800">Reading: Sarah's Routine 📖</h2>
+                </div>
+                
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden mb-8">
+                    <div class="bg-sky-50 p-6 flex justify-between items-center border-b border-sky-100">
+                        <h3 class="text-2xl font-bold text-sky-900">Sarah's Busy Day</h3>
+                        <button onclick="playAudio(event, document.getElementById('reading-1-text').innerText)" class="bg-sky-600 hover:bg-sky-700 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-md transition">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                    </div>
+                    <div class="p-8 text-xl text-slate-700 leading-relaxed font-medium" id="reading-1-text">
+                        Sarah is a nurse. She <span class="bg-yellow-200/50 px-1 rounded">always wakes up</span> at 6:00 AM because she starts work early. She takes a shower and <span class="bg-yellow-200/50 px-1 rounded">has breakfast</span> in the kitchen. She usually <span class="bg-yellow-200/50 px-1 rounded">goes to work</span> by bus. Sarah works hard at the hospital. At night, she is very tired, so she <span class="bg-yellow-200/50 px-1 rounded">hardly ever watches</span> TV. She goes to bed at 10:00 PM.
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 20: L6 READING 1 QUESTION -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-8 text-center">
+                    <span class="bg-sky-100 text-sky-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Comprehension 1</span>
+                    <h2 class="text-4xl font-black mt-2 text-slate-800">Why does she hardly ever watch TV?</h2>
+                </div>
+                <div class="bg-white p-10 rounded-3xl border border-slate-200 max-w-2xl mx-auto shadow-xl">
+                    <p class="text-xl text-slate-600 text-center mb-8 font-medium">According to the text, why does Sarah hardly ever watch TV?</p>
+                    <div class="grid grid-cols-1 gap-4">
+                        <button onclick="checkAnswer('l6e1', this, false)" class="p-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-lg text-left font-bold border-2 border-slate-200 transition">A) Because she doesn't have a TV at home.</button>
+                        <button onclick="checkAnswer('l6e1', this, false)" class="p-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-lg text-left font-bold border-2 border-slate-200 transition">B) Because she works at the hospital at night.</button>
+                        <button onclick="checkAnswer('l6e1', this, true)" class="p-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-lg text-left font-bold border-2 border-slate-200 transition">C) Because she is very tired at night.</button>
+                    </div>
+                    <div id="l6e1-feedback" class="mt-8 text-center text-lg font-bold hidden p-4 rounded-xl"></div>
+                </div>
+            </div>
+
+            <!-- SLIDE 21: L6 READING 2 -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-6 flex items-center gap-3">
+                    <span class="bg-sky-100 text-sky-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Lesson 6</span>
+                    <h2 class="text-4xl font-black text-slate-800">Reading: Tom's Free Time 📖</h2>
+                </div>
+                
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden mb-8">
+                    <div class="bg-sky-50 p-6 flex justify-between items-center border-b border-sky-100">
+                        <h3 class="text-2xl font-bold text-sky-900">Tom's Weekend</h3>
+                        <button onclick="playAudio(event, document.getElementById('reading-2-text').innerText)" class="bg-sky-600 hover:bg-sky-700 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-md transition">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                    </div>
+                    <div class="p-8 text-xl text-slate-700 leading-relaxed font-medium" id="reading-2-text">
+                        Tom works a lot during the week, so he loves the weekend. On Saturdays, he <span class="bg-yellow-200/50 px-1 rounded">usually plays soccer</span> with his friends at the park. Sometimes, they <span class="bg-yellow-200/50 px-1 rounded">hang out</span> at the mall. On Sunday morning, Tom <span class="bg-yellow-200/50 px-1 rounded">never wakes up early</span>. In the afternoon, he listens to music and <span class="bg-yellow-200/50 px-1 rounded">surfs the internet</span>.
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 22: L6 READING 2 QUESTION -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-8 text-center">
+                    <span class="bg-sky-100 text-sky-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Comprehension 2</span>
+                    <h2 class="text-4xl font-black mt-2 text-slate-800">Tom's Sunday</h2>
+                </div>
+                <div class="bg-white p-10 rounded-3xl border border-slate-200 max-w-2xl mx-auto shadow-xl">
+                    <p class="text-xl text-slate-600 text-center mb-8 font-medium">What does Tom NEVER do on Sunday morning?</p>
+                    <div class="grid grid-cols-1 gap-4">
+                        <button onclick="checkAnswer('l6e2', this, true)" class="p-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-lg text-left font-bold border-2 border-slate-200 transition">A) He never wakes up early.</button>
+                        <button onclick="checkAnswer('l6e2', this, false)" class="p-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-lg text-left font-bold border-2 border-slate-200 transition">B) He never plays soccer.</button>
+                        <button onclick="checkAnswer('l6e2', this, false)" class="p-5 bg-slate-50 hover:bg-slate-100 rounded-2xl text-lg text-left font-bold border-2 border-slate-200 transition">C) He never listens to music.</button>
+                    </div>
+                    <div id="l6e2-feedback" class="mt-8 text-center text-lg font-bold hidden p-4 rounded-xl"></div>
+                </div>
+            </div>
+
+            <!-- SLIDE 23: CONCLUSION -->
+            <div class="slide hidden slide-enter text-center mt-10">
+                <div class="relative w-48 h-48 mx-auto mb-10">
+                    <div class="absolute inset-0 bg-blue-500 rounded-full blur-2xl opacity-30 pulse-soft"></div>
+                    <div class="relative w-48 h-48 bg-white rounded-full flex items-center justify-center shadow-2xl border-4 border-slate-50 text-8xl">
+                        🎓
+                    </div>
+                </div>
+                <h2 class="text-5xl md:text-7xl font-black mb-6 text-slate-800 tracking-tight">
+                    Course Completed!
+                </h2>
+                <p class="text-2xl text-slate-600 mb-12 max-w-2xl mx-auto font-medium leading-relaxed">
+                    Incredible job! You've mastered routine verbs, free time vocabulary, the 'S' rule, frequency adverbs, prepositions, and questions. You are 100% ready to have a conversation about your day.
+                </p>
+                <button onclick="location.reload()" class="px-10 py-5 bg-slate-800 hover:bg-slate-900 text-white rounded-2xl font-bold text-xl transition-all shadow-xl hover:-translate-y-1">
+                    <i class="fas fa-redo mr-2"></i> Restart Masterclass
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer / Nav -->
+    <footer class="h-24 bg-white border-t border-slate-200 flex items-center justify-between px-6 md:px-12 shrink-0 z-10 shadow-[0_-4px_20px_rgba(0,0,0,0.03)]">
+        <button id="btn-prev" onclick="prevSlide()" class="px-6 py-4 rounded-2xl font-bold text-slate-500 bg-slate-100 hover:bg-slate-200 transition opacity-50 cursor-not-allowed disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-lg">
+            <i class="fas fa-chevron-left"></i> Back
+        </button>
+        <button id="btn-next" onclick="nextSlide()" class="px-10 py-4 rounded-2xl font-black bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/30 transition hover:-translate-y-1 flex items-center gap-2 text-lg">
+            Continue <i class="fas fa-chevron-right"></i>
+        </button>
+    </footer>
+
+    <!-- MODAL: VERB DICTIONARY -->
+    <div id="dictionary-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex justify-center items-center opacity-0 transition-opacity duration-300">
+        <div class="bg-white w-11/12 max-w-4xl h-[85vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden transform scale-95 transition-transform duration-300" id="dictionary-box">
+            
+            <!-- Modal Header -->
+            <div class="bg-slate-50 p-6 border-b border-slate-200 flex justify-between items-center shrink-0">
+                <div>
+                    <h2 class="text-3xl font-black text-slate-800 flex items-center gap-2"><i class="fas fa-book-open text-blue-600"></i> Dictionary</h2>
+                    <p class="text-slate-500 text-sm font-medium mt-1">Routine & Free Time Verbs (Press the speaker to listen).</p>
+                </div>
+                <button onclick="toggleDictionary()" class="w-12 h-12 rounded-full bg-slate-200 text-slate-600 hover:bg-rose-100 hover:text-rose-600 flex items-center justify-center transition-colors">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="flex-1 overflow-y-auto p-6 bg-slate-50" id="dictionary-content">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="dictionary-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DATA: Flashcards
+        const vocabData = {
+            vocab1: [
+                { en: "Wake up", es: "Despertar", emoji: "🥱" },
+                { en: "Take a shower", es: "Tomar un baño", emoji: "🚿" },
+                { en: "Have breakfast", es: "Desayunar", emoji: "🥞" },
+                { en: "Go to work", es: "Ir al trabajo", emoji: "💼" }
+            ],
+            vocab2: [
+                { en: "He reads", es: "Él lee", emoji: "📖" },
+                { en: "She watches TV", es: "Ella ve TV", emoji: "📺" },
+                { en: "He plays soccer", es: "Él juega fútbol", emoji: "⚽" },
+                { en: "She surfs the net", es: "Navega en internet", emoji: "🌐" }
+            ]
+        };
+
+        // DATA: Complete Dictionary (Routine + Free Time)
+        const dictionaryVerbs = [
+            { en: "Wake up", es: "Despertar", emoji: "🥱" },
+            { en: "Get up", es: "Levantarse (de la cama)", emoji: "🛏️" },
+            { en: "Take a shower", es: "Tomar una ducha", emoji: "🚿" },
+            { en: "Brush teeth", es: "Lavarse los dientes", emoji: "🪥" },
+            { en: "Get dressed", es: "Vestirse", emoji: "👕" },
+            { en: "Have breakfast", es: "Desayunar (Have/Eat)", emoji: "🥞" },
+            { en: "Go to work", es: "Ir al trabajo", emoji: "🏢" },
+            { en: "Go to school", es: "Ir a la escuela", emoji: "🏫" },
+            { en: "Start work", es: "Empezar a trabajar", emoji: "💻" },
+            { en: "Have lunch", es: "Almorzar / Comer", emoji: "🥪" },
+            { en: "Finish work", es: "Terminar de trabajar", emoji: "🏁" },
+            { en: "Go home", es: "Ir a casa", emoji: "🏠" },
+            { en: "Have dinner", es: "Cenar", emoji: "🍽️" },
+            { en: "Go to bed", es: "Ir a la cama", emoji: "😴" },
+            // Free Time
+            { en: "Watch TV / Movies", es: "Ver televisión / películas", emoji: "📺" },
+            { en: "Read a book", es: "Leer un libro", emoji: "📖" },
+            { en: "Play video games", es: "Jugar videojuegos", emoji: "🎮" },
+            { en: "Play soccer", es: "Jugar fútbol", emoji: "⚽" },
+            { en: "Listen to music", es: "Escuchar música", emoji: "🎧" },
+            { en: "Hang out with friends", es: "Pasar el rato con amigos", emoji: "🧑‍🤝‍🧑" },
+            { en: "Surf the internet", es: "Navegar en internet", emoji: "🌐" },
+            { en: "Go shopping", es: "Ir de compras", emoji: "🛍️" },
+            { en: "Do exercise", es: "Hacer ejercicio", emoji: "🏋️‍♂️" }
+        ];
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+
+        function updateUI() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('hidden', index !== currentSlide);
+            });
+
+            const progressPercentage = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            progressText.innerText = `Slide ${currentSlide + 1} of ${slides.length}`;
+
+            if (currentSlide === 0) {
+                btnPrev.setAttribute('disabled', 'true');
+                btnPrev.classList.add('opacity-50', 'cursor-not-allowed', 'hover:bg-slate-100');
+                btnPrev.classList.remove('hover:bg-slate-200', 'text-slate-700');
+            } else {
+                btnPrev.removeAttribute('disabled');
+                btnPrev.classList.remove('opacity-50', 'cursor-not-allowed', 'hover:bg-slate-100');
+                btnPrev.classList.add('hover:bg-slate-200', 'text-slate-700');
+            }
+
+            if (currentSlide === slides.length - 1) {
+                btnNext.classList.add('hidden');
+            } else {
+                btnNext.classList.remove('hidden');
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) { currentSlide++; updateUI(); }
+        }
+        function prevSlide() {
+            if (currentSlide > 0) { currentSlide--; updateUI(); }
+        }
+
+        // TEXT TO SPEECH
+        function playAudio(event, text) {
+            event.stopPropagation();
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.85; 
+                window.speechSynthesis.speak(utterance);
+            } else {
+                console.warn("Browser does not support text-to-speech.");
+            }
+        }
+
+        // GENERATE FLASHCARDS
+        function generateFlashcards(containerId, dataArray) {
+            const container = document.getElementById(containerId);
+            let html = '';
+            dataArray.forEach(item => {
+                html += `
+                <div class="h-56 perspective-1000 cursor-pointer group" onclick="this.querySelector('.card-inner').classList.toggle('rotate-y-180')">
+                    <div class="card-inner relative w-full h-full transition-transform duration-700 transform-style-3d shadow-sm rounded-3xl group-hover:shadow-lg group-hover:-translate-y-1">
+                        <!-- Front White -->
+                        <div class="absolute w-full h-full backface-hidden bg-white text-slate-800 rounded-3xl flex flex-col items-center justify-center p-4 border border-slate-200">
+                            <span class="text-5xl mb-4 bg-slate-50 w-20 h-20 flex items-center justify-center rounded-2xl border border-slate-100 shadow-sm">${item.emoji}</span>
+                            <h4 class="text-lg font-black text-center leading-tight mb-3">${item.en}</h4>
+                            <button onclick="playAudio(event, '${item.en}')" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-blue-100 hover:text-blue-600 transition flex items-center justify-center">
+                                <i class="fas fa-volume-up text-sm"></i>
+                            </button>
+                        </div>
+                        <!-- Back Blue -->
+                        <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-3xl flex flex-col items-center justify-center p-5 border border-transparent shadow-md">
+                            <span class="text-4xl mb-3 opacity-30">${item.emoji}</span>
+                            <h4 class="text-2xl font-black text-center">${item.es}</h4>
+                        </div>
+                    </div>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        // GENERATE DICTIONARY
+        function renderDictionary() {
+            const grid = document.getElementById('dictionary-grid');
+            let html = '';
+            dictionaryVerbs.forEach(verb => {
+                html += `
+                <div class="bg-white border border-slate-200 p-4 rounded-2xl flex items-center gap-4 hover:shadow-md hover:border-blue-300 transition-all cursor-pointer" onclick="playAudio(event, '${verb.en}')">
+                    <div class="text-3xl bg-slate-50 w-14 h-14 rounded-xl flex items-center justify-center shrink-0 border border-slate-100 shadow-sm">${verb.emoji}</div>
+                    <div class="flex-1">
+                        <p class="font-bold text-slate-800 text-lg">${verb.en}</p>
+                        <p class="text-sm font-medium text-slate-500">${verb.es}</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                        <i class="fas fa-volume-up"></i>
+                    </div>
+                </div>`;
+            });
+            grid.innerHTML = html;
+        }
+
+        function toggleDictionary() {
+            const modal = document.getElementById('dictionary-modal');
+            const box = document.getElementById('dictionary-box');
+            
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    box.classList.remove('scale-95');
+                }, 10);
+            } else {
+                modal.classList.add('opacity-0');
+                box.classList.add('scale-95');
+                setTimeout(() => { modal.classList.add('hidden'); }, 300);
+            }
+        }
+
+        // EXERCISE LOGIC
+        function checkAnswer(exerciseId, btnElement, isCorrect, fillText = null) {
+            const container = btnElement.parentElement;
+            const buttons = container.querySelectorAll('button');
+            
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if(btn !== btnElement) {
+                    btn.classList.add('opacity-40');
+                }
+            });
+
+            const feedback = document.getElementById(`${exerciseId}-feedback`);
+            feedback.classList.remove('hidden', 'text-green-600', 'text-red-600', 'bg-green-50', 'bg-red-50', 'border-green-200', 'border-red-200');
+
+            if (isCorrect) {
+                btnElement.classList.add('bg-green-500', 'text-white', 'border-green-600', 'shadow-md');
+                btnElement.classList.remove('bg-slate-50', 'text-slate-700', 'hover:bg-slate-100');
+                
+                feedback.classList.add('text-green-700', 'bg-green-50', 'border', 'border-green-200');
+                feedback.innerHTML = '<i class="fas fa-check-circle mr-2 text-xl"></i> Perfect! Well done.';
+                
+                if (fillText) {
+                    const blank = document.getElementById(`${exerciseId}-blank`);
+                    if(blank) {
+                        blank.innerText = fillText;
+                        blank.classList.remove('text-blue-600', 'text-rose-500', 'text-fuchsia-600', 'text-yellow-500', 'text-cyan-600', 'text-indigo-600', 'border-slate-300');
+                        blank.classList.add('text-green-600', 'border-green-400', 'border-b-4');
+                    }
+                }
+            } else {
+                btnElement.classList.add('bg-red-500', 'text-white', 'border-red-600', 'shadow-md');
+                btnElement.classList.remove('bg-slate-50', 'text-slate-700', 'hover:bg-slate-100');
+                
+                feedback.classList.add('text-red-700', 'bg-red-50', 'border', 'border-red-200');
+                feedback.innerHTML = '<i class="fas fa-times-circle mr-2 text-xl"></i> Incorrect. Review the grammar rule and try to remember.';
+            }
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('dictionary-modal').classList.contains('hidden')) {
+                if (e.key === 'ArrowRight') nextSlide();
+                if (e.key === 'ArrowLeft') prevSlide();
+            }
+        });
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            generateFlashcards('vocab-1', vocabData.vocab1);
+            generateFlashcards('vocab-2', vocabData.vocab2);
+            renderDictionary();
+            updateUI();
+        });
+
+    </script>
+</body>
+</html>
