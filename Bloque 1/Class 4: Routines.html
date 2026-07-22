@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Present Simple & S Rules Masterclass</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; touch-action: manipulation; }
+        
+        /* 3D Styles for Flashcards */
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        
+        /* Animations */
+        .slide-enter { animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        
+        .pulse-soft { animation: pulseSoft 2.5s infinite; }
+        @keyframes pulseSoft {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f8fafc; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 h-[100dvh] w-full overflow-hidden flex flex-col selection:bg-blue-200 selection:text-blue-900">
+
+    <!-- Header / Progress Bar -->
+    <header class="h-14 md:h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-6 shrink-0 z-20 shadow-sm">
+        <div class="flex items-center gap-2 md:gap-3">
+            <div class="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-blue-600 flex items-center justify-center shadow-md">
+                <i class="fas fa-bolt text-white text-sm md:text-xl"></i>
+            </div>
+            <h1 class="text-sm md:text-xl font-black text-slate-800 tracking-tight leading-tight">
+                Present <span class="text-blue-600">Simple</span>
+            </h1>
+        </div>
+        
+        <div class="flex flex-col items-center w-1/2 md:w-1/3">
+            <span class="text-[10px] md:text-xs text-slate-500 font-bold uppercase tracking-wider mb-1" id="progress-text">Slide 1 / 10</span>
+            <div class="w-full h-1.5 md:h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                <div id="progress-bar" class="h-full bg-blue-500 transition-all duration-300 w-0"></div>
+            </div>
+        </div>
+
+        <button onclick="toggleDictionary()" class="flex items-center gap-2 bg-slate-100 text-slate-600 hover:bg-slate-200 px-3 py-1.5 md:px-4 md:py-2 rounded-lg font-bold transition-colors text-xs md:text-sm">
+            <i class="fas fa-book"></i> <span class="hidden sm:inline">Verbos</span>
+        </button>
+    </header>
+
+    <main class="flex-1 overflow-y-auto relative p-3 md:p-8 flex flex-col items-center bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-fixed">
+        
+        <!-- Contenedor principal con padding bottom extra para móviles -->
+        <div id="slides-container" class="w-full max-w-4xl mx-auto pb-6 md:pb-12">
+            
+            <!-- SLIDE 1: INTRO -->
+            <div class="slide slide-enter text-center mt-6 md:mt-12">
+                <div class="inline-block p-4 md:p-6 rounded-full bg-white mb-6 border border-slate-100 shadow-lg pulse-soft">
+                    <span class="text-6xl md:text-7xl">🔥</span>
+                </div>
+                <h2 class="text-4xl md:text-6xl font-black mb-4 tracking-tight text-slate-900 leading-tight">
+                    El Secreto del <br class="md:hidden" />
+                    <span class="text-blue-600">Presente Simple</span>
+                </h2>
+                <p class="text-lg md:text-xl text-slate-600 mb-8 max-w-xl mx-auto font-medium px-2">
+                    Aprenderemos a hablar de rutinas usando <strong class="text-blue-600">Lexical Chunks</strong> (bloques de palabras) y dominaremos de una vez por todas la famosa <strong class="text-blue-600">Regla de la 'S'</strong>.
+                </p>
+                <div class="bg-blue-50 text-blue-800 p-4 rounded-xl border border-blue-100 inline-block mb-8 text-sm md:text-base font-bold">
+                    <i class="fas fa-check-circle mr-2 text-blue-600"></i> Solo reglas esenciales. Cero relleno.
+                </div>
+                <br>
+                <button onclick="nextSlide()" class="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold text-lg transition-all shadow-lg hover:-translate-y-1">
+                    ¡Comenzar! <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+
+            <!-- SLIDE 2: L1 EXPLANATION -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-4 md:mb-6">
+                    <span class="bg-blue-100 text-blue-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Lección 1</span>
+                    <h2 class="text-2xl md:text-4xl font-black text-slate-800 mt-2 leading-tight">Yo y Ellos (I, You, We, They)</h2>
+                </div>
+                <div class="bg-white p-5 md:p-8 rounded-2xl md:rounded-3xl border border-slate-200 shadow-sm mb-6">
+                    <p class="text-slate-600 text-base md:text-lg mb-6">
+                        Para hablar de lo que haces <strong>tú</strong> o un <strong>grupo</strong>, el verbo se usa en su <strong class="text-blue-600 bg-blue-50 px-2 py-1 rounded">forma normal</strong>. ¡No cambia absolutamente nada!
+                    </p>
+                    
+                    <div class="bg-slate-50 p-4 md:p-5 rounded-2xl border border-slate-200 mb-6">
+                        <h3 class="font-bold text-slate-500 mb-3 text-sm uppercase tracking-wider"><i class="fas fa-layer-group text-blue-500 mr-1"></i> Lexical Chunks (Bloques)</h3>
+                        <p class="text-sm md:text-base text-slate-600 mb-4">No aprendas palabras sueltas. Aprende la frase completa para sonar natural:</p>
+                        
+                        <div class="space-y-3">
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 bg-white p-3 md:p-4 rounded-xl border border-slate-100 shadow-sm">
+                                <span class="text-3xl hidden sm:block">☕</span>
+                                <div>
+                                    <p class="text-lg md:text-xl text-slate-800"><strong class="text-blue-600">I drink coffee</strong> in the morning.</p>
+                                    <p class="text-sm text-slate-500">Yo tomo café en la mañana.</p>
+                                </div>
+                            </div>
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 bg-white p-3 md:p-4 rounded-xl border border-slate-100 shadow-sm">
+                                <span class="text-3xl hidden sm:block">💻</span>
+                                <div>
+                                    <p class="text-lg md:text-xl text-slate-800"><strong class="text-blue-600">We work hard</strong> every day.</p>
+                                    <p class="text-sm text-slate-500">Nosotros trabajamos duro cada día.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 3: CHUNKS FLASHCARDS -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-4 md:mb-6 flex justify-between items-end">
+                    <div>
+                        <span class="bg-purple-100 text-purple-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Vocabulario</span>
+                        <h2 class="text-2xl md:text-3xl font-black text-slate-800 mt-2">Chunks de Rutina</h2>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-500 font-bold mb-4 bg-white px-3 py-2 rounded-lg border border-slate-200 inline-block">
+                    <i class="fas fa-hand-pointer text-purple-500 mr-1"></i> Toca la tarjeta para traducir y escuchar
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="vocab-1">
+                    <!-- Flashcards JS -->
+                </div>
+            </div>
+
+            <!-- SLIDE 4: PRACTICE 1 -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-6 text-center">
+                    <span class="bg-emerald-100 text-emerald-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Práctica 1</span>
+                    <h2 class="text-2xl md:text-4xl font-black mt-2 text-slate-800">Completa el Bloque</h2>
+                </div>
+                <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-3xl border border-slate-200 max-w-2xl mx-auto shadow-lg text-center">
+                    <span class="text-5xl md:text-6xl mb-4 block">🍳</span>
+                    <p class="text-xl md:text-3xl text-slate-800 font-medium mb-8 leading-relaxed">
+                        Every day, I <span id="l1e1-blank" class="inline-block w-24 md:w-32 h-8 md:h-10 border-b-4 border-dashed border-slate-300 text-blue-600 font-bold mx-1">___</span> breakfast.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-3 md:gap-4 w-full">
+                        <button onclick="checkAnswer('l1e1', this, false)" class="w-full py-4 bg-slate-50 hover:bg-slate-100 rounded-xl md:rounded-2xl text-lg md:text-xl font-bold transition border border-slate-200">eats</button>
+                        <button onclick="checkAnswer('l1e1', this, true, 'have')" class="w-full py-4 bg-slate-50 hover:bg-slate-100 rounded-xl md:rounded-2xl text-lg md:text-xl font-bold transition border border-slate-200">have</button>
+                    </div>
+                    <div id="l1e1-feedback" class="mt-6 text-center text-sm md:text-lg font-bold hidden p-3 md:p-4 rounded-xl"></div>
+                </div>
+            </div>
+
+            <!-- SLIDE 5: L2 EXPLANATION -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-4 md:mb-6">
+                    <span class="bg-rose-100 text-rose-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Lección 2</span>
+                    <h2 class="text-2xl md:text-4xl font-black text-slate-800 mt-2 leading-tight">La Tercera Persona (He, She, It)</h2>
+                </div>
+                <div class="bg-white p-5 md:p-8 rounded-2xl md:rounded-3xl border border-rose-200 shadow-md mb-4">
+                    <p class="text-slate-700 text-base md:text-lg mb-2">
+                        🚨 <strong class="text-rose-600">¡Alerta de regla principal!</strong> 🚨
+                    </p>
+                    <p class="text-slate-600 text-sm md:text-base mb-6">
+                        Cuando hablas de <strong>Él (He)</strong>, <strong>Ella (She)</strong> o un <strong>Animal/Cosa (It)</strong>, el verbo sufre una mutación. <br class="hidden md:block"/>Tienes que agregarle una <strong>'S'</strong> al final.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-center justify-between">
+                            <div class="font-medium text-slate-500">I wake up</div>
+                            <i class="fas fa-arrow-right text-slate-300"></i>
+                            <div class="font-bold text-slate-800">She wake<span class="text-rose-500 text-xl font-black">s</span> up</div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-center justify-between">
+                            <div class="font-medium text-slate-500">We drink</div>
+                            <i class="fas fa-arrow-right text-slate-300"></i>
+                            <div class="font-bold text-slate-800">He drink<span class="text-rose-500 text-xl font-black">s</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: L2 S RULES DETAILS -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-4 md:mb-6 text-center">
+                    <span class="bg-rose-100 text-rose-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Ortografía</span>
+                    <h2 class="text-2xl md:text-4xl font-black text-slate-800 mt-2">Cómo agregar la 'S'</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-5">
+                    <!-- Rule 2 (+es) -->
+                    <div class="bg-white p-4 md:p-6 rounded-2xl border-t-4 border-orange-500 shadow-sm">
+                        <h4 class="font-black text-slate-800 text-sm md:text-base mb-2">Terminaciones: o, x, ss, ch, sh</h4>
+                        <p class="text-slate-500 text-xs md:text-sm mb-4">Agrega <strong class="text-orange-500">ES</strong> para que suene bien.</p>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg mb-2"><span class="font-medium">go</span> <i class="fas fa-arrow-right text-slate-300 text-xs"></i> <strong class="text-slate-800 text-lg">go<span class="text-orange-500">es</span></strong></div>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg"><span class="font-medium">watch</span> <i class="fas fa-arrow-right text-slate-300 text-xs"></i> <strong class="text-slate-800 text-lg">watch<span class="text-orange-500">es</span></strong></div>
+                    </div>
+
+                    <!-- Rule 3 (+ies) -->
+                    <div class="bg-white p-4 md:p-6 rounded-2xl border-t-4 border-amber-500 shadow-sm">
+                        <h4 class="font-black text-slate-800 text-sm md:text-base mb-2">Consonante + Y</h4>
+                        <p class="text-slate-500 text-xs md:text-sm mb-4">Quita la Y, pon <strong class="text-amber-500">IES</strong>.</p>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg mb-2"><span class="font-medium">stud<span class="line-through text-red-400">y</span></span> <i class="fas fa-arrow-right text-slate-300 text-xs"></i> <strong class="text-slate-800 text-lg">stud<span class="text-amber-500">ies</span></strong></div>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg"><span class="font-medium">cr<span class="line-through text-red-400">y</span></span> <i class="fas fa-arrow-right text-slate-300 text-xs"></i> <strong class="text-slate-800 text-lg">cr<span class="text-amber-500">ies</span></strong></div>
+                    </div>
+
+                    <!-- Rule 4 (Irregular) -->
+                    <div class="bg-white p-4 md:p-6 rounded-2xl border-t-4 border-purple-500 shadow-sm sm:col-span-2">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 shrink-0"><i class="fas fa-exclamation-triangle"></i></div>
+                            <div>
+                                <h4 class="font-black text-slate-800 text-sm md:text-base">El Verbo Rebelde: HAVE</h4>
+                                <p class="text-slate-500 text-xs md:text-sm">No existe "haves". Se convierte en la palabra <strong class="text-purple-600 text-lg ml-1">HAS</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 7: PRACTICE 2 -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-6 text-center">
+                    <span class="bg-rose-100 text-rose-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Práctica 2</span>
+                    <h2 class="text-2xl md:text-4xl font-black mt-2 text-slate-800">Aplica la Regla (-sh, -ch)</h2>
+                </div>
+                <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-3xl border border-slate-200 max-w-2xl mx-auto shadow-lg text-center">
+                    <span class="text-5xl md:text-6xl mb-4 block">📺</span>
+                    <p class="text-xl md:text-3xl text-slate-800 font-medium mb-8 leading-relaxed">
+                        My mom <span id="l2e1-blank" class="inline-block w-24 md:w-32 h-8 md:h-10 border-b-4 border-dashed border-slate-300 text-rose-500 font-bold mx-1">___</span> Netflix.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-3 w-full">
+                        <button onclick="checkAnswer('l2e1', this, false)" class="w-full py-4 bg-slate-50 hover:bg-slate-100 rounded-xl text-lg font-bold border border-slate-200">watch</button>
+                        <button onclick="checkAnswer('l2e1', this, false)" class="w-full py-4 bg-slate-50 hover:bg-slate-100 rounded-xl text-lg font-bold border border-slate-200">watchs</button>
+                        <button onclick="checkAnswer('l2e1', this, true, 'watches')" class="w-full py-4 bg-slate-50 hover:bg-slate-100 rounded-xl text-lg font-bold border border-slate-200">watches</button>
+                    </div>
+                    <div id="l2e1-feedback" class="mt-6 text-center text-sm md:text-lg font-bold hidden p-3 md:p-4 rounded-xl"></div>
+                </div>
+            </div>
+
+            <!-- SLIDE 8: PRACTICE 3 -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-6 text-center">
+                    <span class="bg-rose-100 text-rose-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Práctica 3</span>
+                    <h2 class="text-2xl md:text-4xl font-black mt-2 text-slate-800">El Verbo Rebelde</h2>
+                </div>
+                <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-3xl border border-slate-200 max-w-2xl mx-auto shadow-lg text-center">
+                    <span class="text-5xl md:text-6xl mb-4 block">🥪</span>
+                    <p class="text-xl md:text-3xl text-slate-800 font-medium mb-8 leading-relaxed">
+                        He <span id="l2e2-blank" class="inline-block w-24 md:w-32 h-8 md:h-10 border-b-4 border-dashed border-slate-300 text-purple-500 font-bold mx-1">___</span> lunch at 2:00 PM.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-3 w-full">
+                        <button onclick="checkAnswer('l2e2', this, false)" class="w-full py-4 bg-slate-50 hover:bg-slate-100 rounded-xl text-lg font-bold border border-slate-200">haves</button>
+                        <button onclick="checkAnswer('l2e2', this, true, 'has')" class="w-full py-4 bg-slate-50 hover:bg-slate-100 rounded-xl text-lg font-bold border border-slate-200">has</button>
+                        <button onclick="checkAnswer('l2e2', this, false)" class="w-full py-4 bg-slate-50 hover:bg-slate-100 rounded-xl text-lg font-bold border border-slate-200">have</button>
+                    </div>
+                    <div id="l2e2-feedback" class="mt-6 text-center text-sm md:text-lg font-bold hidden p-3 md:p-4 rounded-xl"></div>
+                </div>
+            </div>
+
+            <!-- SLIDE 9: READING CONTEXT -->
+            <div class="slide hidden slide-enter">
+                <div class="mb-4 md:mb-6 flex items-center gap-3">
+                    <span class="bg-sky-100 text-sky-700 text-xs font-black px-3 py-1 rounded-md uppercase tracking-wider">Contexto</span>
+                    <h2 class="text-2xl md:text-4xl font-black text-slate-800 leading-tight">Comparando Rutinas 📖</h2>
+                </div>
+                
+                <p class="text-sm md:text-base text-slate-500 font-bold mb-4 bg-white px-3 py-2 rounded-lg border border-slate-200 inline-block">
+                    <i class="fas fa-eye text-sky-500 mr-1"></i> Nota cómo cambian los verbos (en azul y rojo).
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                    <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-200 shadow-sm relative">
+                        <div class="absolute -top-3 -right-3 text-3xl">🧑</div>
+                        <h3 class="font-black text-lg text-slate-800 mb-3 border-b border-slate-100 pb-2">My Routine (I)</h3>
+                        <p class="text-slate-600 leading-relaxed text-sm md:text-base">
+                            I <strong class="text-blue-600 bg-blue-50 px-1 rounded">wake up</strong> early. I <strong class="text-blue-600 bg-blue-50 px-1 rounded">have</strong> breakfast and then I <strong class="text-blue-600 bg-blue-50 px-1 rounded">go</strong> to work. After work, I <strong class="text-blue-600 bg-blue-50 px-1 rounded">watch</strong> TV.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-200 shadow-sm relative">
+                        <div class="absolute -top-3 -right-3 text-3xl">👩</div>
+                        <h3 class="font-black text-lg text-slate-800 mb-3 border-b border-slate-100 pb-2">Sarah's Routine (She)</h3>
+                        <p class="text-slate-600 leading-relaxed text-sm md:text-base">
+                            Sarah <strong class="text-rose-600 bg-rose-50 px-1 rounded">wakes up</strong> early. She <strong class="text-rose-600 bg-rose-50 px-1 rounded">has</strong> breakfast and then she <strong class="text-rose-600 bg-rose-50 px-1 rounded">goes</strong> to work. After work, she <strong class="text-rose-600 bg-rose-50 px-1 rounded">watches</strong> TV.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 10: CONCLUSION -->
+            <div class="slide hidden slide-enter text-center mt-6 md:mt-10">
+                <div class="relative w-32 h-32 md:w-48 md:h-48 mx-auto mb-6 md:mb-10">
+                    <div class="absolute inset-0 bg-blue-500 rounded-full blur-2xl opacity-30 pulse-soft"></div>
+                    <div class="relative w-32 h-32 md:w-48 md:h-48 bg-white rounded-full flex items-center justify-center shadow-xl border-4 border-slate-50 text-6xl md:text-8xl">
+                        🎓
+                    </div>
+                </div>
+                <h2 class="text-3xl md:text-6xl font-black mb-4 text-slate-800 tracking-tight">
+                    ¡Misión Cumplida!
+                </h2>
+                <p class="text-base md:text-xl text-slate-600 mb-8 max-w-xl mx-auto font-medium px-4">
+                    Ahora dominas la base del inglés. Sabes usar Chunks Léxicos para hablar de tu rutina y dominas la Regla de la 'S' para hablar de otras personas.
+                </p>
+                <button onclick="location.reload()" class="w-full sm:w-auto px-8 py-4 bg-slate-800 hover:bg-slate-900 text-white rounded-xl md:rounded-2xl font-bold text-base md:text-lg transition-all shadow-lg hover:-translate-y-1">
+                    <i class="fas fa-redo mr-2"></i> Reiniciar Lección
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer / Nav (Fixed at bottom to ensure it's always accessible) -->
+    <footer class="h-16 md:h-20 bg-white border-t border-slate-200 flex items-center justify-between px-4 md:px-8 shrink-0 z-10 shadow-[0_-4px_10px_rgba(0,0,0,0.02)]">
+        <button id="btn-prev" onclick="prevSlide()" class="px-4 py-2 md:px-6 md:py-3 rounded-lg md:rounded-xl font-bold text-slate-500 bg-slate-50 hover:bg-slate-100 transition opacity-50 cursor-not-allowed disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 md:gap-2 text-sm md:text-base border border-slate-200">
+            <i class="fas fa-chevron-left text-xs md:text-sm"></i> Atrás
+        </button>
+        <button id="btn-next" onclick="nextSlide()" class="px-6 py-2 md:px-8 md:py-3 rounded-lg md:rounded-xl font-black bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-500/30 transition hover:-translate-y-0.5 flex items-center gap-1 md:gap-2 text-sm md:text-base">
+            Continuar <i class="fas fa-chevron-right text-xs md:text-sm"></i>
+        </button>
+    </footer>
+
+    <!-- MODAL: DICCIONARIO DE CHUNKS -->
+    <div id="dictionary-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex justify-center items-center opacity-0 transition-opacity duration-300 p-4">
+        <div class="bg-white w-full max-w-2xl h-[80dvh] md:h-[70dvh] rounded-2xl md:rounded-3xl shadow-2xl flex flex-col overflow-hidden transform scale-95 transition-transform duration-300" id="dictionary-box">
+            
+            <div class="bg-slate-50 p-4 md:p-5 border-b border-slate-200 flex justify-between items-center shrink-0">
+                <div>
+                    <h2 class="text-lg md:text-xl font-black text-slate-800 flex items-center gap-2"><i class="fas fa-book text-blue-600"></i> Dictionary: Chunks</h2>
+                </div>
+                <button onclick="toggleDictionary()" class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-slate-200 text-slate-600 hover:bg-rose-100 hover:text-rose-600 flex items-center justify-center transition-colors">
+                    <i class="fas fa-times text-sm md:text-base"></i>
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-4 bg-white" id="dictionary-content">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="dictionary-grid">
+                    <!-- JS Populates this -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DATA: Lexical Chunks (Base Form)
+        const chunkData = [
+            { en: "Wake up early", es: "Despertarse temprano", emoji: "🥱" },
+            { en: "Take a shower", es: "Tomar un baño", emoji: "🚿" },
+            { en: "Have breakfast", es: "Desayunar", emoji: "🥞" },
+            { en: "Go to work", es: "Ir al trabajo", emoji: "💼" },
+            { en: "Watch TV", es: "Ver televisión", emoji: "📺" },
+            { en: "Do exercise", es: "Hacer ejercicio", emoji: "🏋️‍♂️" },
+            { en: "Study English", es: "Estudiar inglés", emoji: "📚" },
+            { en: "Go to bed", es: "Irse a dormir", emoji: "🛌" }
+        ];
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+
+        function updateUI() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('hidden', index !== currentSlide);
+            });
+
+            const progressPercentage = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            progressText.innerText = `Página ${currentSlide + 1} de ${slides.length}`;
+
+            // Back button state
+            if (currentSlide === 0) {
+                btnPrev.setAttribute('disabled', 'true');
+                btnPrev.classList.add('opacity-50', 'cursor-not-allowed', 'hover:bg-slate-50');
+                btnPrev.classList.remove('hover:bg-slate-100', 'text-slate-700');
+            } else {
+                btnPrev.removeAttribute('disabled');
+                btnPrev.classList.remove('opacity-50', 'cursor-not-allowed', 'hover:bg-slate-50');
+                btnPrev.classList.add('hover:bg-slate-100', 'text-slate-700');
+            }
+
+            // Next button state
+            if (currentSlide === slides.length - 1) {
+                btnNext.classList.add('hidden');
+            } else {
+                btnNext.classList.remove('hidden');
+            }
+
+            // Scroll to top of main container on slide change
+            document.querySelector('main').scrollTop = 0;
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) { currentSlide++; updateUI(); }
+        }
+        function prevSlide() {
+            if (currentSlide > 0) { currentSlide--; updateUI(); }
+        }
+
+        // TEXT TO SPEECH
+        function playAudio(event, text) {
+            event.stopPropagation();
+            if ('speechSynthesis' in window) {
+                // Cancela audios previos para que no se encimen
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.85; 
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // GENERATE FLASHCARDS
+        function generateFlashcards(containerId, dataArray) {
+            const container = document.getElementById(containerId);
+            let html = '';
+            // Solo tomamos los primeros 4 para la lección 1 para no saturar la vista móvil
+            const displayData = dataArray.slice(0, 4);
+            
+            displayData.forEach(item => {
+                html += `
+                <div class="h-32 md:h-40 perspective-1000 cursor-pointer group w-full" onclick="this.querySelector('.card-inner').classList.toggle('rotate-y-180'); playAudio(event, '${item.en}')">
+                    <div class="card-inner relative w-full h-full transition-transform duration-500 transform-style-3d">
+                        <!-- Frente (Blanco) -->
+                        <div class="absolute w-full h-full backface-hidden bg-white text-slate-800 rounded-2xl flex flex-col items-center justify-center p-3 shadow-sm border border-slate-200">
+                            <span class="text-3xl md:text-4xl mb-2">${item.emoji}</span>
+                            <h4 class="text-sm md:text-base font-bold text-center leading-tight text-slate-700">${item.en}</h4>
+                        </div>
+                        <!-- Atrás (Azul) -->
+                        <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-blue-600 text-white rounded-2xl flex flex-col items-center justify-center p-3 shadow-md border border-blue-500">
+                            <span class="text-2xl mb-1 opacity-50">${item.emoji}</span>
+                            <h4 class="text-sm md:text-base font-bold text-center">${item.es}</h4>
+                        </div>
+                    </div>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        // GENERATE DICTIONARY
+        function renderDictionary() {
+            const grid = document.getElementById('dictionary-grid');
+            let html = '';
+            chunkData.forEach(chunk => {
+                html += `
+                <div class="bg-slate-50 border border-slate-200 p-3 md:p-4 rounded-xl flex items-center gap-3">
+                    <div class="text-2xl bg-white w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center shrink-0 border border-slate-100 shadow-sm">${chunk.emoji}</div>
+                    <div class="flex-1">
+                        <p class="font-bold text-slate-800 text-sm md:text-base leading-tight mb-0.5">${chunk.en}</p>
+                        <p class="text-xs md:text-sm text-slate-500">${chunk.es}</p>
+                    </div>
+                    <button onclick="playAudio(event, '${chunk.en}')" class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-600 hover:text-white transition flex items-center justify-center shrink-0">
+                        <i class="fas fa-volume-up text-xs md:text-sm"></i>
+                    </button>
+                </div>`;
+            });
+            grid.innerHTML = html;
+        }
+
+        // MODAL DICTIONARY
+        function toggleDictionary() {
+            const modal = document.getElementById('dictionary-modal');
+            const box = document.getElementById('dictionary-box');
+            
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    box.classList.remove('scale-95');
+                }, 10);
+            } else {
+                modal.classList.add('opacity-0');
+                box.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        // EXERCISE LOGIC
+        function checkAnswer(exerciseId, btnElement, isCorrect, fillText = null) {
+            const container = btnElement.parentElement;
+            const buttons = container.querySelectorAll('button');
+            
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if(btn !== btnElement) {
+                    btn.classList.add('opacity-40');
+                }
+            });
+
+            const feedback = document.getElementById(`${exerciseId}-feedback`);
+            feedback.classList.remove('hidden', 'text-green-600', 'text-red-600', 'bg-green-50', 'bg-red-50', 'border-green-200', 'border-red-200');
+
+            if (isCorrect) {
+                btnElement.classList.add('bg-green-500', 'text-white', 'border-green-600', 'shadow-md');
+                btnElement.classList.remove('bg-slate-50', 'text-slate-700', 'hover:bg-slate-100');
+                
+                feedback.classList.add('text-green-700', 'bg-green-50', 'border', 'border-green-200');
+                feedback.innerHTML = '<i class="fas fa-check-circle mr-1"></i> ¡Correcto!';
+                
+                if (fillText) {
+                    const blank = document.getElementById(`${exerciseId}-blank`);
+                    if(blank) {
+                        blank.innerText = fillText;
+                        blank.classList.remove('text-blue-600', 'text-rose-500', 'text-purple-500', 'border-slate-300');
+                        blank.classList.add('text-green-600', 'border-green-400');
+                    }
+                }
+            } else {
+                btnElement.classList.add('bg-red-500', 'text-white', 'border-red-600', 'shadow-md');
+                btnElement.classList.remove('bg-slate-50', 'text-slate-700', 'hover:bg-slate-100');
+                
+                feedback.classList.add('text-red-700', 'bg-red-50', 'border', 'border-red-200');
+                feedback.innerHTML = '<i class="fas fa-times-circle mr-1"></i> Recuerda la regla e intenta en la siguiente.';
+            }
+        }
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', () => {
+            generateFlashcards('vocab-1', chunkData);
+            renderDictionary();
+            updateUI();
+        });
+
+    </script>
+</body>
+</html>
