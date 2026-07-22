@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Present Simple | Interactive Practice</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tone.js for sound feedback -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb', // Blue primary
+                            700: '#1d4ed8',
+                        },
+                        rule: '#f3e8ff', // Purple light for grammar rules
+                        rule_text: '#6b21a8',
+                        vocab: '#e0f2fe', // Sky blue for vocab
+                        vocab_text: '#0369a1',
+                        alert: '#ffedd5', // Orange for warnings
+                        alert_text: '#c2410c',
+                        success: '#10b981',
+                        error: '#ef4444',
+                    },
+                    boxShadow: {
+                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                        'hover': '0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            -webkit-font-smoothing: antialiased;
+            /* Prevent horizontal overflow on mobile */
+            overflow-x: hidden; 
+        }
+
+        /* Subtle animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-4px); }
+            40%, 80% { transform: translateX(4px); }
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        .animate-shake { animation: shake 0.4s ease-in-out; }
+        .animate-scale-in { animation: scaleIn 0.3s ease-out forwards; }
+
+        /* View Management */
+        .view-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .view-section.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Interactive Elements - Mobile Optimized */
+        .interactive-card {
+            transition: all 0.2s ease;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .interactive-card:active {
+            transform: scale(0.98);
+        }
+        @media (min-width: 768px) {
+            .interactive-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+                border-color: #cbd5e1;
+            }
+        }
+
+        /* Sentence Builder Words - Mobile touch target optimizations */
+        .word-block {
+            transition: all 0.2s;
+            cursor: pointer;
+            user-select: none;
+            border: 1px solid #cbd5e1;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .word-block:active:not(.used) {
+            background-color: #e2e8f0;
+            transform: scale(0.95);
+        }
+        @media (min-width: 768px) {
+            .word-block:hover:not(.used) {
+                background-color: #f1f5f9;
+                border-color: #94a3b8;
+            }
+        }
+        .word-block.used {
+            opacity: 0.4;
+            background-color: #e2e8f0;
+            pointer-events: none;
+            transform: scale(0.98);
+        }
+
+        /* Multiple Choice Options */
+        .mc-btn {
+            transition: all 0.2s ease;
+            border: 2px solid #e2e8f0;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .mc-btn:active:not(:disabled) {
+            transform: scale(0.98);
+        }
+        @media (min-width: 768px) {
+            .mc-btn:hover:not(:disabled) {
+                border-color: #94a3b8;
+                background-color: #f8fafc;
+            }
+        }
+        .mc-btn.correct {
+            border-color: #10b981;
+            background-color: #ecfdf5;
+            color: #065f46;
+        }
+        .mc-btn.incorrect {
+            border-color: #ef4444;
+            background-color: #fef2f2;
+            color: #991b1b;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans w-full overflow-x-hidden">
+
+    <!-- Navbar -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm w-full">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-brand-100 text-brand-600 rounded-xl flex items-center justify-center text-xl shrink-0">
+                    <i class="fa-solid fa-book-open"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-slate-800 leading-tight text-lg md:text-xl">Present Simple</h1>
+                    <p class="text-[10px] md:text-xs text-slate-500 font-medium">Cuaderno de Práctica</p>
+                </div>
+            </div>
+            <div class="flex items-center">
+                <button id="btn-toggle-sound" class="p-2 text-slate-400 hover:text-brand-600 transition-colors text-xl md:text-lg focus:outline-none" title="Activar/Desactivar Sonido">
+                    <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 1. DASHBOARD VIEW -->
+    <main id="view-dashboard" class="view-section active flex-1 w-full max-w-5xl mx-auto px-4 py-8 md:py-12">
+        
+        <div class="mb-8 md:mb-10 text-center md:text-left">
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-3">Tu Ruta de Aprendizaje</h2>
+            <p class="text-slate-600 text-sm md:text-base max-w-2xl">Completa las 4 lecciones para dominar las bases. Lee las tarjetas visuales y pon a prueba tu memoria con los ejercicios.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6" id="dashboard-grid">
+            <!-- Lessons injected by JS -->
+        </div>
+
+        <!-- Final Test Section -->
+        <div class="mt-10 md:mt-12 pt-8 border-t border-slate-200">
+            <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg text-white interactive-card border border-slate-700 w-full" id="btn-final-test">
+                <div class="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-5 text-center md:text-left">
+                    <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center text-3xl shrink-0 border border-white/20">
+                        🏆
+                    </div>
+                    <div>
+                        <h3 class="text-xl md:text-2xl font-bold mb-2">Test Final de Dominio</h3>
+                        <p class="text-slate-300 text-sm md:text-base leading-relaxed">Demuestra tu conocimiento en un desafío de 8 preguntas.</p>
+                    </div>
+                </div>
+                <button class="w-full md:w-auto px-8 py-3.5 bg-white text-slate-900 font-bold rounded-xl hover:bg-slate-100 transition-colors shrink-0 flex items-center justify-center gap-2 shadow-sm">
+                    Iniciar Test <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- 2. LESSON & EXERCISE VIEW -->
+    <main id="view-lesson" class="view-section flex-1 w-full max-w-3xl mx-auto px-4 py-6 md:py-8">
+        
+        <!-- Toolbar -->
+        <div class="flex items-center justify-between mb-8">
+            <button id="btn-back-home" class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-600 font-medium hover:bg-slate-50 transition-colors flex items-center gap-2 shadow-sm focus:outline-none">
+                <i class="fa-solid fa-arrow-left"></i> Volver
+            </button>
+            <div id="lesson-progress-indicator" class="text-xs md:text-sm font-bold text-brand-600 bg-brand-50 px-3 md:px-4 py-1.5 md:py-2 rounded-full border border-brand-100">
+                Teoría
+            </div>
+        </div>
+
+        <!-- Lesson Header -->
+        <div class="mb-10 text-center animate-fade-in" id="lesson-header">
+            <div id="lesson-emoji" class="text-5xl md:text-6xl mb-4 drop-shadow-sm">📚</div>
+            <h2 id="lesson-title" class="text-2xl md:text-3xl font-bold text-slate-800 mb-3">Título de la Lección</h2>
+            <p id="lesson-intro" class="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mx-auto px-2">Introducción breve.</p>
+        </div>
+
+        <!-- VISUAL THEORY CARDS -->
+        <div id="lesson-theory-section" class="space-y-6 md:space-y-8 mb-16 animate-fade-in w-full" style="animation-delay: 0.1s;">
+            <!-- Injected by JS: Rules, Warnings, Lexical Chunks -->
+        </div>
+
+        <!-- Call to Action to scroll to exercises -->
+        <div class="text-center mb-16 animate-fade-in hidden" id="scroll-to-practice" style="animation-delay: 0.3s;">
+            <div class="inline-flex flex-col items-center text-slate-400 bg-slate-50 px-6 py-4 rounded-2xl border border-slate-100">
+                <span class="text-xs font-bold uppercase tracking-widest mb-3 text-slate-500">Zona de Práctica Abajo</span>
+                <i class="fa-solid fa-chevron-down animate-bounce text-xl text-brand-400"></i>
+            </div>
+        </div>
+
+        <!-- EXERCISES SECTION -->
+        <div id="lesson-exercises-section" class="space-y-8 md:space-y-12">
+            <!-- Exercise 1 -->
+            <div id="exercise-1-container" class="bg-white rounded-2xl p-5 md:p-8 shadow-card border border-slate-100 animate-fade-in hidden w-full overflow-hidden">
+                <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+                    <span class="bg-brand-100 text-brand-700 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shrink-0">1</span>
+                    <h3 class="font-bold text-slate-800 text-base md:text-lg leading-tight">Selecciona la opción correcta</h3>
+                </div>
+                <div id="ex-1-content"></div>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div id="exercise-2-container" class="bg-white rounded-2xl p-5 md:p-8 shadow-card border border-slate-100 animate-fade-in hidden w-full overflow-hidden">
+                <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+                    <span class="bg-brand-100 text-brand-700 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shrink-0">2</span>
+                    <h3 class="font-bold text-slate-800 text-base md:text-lg leading-tight">Construye la oración</h3>
+                </div>
+                <div id="ex-2-content"></div>
+            </div>
+        </div>
+
+        <!-- Finish Lesson Button -->
+        <div class="mt-12 text-center hidden pb-12" id="lesson-complete-action">
+            <button id="btn-finish-lesson" class="w-full md:w-auto px-8 py-4 bg-brand-600 text-white font-bold text-lg rounded-xl hover:bg-brand-700 shadow-md transition-all animate-scale-in focus:outline-none">
+                ¡Lección Completada! 🎉
+            </button>
+        </div>
+    </main>
+
+    <script>
+        /**
+         * ==========================================
+         * 1. EDUCATIONAL DATA STRUCTURE
+         * Focus on Visual Cards (Rules, Warnings, Chunks)
+         * ==========================================
+         */
+        const courseData = {
+            lessons: [
+                {
+                    id: 0,
+                    title: "Lo Básico (I, You, We, They)",
+                    emoji: "👥",
+                    color: "blue",
+                    intro: "Para hablar de rutinas o hábitos usando Yo, Tú, Nosotros o Ellos, usamos el verbo en su forma original. ¡No cambia nada!",
+                    theory: {
+                        formula: {
+                            subject: "I / You / We / They",
+                            verb: "+ Verbo normal",
+                            complement: "+ Complemento"
+                        },
+                        chunks: [
+                            { en: "drink coffee", es: "beber café", emoji: "☕" },
+                            { en: "read a book", es: "leer un libro", emoji: "📖" },
+                            { en: "play sports", es: "hacer deporte", emoji: "⚽" },
+                            { en: "go to work", es: "ir al trabajo", emoji: "💼" }
+                        ],
+                        rule: "Si el sujeto eres tú (I), la persona con la que hablas (You), o un grupo plural (We, They), usa el verbo tal cual lo encuentras en el diccionario."
+                    },
+                    exercises: [
+                        {
+                            type: "multiple-choice",
+                            question: "We usually __________ in the morning before work.",
+                            options: ["drink coffee", "drinks coffee", "drinking coffee"],
+                            correctIndex: 0,
+                            hint: "Para 'We' (Nosotros), el verbo se mantiene en su forma original."
+                        },
+                        {
+                            type: "sentence-builder",
+                            question: "Ordena los bloques para formar la oración:",
+                            words: ["They", "play sports", "every", "weekend."],
+                            answer: "They play sports every weekend.",
+                        }
+                    ]
+                },
+                {
+                    id: 1,
+                    title: "La Tercera Persona (He, She, It)",
+                    emoji: "👤",
+                    color: "purple",
+                    intro: "Aquí viene la regla más famosa del inglés: Cuando hablamos de UNA persona ajena (Él, Ella, Eso), el verbo sufre un pequeño cambio.",
+                    theory: {
+                        formula: {
+                            subject: "He / She / It",
+                            verb: "+ Verbo con 'S' o 'ES'",
+                            complement: "+ Complemento"
+                        },
+                        chunks: [
+                            { en: "wakes up", es: "se despierta", emoji: "🌅" },
+                            { en: "eats dinner", es: "cena", emoji: "🍽️" },
+                            { en: "goes to school", es: "va a la escuela", emoji: "🏫" },
+                            { en: "studies hard", es: "estudia mucho", emoji: "📚" }
+                        ],
+                        warning: "¡Cuidado! El verbo 'have' (tener) es especial. Con He/She/It no se dice 'haves', se dice 'has'."
+                    },
+                    exercises: [
+                        {
+                            type: "multiple-choice",
+                            question: "My sister __________ to school by bus.",
+                            options: ["go", "goes", "goies"],
+                            correctIndex: 1,
+                            hint: "Para verbos que terminan en 'o' (como go), agregamos 'es' para She (My sister)."
+                        },
+                        {
+                            type: "sentence-builder",
+                            question: "Ordena los bloques para formar la oración:",
+                            words: ["He", "studies hard", "for his", "exams."],
+                            answer: "He studies hard for his exams.",
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "Negativos (Don't / Doesn't)",
+                    emoji: "🛑",
+                    color: "orange",
+                    intro: "Para decir que NO hacemos algo, necesitamos verbos auxiliares. Son como pequeños ayudantes que cargan con el 'no'.",
+                    theory: {
+                        formula: {
+                            subject: "Sujeto",
+                            verb: "+ don't / doesn't",
+                            complement: "+ Verbo base"
+                        },
+                        chunks: [
+                            { en: "don't like", es: "no me gusta", emoji: "👎" },
+                            { en: "doesn't want", es: "no quiere", emoji: "🙅" },
+                            { en: "don't know", es: "no saber", emoji: "🤷" },
+                            { en: "doesn't work", es: "no funciona/trabaja", emoji: "🛑" }
+                        ],
+                        rule: "I/You/We/They usan <strong>don't</strong>.<br>He/She/It usan <strong>doesn't</strong>.",
+                        warning: "¡Súper Importante! Si usas 'doesn't', el verbo principal PIERDE la 'S'. El auxiliar ya hizo el trabajo."
+                    },
+                    exercises: [
+                        {
+                            type: "multiple-choice",
+                            question: "This computer __________ very well.",
+                            options: ["don't work", "doesn't works", "doesn't work"],
+                            correctIndex: 2,
+                            hint: "This computer = It -> doesn't. Y recuerda: ¡sin 's' en el verbo principal!"
+                        },
+                        {
+                            type: "sentence-builder",
+                            question: "Ordena los bloques para formar la oración:",
+                            words: ["I", "don't like", "spicy", "food."],
+                            answer: "I don't like spicy food.",
+                        }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "Preguntas (Do / Does)",
+                    emoji: "❓",
+                    color: "emerald",
+                    intro: "En inglés, para hacer una pregunta de Sí o No, invertimos el orden y ponemos a nuestros ayudantes (Do/Does) al principio de la oración.",
+                    theory: {
+                        formula: {
+                            subject: "Do / Does",
+                            verb: "+ Sujeto",
+                            complement: "+ Verbo base ?"
+                        },
+                        chunks: [
+                            { en: "Do you...?", es: "¿Tú...?", emoji: "👉" },
+                            { en: "Does she...?", es: "¿Ella...?", emoji: "👩‍💼" },
+                            { en: "Where do you...?", es: "¿Dónde tú...?", emoji: "📍" },
+                            { en: "What time does he...?", es: "¿A qué hora él...?", emoji: "⌚" }
+                        ],
+                        warning: "Igual que en negativo: Si usas 'Does' al principio, el verbo de acción ya NO lleva 'S'."
+                    },
+                    exercises: [
+                        {
+                            type: "multiple-choice",
+                            question: "__________ play the guitar?",
+                            options: ["Do you", "Does you", "Are you"],
+                            correctIndex: 0,
+                            hint: "Para el sujeto 'You', el auxiliar de pregunta es 'Do'."
+                        },
+                        {
+                            type: "sentence-builder",
+                            question: "Arma la pregunta completa:",
+                            words: ["What time", "does he", "wake up", "today?"],
+                            answer: "What time does he wake up today?",
+                        }
+                    ]
+                }
+            ],
+            finalTest: [
+                { type: "multiple-choice", q: "I __________ coffee every morning.", options: ["drink", "drinks", "drinking"], ans: 0, hint: "Sujeto I = Verbo base." },
+                { type: "multiple-choice", q: "My brother __________ soccer on Sundays.", options: ["play", "plays", "playing"], ans: 1, hint: "My brother = He -> Verbo con S." },
+                { type: "multiple-choice", q: "They __________ like vegetables.", options: ["don't", "doesn't", "not"], ans: 0, hint: "They -> don't." },
+                { type: "multiple-choice", q: "__________ she live in London?", options: ["Do", "Does", "Is"], ans: 1, hint: "She -> Does." },
+                { type: "multiple-choice", q: "He doesn't __________ meat.", options: ["eat", "eats", "eating"], ans: 0, hint: "Con doesn't, el verbo va sin S." },
+                { type: "sentence-builder", q: "Ordena:", words: ["We", "go to work", "by bus."], ans: "We go to work by bus." },
+                { type: "sentence-builder", q: "Ordena:", words: ["She", "washes the dishes", "at night."], ans: "She washes the dishes at night." },
+                { type: "sentence-builder", q: "Ordena:", words: ["Where", "do you", "live?"], ans: "Where do you live?" }
+            ]
+        };
+
+        /**
+         * ==========================================
+         * 2. SYSTEMS: Audio & State Management
+         * ==========================================
+         */
+        class AppState {
+            constructor() {
+                this.completedLessons = [false, false, false, false];
+                this.testCompleted = false;
+                this.load();
+            }
+            load() {
+                try {
+                    const saved = localStorage.getItem('presentSimpleWorkbook');
+                    if (saved) {
+                        const parsed = JSON.parse(saved);
+                        this.completedLessons = parsed.completedLessons || this.completedLessons;
+                        this.testCompleted = parsed.testCompleted || false;
+                    }
+                } catch(e) {
+                    console.error("Local storage error:", e);
+                }
+            }
+            save() {
+                try {
+                    localStorage.setItem('presentSimpleWorkbook', JSON.stringify({
+                        completedLessons: this.completedLessons,
+                        testCompleted: this.testCompleted
+                    }));
+                } catch(e) {
+                    // Fail silently for private browsing
+                }
+            }
+            markLessonComplete(index) {
+                this.completedLessons[index] = true;
+                this.save();
+            }
+        }
+
+        class AudioManager {
+            constructor() {
+                this.enabled = true;
+                this.synth = null;
+                this.isInit = false;
+            }
+            async init() {
+                if (this.isInit) return;
+                try {
+                    await Tone.start();
+                    this.synth = new Tone.PolySynth(Tone.Synth, {
+                        oscillator: { type: "sine" },
+                        envelope: { attack: 0.05, decay: 0.1, sustain: 0.1, release: 0.5 }
+                    }).toDestination();
+                    this.synth.volume.value = -12;
+                    this.isInit = true;
+                } catch(e) {
+                    console.warn("Audio blocked by browser.");
+                }
+            }
+            toggle() {
+                this.enabled = !this.enabled;
+                return this.enabled;
+            }
+            play(type) {
+                if (!this.enabled || !this.isInit || !this.synth) return;
+                const now = Tone.now();
+                if (type === 'tap') {
+                    this.synth.triggerAttackRelease("C5", "32n", now);
+                } else if (type === 'correct') {
+                    this.synth.triggerAttackRelease(["C5", "E5"], "16n", now);
+                } else if (type === 'wrong') {
+                    this.synth.triggerAttackRelease("C3", "8n", now);
+                    this.synth.triggerAttackRelease("G2", "8n", now + 0.1);
+                } else if (type === 'finish') {
+                    this.synth.triggerAttackRelease(["C4", "E4", "G4"], "8n", now);
+                    this.synth.triggerAttackRelease(["E4", "G4", "C5"], "4n", now + 0.2);
+                }
+            }
+        }
+
+        /**
+         * ==========================================
+         * 3. UI CONTROLLER (Rendering & Logic)
+         * ==========================================
+         */
+        class UIController {
+            constructor() {
+                this.state = new AppState();
+                this.audio = new AudioManager();
+                
+                // Views
+                this.vDashboard = document.getElementById('view-dashboard');
+                this.vLesson = document.getElementById('view-lesson');
+                
+                // Trackers
+                this.currentLessonId = null;
+                this.isTestMode = false;
+                this.exerciseState = { ex1: false, ex2: false };
+                this.testState = { currentQ: 0, score: 0 };
+                this.isProcessingInput = false; // Lock flag for buttons
+
+                this.bindEvents();
+                this.renderDashboard();
+            }
+
+            bindEvents() {
+                // Audio Toggle
+                const soundBtn = document.getElementById('btn-toggle-sound');
+                const soundIcon = document.getElementById('sound-icon');
+                soundBtn.addEventListener('click', async () => {
+                    await this.audio.init();
+                    const isEnabled = this.audio.toggle();
+                    soundIcon.className = isEnabled ? "fa-solid fa-volume-high" : "fa-solid fa-volume-xmark";
+                    if(isEnabled) this.audio.play('tap');
+                });
+
+                // Back to Dashboard
+                document.getElementById('btn-back-home').addEventListener('click', () => {
+                    this.audio.play('tap');
+                    this.renderDashboard();
+                    this.switchView(this.vDashboard);
+                });
+
+                // Finish Lesson Button
+                document.getElementById('btn-finish-lesson').addEventListener('click', () => {
+                    this.audio.play('finish');
+                    if (!this.isTestMode) {
+                        this.state.markLessonComplete(this.currentLessonId);
+                    } else {
+                        this.state.testCompleted = true;
+                        this.state.save();
+                    }
+                    this.renderDashboard();
+                    this.switchView(this.vDashboard);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+
+                // Final Test Init
+                document.getElementById('btn-final-test').addEventListener('click', async () => {
+                    await this.audio.init();
+                    this.audio.play('tap');
+                    this.startFinalTest();
+                });
+            }
+
+            switchView(viewEl) {
+                document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+                setTimeout(() => {
+                    viewEl.classList.add('active');
+                }, 50);
+            }
+
+            // --- DASHBOARD RENDER ---
+            renderDashboard() {
+                const grid = document.getElementById('dashboard-grid');
+                grid.innerHTML = '';
+
+                const colors = {
+                    blue: 'bg-blue-50 text-blue-600 border-blue-200',
+                    purple: 'bg-purple-50 text-purple-600 border-purple-200',
+                    orange: 'bg-orange-50 text-orange-600 border-orange-200',
+                    emerald: 'bg-emerald-50 text-emerald-600 border-emerald-200'
+                };
+
+                courseData.lessons.forEach((lesson, index) => {
+                    const isDone = this.state.completedLessons[index];
+                    const colorClasses = colors[lesson.color];
+                    
+                    const card = document.createElement('div');
+                    card.className = `interactive-card bg-white rounded-2xl p-5 md:p-6 border shadow-sm flex flex-col justify-between h-full ${isDone ? 'border-success ring-1 ring-success bg-emerald-50/20' : 'border-slate-200'}`;
+                    
+                    card.innerHTML = `
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl ${colorClasses}">
+                                    ${lesson.emoji}
+                                </div>
+                                ${isDone ? '<span class="text-success text-xl" title="Completado"><i class="fa-solid fa-circle-check"></i></span>' : ''}
+                            </div>
+                            <h3 class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Módulo ${index + 1}</h3>
+                            <h2 class="text-lg md:text-xl font-bold text-slate-800 mb-2 leading-tight">${lesson.title}</h2>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-slate-100 flex items-center text-sm font-medium ${isDone ? 'text-success' : 'text-brand-600'}">
+                            ${isDone ? 'Repasar Lección' : 'Comenzar Lección'} <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </div>
+                    `;
+
+                    card.addEventListener('click', async () => {
+                        await this.audio.init();
+                        this.audio.play('tap');
+                        this.openLesson(lesson);
+                    });
+
+                    grid.appendChild(card);
+                });
+
+                // Update Final Test Button Style based on progress
+                const testBtn = document.getElementById('btn-final-test');
+                if (this.state.testCompleted) {
+                    testBtn.classList.remove('from-slate-800', 'to-slate-900', 'border-slate-700');
+                    testBtn.classList.add('from-emerald-600', 'to-emerald-700', 'border-emerald-600');
+                    testBtn.querySelector('h3').innerText = "Test Final Superado 🎉";
+                    testBtn.querySelector('p').innerText = "¡Felicidades! Tienes una base sólida en este tema.";
+                    testBtn.querySelector('button').innerHTML = `Reintentar Test <i class="fa-solid fa-rotate-right"></i>`;
+                }
+            }
+
+            // --- LESSON VIEW RENDER ---
+            openLesson(lesson) {
+                this.isTestMode = false;
+                this.currentLessonId = lesson.id;
+                this.exerciseState = { ex1: false, ex2: false };
+                this.isProcessingInput = false;
+                
+                // Headers
+                document.getElementById('lesson-emoji').innerText = lesson.emoji;
+                document.getElementById('lesson-title').innerText = lesson.title;
+                document.getElementById('lesson-intro').innerText = lesson.intro;
+                document.getElementById('lesson-progress-indicator').innerText = "Teoría y Práctica";
+                
+                // Hide exercise containers initially
+                document.getElementById('exercise-1-container').classList.add('hidden');
+                document.getElementById('exercise-2-container').classList.add('hidden');
+                document.getElementById('lesson-complete-action').classList.add('hidden');
+                document.getElementById('scroll-to-practice').classList.remove('hidden');
+
+                this.renderVisualTheory(lesson.theory);
+                this.renderExercises(lesson.exercises);
+
+                this.switchView(this.vLesson);
+                window.scrollTo({ top: 0, behavior: 'auto' });
+            }
+
+            renderVisualTheory(theory) {
+                const container = document.getElementById('lesson-theory-section');
+                container.innerHTML = '';
+                container.classList.remove('hidden');
+
+                // 1. Formula Card (Structure) - Highly responsive layout
+                const formulaHtml = `
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden w-full">
+                        <div class="bg-slate-50 px-5 md:px-6 py-3 border-b border-slate-200">
+                            <h4 class="text-xs md:text-sm font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2"><i class="fa-solid fa-puzzle-piece text-brand-500"></i> Estructura Base</h4>
+                        </div>
+                        <div class="p-5 md:p-6 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4 text-center">
+                            <div class="bg-slate-100 px-4 py-3 md:py-2 w-full md:w-auto rounded-xl font-semibold text-slate-700">${theory.formula.subject}</div>
+                            <i class="fa-solid fa-plus text-slate-300 hidden md:block"></i>
+                            <div class="bg-brand-50 px-4 py-3 md:py-2 w-full md:w-auto rounded-xl font-bold text-brand-700 border border-brand-200 shadow-sm">${theory.formula.verb}</div>
+                            <i class="fa-solid fa-plus text-slate-300 hidden md:block"></i>
+                            <div class="bg-slate-100 px-4 py-3 md:py-2 w-full md:w-auto rounded-xl font-semibold text-slate-500">${theory.formula.complement}</div>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', formulaHtml);
+
+                // 2. Rule Card (if exists)
+                if (theory.rule) {
+                    const ruleHtml = `
+                        <div class="bg-rule rounded-2xl p-5 md:p-6 border border-purple-200 shadow-sm flex flex-col sm:flex-row gap-4 items-start w-full">
+                            <div class="text-rule_text text-2xl shrink-0"><i class="fa-regular fa-lightbulb"></i></div>
+                            <div>
+                                <h4 class="font-bold text-rule_text mb-1 text-lg">Regla de Oro</h4>
+                                <p class="text-purple-900 leading-relaxed text-sm md:text-base">${theory.rule}</p>
+                            </div>
+                        </div>
+                    `;
+                    container.insertAdjacentHTML('beforeend', ruleHtml);
+                }
+
+                // 3. Warning Card (if exists)
+                if (theory.warning) {
+                    const warningHtml = `
+                        <div class="bg-alert rounded-2xl p-5 md:p-6 border border-orange-200 shadow-sm flex flex-col sm:flex-row gap-4 items-start w-full">
+                            <div class="text-alert_text text-2xl shrink-0"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                            <div>
+                                <h4 class="font-bold text-alert_text mb-1 text-lg">¡Cuidado!</h4>
+                                <p class="text-orange-900 leading-relaxed text-sm md:text-base">${theory.warning}</p>
+                            </div>
+                        </div>
+                    `;
+                    container.insertAdjacentHTML('beforeend', warningHtml);
+                }
+
+                // 4. Lexical Chunks Vocabulary Cards - Adaptive Grid
+                let chunksCards = theory.chunks.map(chunk => `
+                    <div class="bg-vocab border border-sky-200 rounded-2xl p-4 md:p-5 flex flex-col items-center justify-center text-center shadow-sm w-full h-full">
+                        <span class="text-3xl md:text-4xl mb-3">${chunk.emoji}</span>
+                        <span class="font-bold text-vocab_text text-base md:text-lg leading-tight mb-1">${chunk.en}</span>
+                        <span class="text-sky-700 text-xs md:text-sm font-medium">${chunk.es}</span>
+                    </div>
+                `).join('');
+
+                const vocabHtml = `
+                    <div class="mt-8 md:mt-10 w-full">
+                        <h4 class="text-xs md:text-sm font-bold text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2"><i class="fa-solid fa-tags text-sky-500"></i> Vocabulario Clave</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 w-full">
+                            ${chunksCards}
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', vocabHtml);
+            }
+
+            // --- EXERCISES RENDER & LOGIC ---
+            renderExercises(exercises) {
+                // EXERCISE 1: Multiple Choice
+                const ex1 = exercises[0];
+                const cont1 = document.getElementById('exercise-1-container');
+                const content1 = document.getElementById('ex-1-content');
+                
+                cont1.classList.remove('hidden');
+                
+                let optsHtml = ex1.options.map((opt, i) => `
+                    <button class="mc-btn w-full text-left p-4 md:p-5 rounded-xl font-semibold text-slate-700 bg-white text-base md:text-lg" data-index="${i}">
+                        ${opt}
+                    </button>
+                `).join('');
+
+                content1.innerHTML = `
+                    <p class="text-lg md:text-xl text-slate-800 mb-6 font-medium leading-relaxed">${ex1.question}</p>
+                    <div class="space-y-3 md:space-y-4 w-full" id="mc-options-container">
+                        ${optsHtml}
+                    </div>
+                    <div id="ex1-feedback" class="mt-5 p-3 rounded-lg text-sm font-bold hidden w-full"></div>
+                `;
+
+                // Bind MC events (robust against double taps)
+                const btns = content1.querySelectorAll('.mc-btn');
+                const feedback = content1.querySelector('#ex1-feedback');
+
+                btns.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        if (this.isProcessingInput) return;
+                        this.isProcessingInput = true;
+                        
+                        const selectedIdx = parseInt(e.target.dataset.index);
+                        btns.forEach(b => b.disabled = true);
+
+                        if (selectedIdx === ex1.correctIndex) {
+                            this.audio.play('correct');
+                            e.target.classList.add('correct');
+                            e.target.innerHTML += ' <i class="fa-solid fa-check float-right mt-1"></i>';
+                            
+                            feedback.className = "mt-5 p-3 rounded-lg text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 animate-fade-in";
+                            feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> ¡Excelente!';
+                            
+                            this.exerciseState.ex1 = true;
+                            this.isProcessingInput = false;
+                            this.checkLessonProgress();
+                        } else {
+                            this.audio.play('wrong');
+                            e.target.classList.add('incorrect');
+                            
+                            feedback.className = "mt-5 p-3 md:p-4 rounded-lg text-sm font-bold bg-red-50 text-red-700 border border-red-200 animate-fade-in flex items-start gap-2";
+                            feedback.innerHTML = `<i class="fa-solid fa-circle-info mt-0.5 shrink-0"></i> <span>Pista: ${ex1.hint}</span>`;
+                            
+                            // Reset to try again safely
+                            setTimeout(() => {
+                                e.target.classList.remove('incorrect');
+                                btns.forEach(b => b.disabled = false);
+                                feedback.classList.add('hidden');
+                                this.isProcessingInput = false;
+                            }, 2500);
+                        }
+                    });
+                });
+
+                // EXERCISE 2: Sentence Builder
+                const ex2 = exercises[1];
+                const cont2 = document.getElementById('exercise-2-container');
+                const content2 = document.getElementById('ex-2-content');
+                
+                cont2.classList.remove('hidden');
+
+                // Shuffle words array (simple shuffle)
+                let shuffledWords = [...ex2.words].sort(() => Math.random() - 0.5);
+
+                let wordsHtml = shuffledWords.map(w => `
+                    <div class="word-block px-4 py-3 md:py-2.5 bg-white text-slate-700 font-semibold rounded-xl shadow-sm border border-slate-200 text-center flex-grow sm:flex-grow-0" data-word="${w}">${w}</div>
+                `).join('');
+
+                content2.innerHTML = `
+                    <p class="text-base md:text-lg text-slate-800 mb-5 font-medium leading-relaxed">${ex2.question}</p>
+                    
+                    <div class="min-h-[5rem] bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl p-3 md:p-4 flex flex-wrap gap-2 items-center mb-6 transition-colors w-full" id="sb-dropzone">
+                        <!-- Placed words go here -->
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 md:gap-3 w-full" id="sb-bank">
+                        ${wordsHtml}
+                    </div>
+
+                    <div class="flex justify-end gap-3 mt-6 hidden w-full" id="sb-actions">
+                        <button id="sb-btn-reset" class="px-5 py-2.5 text-slate-500 font-medium hover:bg-slate-100 rounded-xl transition-colors focus:outline-none">Reiniciar</button>
+                        <button id="sb-btn-check" class="px-6 py-2.5 bg-slate-800 text-white font-medium rounded-xl hover:bg-slate-900 transition-colors shadow-sm focus:outline-none">Verificar</button>
+                    </div>
+                `;
+
+                // Bind SB events with strict state checking
+                const bank = content2.querySelector('#sb-bank');
+                const dropzone = content2.querySelector('#sb-dropzone');
+                const actions = content2.querySelector('#sb-actions');
+                const btnReset = content2.querySelector('#sb-btn-reset');
+                const btnCheck = content2.querySelector('#sb-btn-check');
+
+                const wordBlocks = bank.querySelectorAll('.word-block');
+
+                wordBlocks.forEach(block => {
+                    block.addEventListener('click', () => {
+                        if (block.classList.contains('used') || this.isProcessingInput) return;
+                        
+                        this.audio.play('tap');
+                        block.classList.add('used');
+                        
+                        const word = block.dataset.word;
+                        const id = Math.random().toString(36).substr(2, 9);
+                        block.dataset.tiedId = id;
+
+                        const pill = document.createElement('div');
+                        pill.className = 'px-4 py-2 bg-brand-600 text-white font-semibold rounded-lg shadow-sm animate-scale-in cursor-pointer select-none';
+                        pill.innerText = word;
+                        pill.dataset.originId = id;
+
+                        // Click to remove
+                        pill.addEventListener('click', () => {
+                            if(this.isProcessingInput) return;
+                            this.audio.play('tap');
+                            pill.remove();
+                            const origin = bank.querySelector(`[data-tied-id="${id}"]`);
+                            if(origin) origin.classList.remove('used');
+                            checkActionsState();
+                        });
+
+                        dropzone.appendChild(pill);
+                        checkActionsState();
+                    });
+                });
+
+                const checkActionsState = () => {
+                    const pills = dropzone.querySelectorAll('div');
+                    if (pills.length > 0) {
+                        actions.classList.remove('hidden');
+                    } else {
+                        actions.classList.add('hidden');
+                    }
+                }
+
+                btnReset.addEventListener('click', () => {
+                    if (this.isProcessingInput) return;
+                    this.audio.play('tap');
+                    dropzone.innerHTML = '';
+                    wordBlocks.forEach(b => b.classList.remove('used'));
+                    checkActionsState();
+                    dropzone.classList.remove('border-error', 'bg-red-50');
+                    dropzone.classList.add('border-slate-200', 'bg-slate-50');
+                });
+
+                btnCheck.addEventListener('click', () => {
+                    if (this.isProcessingInput) return;
+                    this.isProcessingInput = true;
+                    
+                    const pills = Array.from(dropzone.querySelectorAll('div'));
+                    const currentString = pills.map(p => p.innerText).join(' ');
+
+                    if (currentString === ex2.answer) {
+                        this.audio.play('correct');
+                        dropzone.classList.remove('border-slate-200', 'border-dashed', 'bg-slate-50');
+                        dropzone.classList.add('border-success', 'border-solid', 'bg-emerald-50'); 
+                        dropzone.style.backgroundColor = '#ecfdf5';
+                        
+                        pills.forEach(p => {
+                            p.classList.remove('bg-brand-600');
+                            p.classList.add('bg-success');
+                            p.style.pointerEvents = 'none';
+                        });
+                        actions.classList.add('hidden');
+                        
+                        this.exerciseState.ex2 = true;
+                        this.isProcessingInput = false;
+                        this.checkLessonProgress();
+                    } else {
+                        this.audio.play('wrong');
+                        dropzone.classList.add('animate-shake', 'border-error', 'bg-red-50');
+                        
+                        setTimeout(() => {
+                            dropzone.classList.remove('animate-shake', 'border-error', 'bg-red-50');
+                            dropzone.classList.add('border-slate-200', 'bg-slate-50');
+                            this.isProcessingInput = false;
+                        }, 600);
+                    }
+                });
+            }
+
+            checkLessonProgress() {
+                if (this.exerciseState.ex1 && this.exerciseState.ex2) {
+                    document.getElementById('scroll-to-practice').classList.add('hidden');
+                    const finishDiv = document.getElementById('lesson-complete-action');
+                    finishDiv.classList.remove('hidden');
+                    
+                    // Smooth scroll down to reveal completion button fully
+                    setTimeout(() => {
+                        finishDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    }, 100);
+                }
+            }
+
+            // --- FINAL TEST LOGIC ---
+            startFinalTest() {
+                this.isTestMode = true;
+                this.testState = { currentQ: 0, score: 0 };
+                this.isProcessingInput = false;
+                
+                // Hide theory section for test
+                document.getElementById('lesson-theory-section').classList.add('hidden');
+                document.getElementById('scroll-to-practice').classList.add('hidden');
+                document.getElementById('exercise-1-container').classList.add('hidden');
+                document.getElementById('exercise-2-container').classList.add('hidden');
+                document.getElementById('lesson-complete-action').classList.add('hidden');
+
+                // Adjust Headers
+                document.getElementById('lesson-emoji').innerText = "🏆";
+                document.getElementById('lesson-title').innerText = "Test Final";
+                document.getElementById('lesson-intro').innerText = "Demuestra tu dominio resolviendo estas 8 preguntas.";
+                document.getElementById('lesson-progress-indicator').innerText = `Pregunta 1 de ${courseData.finalTest.length}`;
+                
+                this.switchView(this.vLesson);
+                this.renderTestQuestion();
+            }
+
+            renderTestQuestion() {
+                const qData = courseData.finalTest[this.testState.currentQ];
+                
+                const cont = document.getElementById('exercise-1-container');
+                const content = document.getElementById('ex-1-content');
+                cont.classList.remove('hidden');
+                
+                // Update header inside container
+                cont.querySelector('h3').innerText = qData.type === 'multiple-choice' ? "Selecciona la opción correcta" : "Construye la oración";
+                cont.querySelector('span').innerText = this.testState.currentQ + 1;
+                document.getElementById('lesson-progress-indicator').innerText = `Pregunta ${this.testState.currentQ + 1} de ${courseData.finalTest.length}`;
+
+                if (qData.type === 'multiple-choice') {
+                    this.renderTestMC(qData, content);
+                } else {
+                    this.renderTestSB(qData, content);
+                }
+            }
+
+            renderTestMC(qData, contentEl) {
+                let optsHtml = qData.options.map((opt, i) => `
+                    <button class="mc-btn w-full text-left p-4 md:p-5 rounded-xl font-semibold text-slate-700 bg-white text-base md:text-lg" data-index="${i}">
+                        ${opt}
+                    </button>
+                `).join('');
+
+                contentEl.innerHTML = `
+                    <p class="text-lg md:text-xl text-slate-800 mb-6 font-medium leading-relaxed">${qData.q}</p>
+                    <div class="space-y-3 md:space-y-4 w-full">
+                        ${optsHtml}
+                    </div>
+                `;
+
+                const btns = contentEl.querySelectorAll('.mc-btn');
+                btns.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        if (this.isProcessingInput) return;
+                        this.isProcessingInput = true;
+                        
+                        const selectedIdx = parseInt(e.target.dataset.index);
+                        btns.forEach(b => b.disabled = true);
+
+                        if (selectedIdx === qData.ans) {
+                            this.audio.play('correct');
+                            e.target.classList.add('correct');
+                            this.testState.score++;
+                            setTimeout(() => {
+                                this.isProcessingInput = false;
+                                this.nextTestQuestion();
+                            }, 1000);
+                        } else {
+                            this.audio.play('wrong');
+                            e.target.classList.add('incorrect');
+                            // Highlight correct answer
+                            btns[qData.ans].classList.add('correct');
+                            setTimeout(() => {
+                                this.isProcessingInput = false;
+                                this.nextTestQuestion();
+                            }, 2000);
+                        }
+                    });
+                });
+            }
+
+            renderTestSB(qData, contentEl) {
+                let shuffledWords = [...qData.words].sort(() => Math.random() - 0.5);
+                let wordsHtml = shuffledWords.map(w => `
+                    <div class="word-block px-4 py-3 md:py-2.5 bg-white text-slate-700 font-semibold rounded-xl shadow-sm border border-slate-200 text-center flex-grow sm:flex-grow-0" data-word="${w}">${w}</div>
+                `).join('');
+
+                contentEl.innerHTML = `
+                    <p class="text-base md:text-lg text-slate-800 mb-5 font-medium leading-relaxed">${qData.q}</p>
+                    <div class="min-h-[5rem] bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl p-3 md:p-4 flex flex-wrap gap-2 items-center mb-6 transition-colors w-full" id="sb-dropzone-test"></div>
+                    <div class="flex flex-wrap gap-2 md:gap-3 w-full" id="sb-bank-test">${wordsHtml}</div>
+                    <div class="flex justify-end gap-3 mt-6 hidden w-full" id="sb-actions-test">
+                        <button id="sb-btn-reset-test" class="px-5 py-2.5 text-slate-500 font-medium hover:bg-slate-100 rounded-xl transition-colors focus:outline-none">Reiniciar</button>
+                        <button id="sb-btn-check-test" class="px-6 py-2.5 bg-slate-800 text-white font-medium rounded-xl hover:bg-slate-900 transition-colors shadow-sm focus:outline-none">Verificar</button>
+                    </div>
+                `;
+
+                const bank = contentEl.querySelector('#sb-bank-test');
+                const dropzone = contentEl.querySelector('#sb-dropzone-test');
+                const actions = contentEl.querySelector('#sb-actions-test');
+                const btnReset = contentEl.querySelector('#sb-btn-reset-test');
+                const btnCheck = contentEl.querySelector('#sb-btn-check-test');
+                const wordBlocks = bank.querySelectorAll('.word-block');
+
+                wordBlocks.forEach(block => {
+                    block.addEventListener('click', () => {
+                        if (block.classList.contains('used') || this.isProcessingInput) return;
+                        this.audio.play('tap');
+                        block.classList.add('used');
+                        
+                        const word = block.dataset.word;
+                        const id = Math.random().toString(36).substr(2, 9);
+                        block.dataset.tiedId = id;
+
+                        const pill = document.createElement('div');
+                        pill.className = 'px-4 py-2 bg-brand-600 text-white font-semibold rounded-lg shadow-sm cursor-pointer select-none';
+                        pill.innerText = word;
+                        pill.dataset.originId = id;
+
+                        pill.addEventListener('click', () => {
+                            if(this.isProcessingInput) return;
+                            this.audio.play('tap');
+                            pill.remove();
+                            const origin = bank.querySelector(`[data-tied-id="${id}"]`);
+                            if(origin) origin.classList.remove('used');
+                            actions.classList.toggle('hidden', dropzone.querySelectorAll('div').length === 0);
+                        });
+
+                        dropzone.appendChild(pill);
+                        actions.classList.remove('hidden');
+                    });
+                });
+
+                btnReset.addEventListener('click', () => {
+                    if (this.isProcessingInput) return;
+                    this.audio.play('tap');
+                    dropzone.innerHTML = '';
+                    wordBlocks.forEach(b => b.classList.remove('used'));
+                    actions.classList.add('hidden');
+                });
+
+                btnCheck.addEventListener('click', () => {
+                    if (this.isProcessingInput) return;
+                    this.isProcessingInput = true;
+                    
+                    const currentString = Array.from(dropzone.querySelectorAll('div')).map(p => p.innerText).join(' ');
+
+                    if (currentString === qData.ans) {
+                        this.audio.play('correct');
+                        dropzone.style.backgroundColor = '#ecfdf5';
+                        dropzone.style.borderColor = '#10b981';
+                        this.testState.score++;
+                        actions.classList.add('hidden');
+                        setTimeout(() => {
+                            this.isProcessingInput = false;
+                            this.nextTestQuestion();
+                        }, 1200);
+                    } else {
+                        this.audio.play('wrong');
+                        dropzone.classList.add('animate-shake', 'border-error', 'bg-red-50');
+                        setTimeout(() => {
+                            dropzone.classList.remove('animate-shake', 'border-error', 'bg-red-50');
+                            this.isProcessingInput = false;
+                        }, 600);
+                    }
+                });
+            }
+
+            nextTestQuestion() {
+                this.testState.currentQ++;
+                if (this.testState.currentQ < courseData.finalTest.length) {
+                    this.renderTestQuestion();
+                } else {
+                    this.finishTest();
+                }
+            }
+
+            finishTest() {
+                const cont = document.getElementById('exercise-1-container');
+                const content = document.getElementById('ex-1-content');
+                
+                const isPerfect = this.testState.score === courseData.finalTest.length;
+                if(isPerfect) this.audio.play('finish');
+                else this.audio.play('tap');
+
+                cont.querySelector('h3').innerText = "Resultados del Test";
+                cont.querySelector('span').innerText = "★";
+                document.getElementById('lesson-progress-indicator').innerText = "Completado";
+
+                content.innerHTML = `
+                    <div class="text-center py-6 w-full">
+                        <div class="text-6xl md:text-7xl mb-5">${isPerfect ? '🌟' : '👍'}</div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-3">Tu Puntuación: ${this.testState.score} / ${courseData.finalTest.length}</h2>
+                        <p class="text-slate-600 text-sm md:text-base mb-8 max-w-md mx-auto leading-relaxed">${isPerfect ? '¡Increíble! Tienes un dominio total del Presente Simple.' : '¡Buen trabajo! Sigue repasando las lecciones para alcanzar la perfección.'}</p>
+                    </div>
+                `;
+
+                const completeBtnDiv = document.getElementById('lesson-complete-action');
+                completeBtnDiv.classList.remove('hidden');
+                document.getElementById('btn-finish-lesson').innerText = "Volver al Menú Principal";
+                
+                setTimeout(() => {
+                    completeBtnDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }, 100);
+            }
+        }
+
+        // Initialize App reliably on DOM Load
+        document.addEventListener('DOMContentLoaded', () => {
+            const app = new UIController();
+        });
+    </script>
+</body>
+</html>
