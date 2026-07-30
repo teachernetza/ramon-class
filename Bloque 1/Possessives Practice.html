@@ -1,0 +1,537 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>English Workbook - Family, Clothes & Food</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+        
+        body { 
+            font-family: 'Nunito', sans-serif; 
+            touch-action: manipulation; 
+            -webkit-tap-highlight-color: transparent;
+            background-color: #f1f5f9;
+        }
+        
+        .slide-enter { animation: slideUpFade 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hidden-slide { display: none !important; }
+        
+        /* Tree lines for desktop */
+        .tree-line-v { width: 2px; height: 20px; background: #cbd5e1; margin: 0 auto; }
+        .tree-line-h { height: 2px; background: #cbd5e1; width: 100%; }
+        
+        input[type="text"] {
+            transition: all 0.3s ease;
+        }
+        input[type="text"].correct {
+            border-color: #22c55e;
+            background-color: #f0fdf4;
+            color: #15803d;
+        }
+        input[type="text"].incorrect {
+            border-color: #ef4444;
+            background-color: #fef2f2;
+            color: #b91c1c;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased flex flex-col h-screen">
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-white shadow-sm px-4 py-3 flex justify-between items-center z-10 shrink-0">
+        <div class="flex items-center gap-2">
+            <div class="bg-indigo-600 text-white p-2 rounded-xl">
+                <i class="fas fa-book-open"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg leading-tight">Workbook</h1>
+                <p class="text-xs text-slate-500">Practice & Mastery 🚀</p>
+            </div>
+        </div>
+        <div class="text-sm font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100" id="slide-counter">
+            1 / 5
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto overflow-x-hidden relative p-4 pb-24" id="main-container">
+
+        <!-- SLIDE 1: INTRO -->
+        <div class="slide slide-enter max-w-2xl mx-auto" id="slide-0">
+            <div class="bg-white rounded-3xl p-8 shadow-sm text-center border-4 border-indigo-100 mt-10">
+                <div class="text-6xl mb-4">📝✨</div>
+                <h2 class="text-3xl font-black text-slate-800 mb-2">English Practice</h2>
+                <h3 class="text-xl font-bold text-indigo-500 mb-4">Family, Food, Clothes & Possessives</h3>
+                <p class="text-slate-600 mb-8 text-lg">
+                    ¡Bienvenido a tu tarea interactiva! Hoy pondremos a prueba tu vocabulario y gramática. 
+                    Asegúrate de escribir correctamente.
+                </p>
+                <button onclick="nextSlide()" class="w-full bg-indigo-600 text-white font-bold text-xl py-4 rounded-2xl shadow-lg shadow-indigo-200 active:scale-95 transition-all">
+                    Start Homework 🚀
+                </button>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: FAMILY & POSSESSIVE 'S -->
+        <div class="slide hidden-slide max-w-3xl mx-auto" id="slide-1">
+            <div class="bg-white rounded-3xl p-6 shadow-sm border-2 border-blue-100 mb-6">
+                <h2 class="text-2xl font-black text-blue-600 flex items-center gap-2 mb-2">
+                    🌳 Family Tree & Possessive 's
+                </h2>
+                <p class="text-slate-600 bg-blue-50 p-3 rounded-xl mb-4">
+                    <strong>💡 Repaso:</strong> Usamos <b>'s</b> para indicar posesión.<br>
+                    <i>Ejemplo:</i> Arthur is John<b>'s</b> father. (Arthur es el papá <b>de</b> John).
+                </p>
+
+                <!-- Visual Family Tree -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 mb-6 text-center text-sm font-bold">
+                    <div class="flex justify-center gap-8 mb-2">
+                        <div class="flex flex-col items-center bg-white p-2 rounded-xl shadow-sm border border-slate-200 w-24">
+                            <span class="text-3xl">👴</span><span>Arthur</span>
+                        </div>
+                        <div class="flex flex-col items-center bg-white p-2 rounded-xl shadow-sm border border-slate-200 w-24">
+                            <span class="text-3xl">👵</span><span>Mary</span>
+                        </div>
+                    </div>
+                    <div class="tree-line-v"></div>
+                    <div class="flex justify-center gap-20 relative">
+                        <div class="tree-line-h absolute top-0" style="width: 50%;"></div>
+                        <div class="flex flex-col items-center z-10 pt-4">
+                            <div class="flex flex-col items-center bg-white p-2 rounded-xl shadow-sm border border-slate-200 w-24">
+                                <span class="text-3xl">👨</span><span>John</span>
+                            </div>
+                            <div class="tree-line-v"></div>
+                            <div class="flex gap-4">
+                                <div class="flex flex-col items-center bg-white p-2 rounded-xl shadow-sm border border-slate-200 w-20">
+                                    <span class="text-2xl">👦</span><span>Tom</span>
+                                </div>
+                                <div class="flex flex-col items-center bg-white p-2 rounded-xl shadow-sm border border-slate-200 w-20">
+                                    <span class="text-2xl">👧</span><span>Lucy</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center z-10 pt-4">
+                            <div class="flex flex-col items-center bg-white p-2 rounded-xl shadow-sm border border-slate-200 w-24">
+                                <span class="text-3xl">👩</span><span>Sarah</span>
+                            </div>
+                            <div class="tree-line-v"></div>
+                            <div class="flex flex-col items-center bg-white p-2 rounded-xl shadow-sm border border-slate-200 w-20">
+                                <span class="text-2xl">👶</span><span>Jack</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exercise 1 -->
+                <h3 class="font-bold text-lg mb-2">✍️ Ejercicio 1: Completa las oraciones</h3>
+                
+                <!-- Word Bank -->
+                <div class="flex flex-wrap gap-2 mb-4 bg-slate-100 p-3 rounded-xl justify-center text-sm">
+                    <span class="bg-white px-3 py-1 rounded-full border border-slate-300">grandfather</span>
+                    <span class="bg-white px-3 py-1 rounded-full border border-slate-300">grandmother</span>
+                    <span class="bg-white px-3 py-1 rounded-full border border-slate-300">father</span>
+                    <span class="bg-white px-3 py-1 rounded-full border border-slate-300">mother</span>
+                    <span class="bg-white px-3 py-1 rounded-full border border-slate-300">brother</span>
+                    <span class="bg-white px-3 py-1 rounded-full border border-slate-300">sister</span>
+                </div>
+
+                <!-- Example -->
+                <div class="bg-yellow-50 border border-yellow-200 p-3 rounded-xl mb-4 text-slate-700">
+                    <strong class="text-yellow-600">Ejemplo:</strong><br>
+                    Arthur is John's <span class="bg-white px-2 py-1 rounded border border-yellow-300 font-bold text-green-600">father</span>. 👨
+                </div>
+
+                <!-- Typing Container 1 -->
+                <div id="typing-family" class="space-y-4"></div>
+                <button onclick="checkTyping('typing-family')" class="mt-4 bg-slate-800 text-white px-6 py-2 rounded-xl font-bold w-full active:scale-95">Check Answers 🔍</button>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: ADJECTIVES VS PRONOUNS -->
+        <div class="slide hidden-slide max-w-3xl mx-auto" id="slide-2">
+            <div class="bg-white rounded-3xl p-6 shadow-sm border-2 border-purple-100 mb-6">
+                <h2 class="text-2xl font-black text-purple-600 flex items-center gap-2 mb-2">
+                    👈 Adjectives vs Pronouns 👉
+                </h2>
+                <div class="grid grid-cols-2 gap-2 mb-4 text-sm">
+                    <div class="bg-purple-50 p-3 rounded-xl border border-purple-100">
+                        <strong class="text-purple-700 block mb-1">My, Your, His, Her...</strong>
+                        Van <span class="underline">antes</span> de la cosa.<br>
+                        <i>Ej: It is <b>my</b> 🚗.</i>
+                    </div>
+                    <div class="bg-pink-50 p-3 rounded-xl border border-pink-100">
+                        <strong class="text-pink-700 block mb-1">Mine, Yours, His, Hers...</strong>
+                        Van <span class="underline">solos</span> (al final).<br>
+                        <i>Ej: The 🚗 is <b>mine</b>.</i>
+                    </div>
+                </div>
+
+                <h3 class="font-bold text-lg mb-2 mt-4">✍️ Ejercicio 2: ¿Adjetivo o Pronombre?</h3>
+                
+                <!-- Word Bank -->
+                <div class="flex flex-wrap gap-2 mb-4 bg-slate-100 p-3 rounded-xl justify-center text-sm font-bold text-purple-700">
+                    <span class="bg-white px-3 py-1 rounded-full border border-slate-300">my / mine</span>
+                    <span class="bg-white px-3 py-1 rounded-full border border-slate-300">your / yours</span>
+                    <span class="bg-white px-3 py-1 rounded-full border border-slate-300">his / his</span>
+                    <span class="bg-white px-3 py-1 rounded-full border border-slate-300">her / hers</span>
+                    <span class="bg-white px-3 py-1 rounded-full border border-slate-300">our / ours</span>
+                    <span class="bg-white px-3 py-1 rounded-full border border-slate-300">their / theirs</span>
+                </div>
+
+                <!-- Example -->
+                <div class="bg-yellow-50 border border-yellow-200 p-3 rounded-xl mb-4 text-slate-700 text-sm">
+                    <strong class="text-yellow-600">Ejemplos:</strong><br>
+                    1. This is <span class="bg-white px-2 py-1 rounded border border-yellow-300 font-bold text-green-600">my</span> book 📘. <i>(Va antes del libro)</i><br>
+                    2. The book 📘 is <span class="bg-white px-2 py-1 rounded border border-yellow-300 font-bold text-green-600">mine</span>. <i>(Va solo al final)</i>
+                </div>
+
+                <!-- Typing Container 2 -->
+                <div id="typing-pronouns" class="space-y-4"></div>
+                <button onclick="checkTyping('typing-pronouns')" class="mt-4 bg-slate-800 text-white px-6 py-2 rounded-xl font-bold w-full active:scale-95">Check Answers 🔍</button>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: FOOD, CLOTHES & WHOSE -->
+        <div class="slide hidden-slide max-w-3xl mx-auto" id="slide-3">
+            <div class="bg-white rounded-3xl p-6 shadow-sm border-2 border-emerald-100 mb-6">
+                <h2 class="text-2xl font-black text-emerald-600 flex items-center gap-2 mb-2">
+                    🍔 Food, 👗 Clothes & Whose...?
+                </h2>
+                
+                <p class="text-slate-600 bg-emerald-50 p-3 rounded-xl mb-4 text-sm">
+                    <strong>💡 Repaso:</strong> "Whose...?" significa "¿De quién es...?".
+                </p>
+
+                <!-- Vocab Emojis -->
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="bg-orange-50 p-3 rounded-xl border border-orange-100 text-center">
+                        <h4 class="font-bold text-orange-700 mb-2">Food 🍕</h4>
+                        <div class="flex justify-center gap-3 text-2xl flex-wrap">
+                            <span title="apple">🍎</span>
+                            <span title="burger">🍔</span>
+                            <span title="salad">🥗</span>
+                            <span title="pizza">🍕</span>
+                            <span title="chicken">🍗</span>
+                        </div>
+                    </div>
+                    <div class="bg-teal-50 p-3 rounded-xl border border-teal-100 text-center">
+                        <h4 class="font-bold text-teal-700 mb-2">Clothes 👕</h4>
+                        <div class="flex justify-center gap-3 text-2xl flex-wrap">
+                            <span title="t-shirt">👕</span>
+                            <span title="jeans">👖</span>
+                            <span title="dress">👗</span>
+                            <span title="sneakers">👟</span>
+                            <span title="jacket">🧥</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="font-bold text-lg mb-2">✍️ Ejercicio 3: Escribe la palabra que falta</h3>
+                
+                <!-- Example -->
+                <div class="bg-yellow-50 border border-yellow-200 p-3 rounded-xl mb-4 text-slate-700 text-sm">
+                    <strong class="text-yellow-600">Ejemplo:</strong><br>
+                    Whose 👕 <b>(t-shirt)</b> is this? It's <span class="bg-white px-2 py-1 rounded border border-yellow-300 font-bold text-green-600">Tom's</span> <b>(Tom)</b>.
+                </div>
+
+                <!-- Typing Container 3 -->
+                <div id="typing-vocab" class="space-y-4"></div>
+                <button onclick="checkTyping('typing-vocab')" class="mt-4 bg-slate-800 text-white px-6 py-2 rounded-xl font-bold w-full active:scale-95">Check Answers 🔍</button>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: MEGA QUIZ -->
+        <div class="slide hidden-slide max-w-2xl mx-auto" id="slide-4">
+            <div class="bg-white rounded-3xl p-6 shadow-sm border-4 border-indigo-200 mb-6" id="mega-quiz-area">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-black text-indigo-700">🏆 Final Test</h2>
+                    <div class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold">
+                        <span id="mq-current">1</span>/10
+                    </div>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-100 h-3 rounded-full mb-6 overflow-hidden">
+                    <div id="mega-quiz-progress" class="bg-indigo-500 h-full rounded-full transition-all duration-300" style="width: 10%"></div>
+                </div>
+
+                <div id="mq-question-container">
+                    <h3 class="text-xl font-bold mb-6 text-slate-800" id="mq-question-text">Question goes here</h3>
+                    <div class="grid grid-cols-1 gap-3" id="mq-options">
+                        <!-- Options injected via JS -->
+                    </div>
+                </div>
+                <div id="mq-feedback" class="mt-4 p-4 rounded-xl hidden font-bold text-center"></div>
+            </div>
+
+            <!-- Quiz Result State -->
+            <div id="mega-quiz-result" class="hidden bg-white rounded-3xl p-8 shadow-sm text-center border-4 border-green-400 mt-10">
+                <div class="text-6xl mb-4" id="mq-emoji">🏆</div>
+                <h2 class="text-3xl font-black text-slate-800 mb-2">¡Prueba Terminada!</h2>
+                <p class="text-xl text-slate-600 mb-6">Tu calificación es: <strong class="text-green-600 text-3xl block mt-2"><span id="mq-score">0</span> / 10</strong></p>
+                <button onclick="location.reload()" class="bg-indigo-600 text-white px-8 py-3 rounded-2xl font-bold active:scale-95 transition-transform">
+                    Repasar Tarea 🔄
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Bottom Navigation -->
+    <div class="fixed bottom-0 w-full bg-white border-t border-slate-200 p-4 flex justify-between gap-4 z-10">
+        <button id="btn-prev" onclick="prevSlide()" class="hidden bg-slate-100 text-slate-700 px-6 py-3 rounded-2xl font-bold active:scale-95 w-1/2">
+            <i class="fas fa-arrow-left mr-2"></i> Atrás
+        </button>
+        <button id="btn-next" onclick="nextSlide()" class="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-bold shadow-lg shadow-indigo-200 active:scale-95 w-full">
+            Continuar <i class="fas fa-arrow-right ml-2"></i>
+        </button>
+    </div>
+
+    <script>
+        // --- NAVIGATION STATE ---
+        let currentSlide = 0;
+        const totalSlides = 5;
+
+        function updateNavUI() {
+            // Update counter
+            document.getElementById('slide-counter').innerText = `${currentSlide + 1} / ${totalSlides}`;
+            
+            // Buttons
+            const btnPrev = document.getElementById('btn-prev');
+            const btnNext = document.getElementById('btn-next');
+            
+            if (currentSlide === 0) {
+                btnPrev.classList.add('hidden');
+                btnNext.classList.remove('w-1/2');
+                btnNext.classList.add('w-full');
+                btnNext.innerHTML = 'Empezar <i class="fas fa-arrow-right ml-2"></i>';
+            } else if (currentSlide === totalSlides - 1) {
+                btnPrev.classList.remove('hidden');
+                btnNext.classList.add('hidden');
+                btnPrev.classList.remove('w-1/2');
+                btnPrev.classList.add('w-full');
+            } else {
+                btnPrev.classList.remove('hidden');
+                btnNext.classList.remove('hidden');
+                btnNext.classList.remove('w-full');
+                btnPrev.classList.add('w-1/2');
+                btnNext.classList.add('w-1/2');
+                btnNext.innerHTML = 'Siguiente <i class="fas fa-arrow-right ml-2"></i>';
+            }
+        }
+
+        function showSlide(index) {
+            document.querySelectorAll('.slide').forEach((slide, i) => {
+                if (i === index) {
+                    slide.classList.remove('hidden-slide');
+                    // Retrigger animation
+                    slide.style.animation = 'none';
+                    slide.offsetHeight; 
+                    slide.style.animation = null;
+                } else {
+                    slide.classList.add('hidden-slide');
+                }
+            });
+            document.getElementById('main-container').scrollTo(0,0);
+            updateNavUI();
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+                if(currentSlide === totalSlides - 1) {
+                    renderMegaQuizQuestion(); // Start quiz when reaching last slide
+                }
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        // --- TYPING EXERCISES DATA ---
+        const typingData = {
+            'typing-family': [
+                { id: 'tf1', q: "Mary is Tom's ________. 👵", answer: "grandmother" },
+                { id: 'tf2', q: "Sarah is Jack's ________. 👩", answer: "mother" },
+                { id: 'tf3', q: "John is Sarah's ________. 👨👩", answer: "brother" },
+                { id: 'tf4', q: "Lucy is Tom's ________. 👧👦", answer: "sister" }
+            ],
+            'typing-pronouns': [
+                { id: 'tp1', q: "That is <b>(she)</b> car. That is ________ car. 🚗", answer: "her" },
+                { id: 'tp2', q: "The car is <b>(she)</b>. The car is ________. 🚗", answer: "hers" },
+                { id: 'tp3', q: "These are <b>(we)</b> shoes. These are ________ shoes. 👟", answer: "our" },
+                { id: 'tp4', q: "The shoes are <b>(we)</b>. The shoes are ________. 👟", answer: "ours" },
+                { id: 'tp5', q: "Is this <b>(you)</b> phone? Is this ________ phone? 📱", answer: "your" }
+            ],
+            'typing-vocab': [
+                { id: 'tv1', q: "Whose 🍕 <b>(pizza)</b> is this? It's ________ <b>(I)</b>.", answer: "mine" },
+                { id: 'tv2', q: "Whose 👗 <b>(dress)</b> is that? It is ________ <b>(Lucy)</b>.", answer: "lucy's" },
+                { id: 'tv3', q: "Are these ________ <b>(he)</b> 👟 <b>(sneakers)</b>?", answer: "his" },
+                { id: 'tv4', q: "No, the sneakers are ________ <b>(John)</b>.", answer: "john's" },
+                { id: 'tv5', q: "This is ________ <b>(we)</b> 🍔 <b>(burger)</b>.", answer: "our" }
+            ]
+        };
+
+        function renderTypingExercises() {
+            Object.keys(typingData).forEach(containerId => {
+                const container = document.getElementById(containerId);
+                container.innerHTML = '';
+                typingData[containerId].forEach((item, index) => {
+                    const row = document.createElement('div');
+                    row.className = 'flex flex-col gap-2 bg-slate-50 p-3 rounded-xl border border-slate-200';
+                    row.innerHTML = `
+                        <label class="text-slate-700" for="${item.id}"><b>${index + 1}.</b> ${item.q}</label>
+                        <input type="text" id="${item.id}" autocomplete="off" placeholder="Escribe aquí..." class="w-full border-2 border-slate-300 rounded-lg p-2 outline-none focus:border-indigo-500 font-bold text-slate-800">
+                    `;
+                    container.appendChild(row);
+                });
+            });
+        }
+
+        function checkTyping(containerId) {
+            const items = typingData[containerId];
+            let allCorrect = true;
+
+            items.forEach(item => {
+                const input = document.getElementById(item.id);
+                const val = input.value.trim().toLowerCase();
+                // Allow some flexibility for possessives (e.g. lucy's or lucys)
+                const isCorrect = val === item.answer || val === item.answer.replace("'", ""); 
+
+                input.classList.remove('correct', 'incorrect', 'border-slate-300', 'focus:border-indigo-500');
+                if (isCorrect) {
+                    input.classList.add('correct');
+                } else {
+                    input.classList.add('incorrect');
+                    allCorrect = false;
+                }
+            });
+
+            if(allCorrect) {
+                 // Trigger a small celebration
+                 const btn = document.querySelector(`button[onclick="checkTyping('${containerId}')"]`);
+                 btn.innerHTML = '¡Todo Correcto! 🎉';
+                 btn.classList.replace('bg-slate-800', 'bg-green-600');
+                 setTimeout(() => {
+                    btn.innerHTML = 'Check Answers 🔍';
+                    btn.classList.replace('bg-green-600', 'bg-slate-800');
+                 }, 3000);
+            }
+        }
+
+        // --- MEGA QUIZ DATA ---
+        const megaQuizData = [
+            { q: "👨 John is Arthur's ________.", options: ["son", "father", "brother"], correct: 0 },
+            { q: "Whose 🍎 is this? It's ________ (I).", options: ["my", "mine", "me"], correct: 1 },
+            { q: "This is ________ (she) 👗 dress.", options: ["her", "hers", "she's"], correct: 0 },
+            { q: "Are these ________ (they) 👟 sneakers?", options: ["their", "theirs", "there"], correct: 0 },
+            { q: "The 🍕 pizza is ________ (we).", options: ["our", "ours", "we"], correct: 1 },
+            { q: "👦 Tom is Lucy's ________.", options: ["brother", "father", "son"], correct: 0 },
+            { q: "Whose 🧥 jacket is that? It is ________.", options: ["John", "John's", "Johns'"], correct: 1 },
+            { q: "This is ________ (he) 🍔 burger.", options: ["his", "him", "he's"], correct: 0 },
+            { q: "Is this ________ (you) 🥗 salad?", options: ["yours", "you", "your"], correct: 2 },
+            { q: "No, the salad is ________ (Sarah).", options: ["Sarahs", "Sarah's", "Sarah"], correct: 1 }
+        ];
+
+        let megaQuizCurrent = 0;
+        let megaQuizScore = 0;
+
+        function renderMegaQuizQuestion() {
+            if (megaQuizCurrent >= megaQuizData.length) {
+                showMegaQuizResult();
+                return;
+            }
+
+            const qData = megaQuizData[megaQuizCurrent];
+            document.getElementById('mq-current').innerText = megaQuizCurrent + 1;
+            document.getElementById('mq-question-text').innerHTML = `${megaQuizCurrent + 1}. ${qData.q}`;
+            
+            // Update progress bar
+            const progress = ((megaQuizCurrent) / megaQuizData.length) * 100;
+            document.getElementById('mega-quiz-progress').style.width = `${progress}%`;
+
+            const optionsContainer = document.getElementById('mq-options');
+            optionsContainer.innerHTML = '';
+            document.getElementById('mq-feedback').classList.add('hidden');
+
+            qData.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full text-left p-4 rounded-xl border-2 border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 font-bold text-slate-700 transition-all active:scale-95';
+                btn.innerHTML = opt;
+                btn.onclick = () => checkMegaQuizAnswer(index, btn, qData.correct);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkMegaQuizAnswer(selectedIndex, btnElement, correctIndex) {
+            const buttons = document.getElementById('mq-options').children;
+            // Disable all buttons
+            for(let b of buttons) { b.disabled = true; }
+
+            const feedback = document.getElementById('mq-feedback');
+            feedback.classList.remove('hidden', 'bg-green-50', 'text-green-700', 'border-green-200', 'bg-red-50', 'text-red-700', 'border-red-200');
+
+            if (selectedIndex === correctIndex) {
+                megaQuizScore++;
+                btnElement.classList.replace('border-slate-200', 'border-green-400');
+                btnElement.classList.add('bg-green-50', 'text-green-700');
+                
+                feedback.classList.add('bg-green-50', 'text-green-700', 'border', 'border-green-200');
+                feedback.innerHTML = '<i class="fas fa-check-circle text-2xl mr-2"></i> ¡Excelente! 🎉';
+            } else {
+                btnElement.classList.replace('border-slate-200', 'border-red-400');
+                btnElement.classList.add('bg-red-50', 'text-red-700');
+                
+                // Highlight correct
+                buttons[correctIndex].classList.replace('border-slate-200', 'border-green-400');
+                buttons[correctIndex].classList.add('bg-green-50');
+                
+                feedback.classList.add('bg-red-50', 'text-red-700', 'border', 'border-red-200');
+                feedback.innerHTML = '<i class="fas fa-times-circle text-2xl mr-2"></i> Ups, revisa la regla.';
+            }
+
+            setTimeout(() => {
+                megaQuizCurrent++;
+                renderMegaQuizQuestion();
+            }, 1800);
+        }
+
+        function showMegaQuizResult() {
+            document.getElementById('mega-quiz-area').classList.add('hidden');
+            document.getElementById('mega-quiz-progress').style.width = `100%`;
+            const resultArea = document.getElementById('mega-quiz-result');
+            resultArea.classList.remove('hidden');
+            
+            document.getElementById('mq-score').innerText = megaQuizScore;
+            const emoji = document.getElementById('mq-emoji');
+            
+            if (megaQuizScore === 10) { emoji.innerText = '🏆✨'; }
+            else if (megaQuizScore >= 7) { emoji.innerText = '🌟👍'; }
+            else { emoji.innerText = '💪📚'; }
+        }
+
+        // --- INIT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            updateNavUI();
+            renderTypingExercises();
+        });
+
+    </script>
+</body>
+</html>
+
+```
