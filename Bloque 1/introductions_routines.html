@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Introductions & Routines - English Master Class</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            touch-action: manipulation; 
+            -webkit-tap-highlight-color: transparent;
+            background-color: #f8fafc;
+        }
+        
+        .slide-enter { animation: slideUpFade 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hidden-slide { display: none !important; }
+        
+        /* Flip Cards */
+        .flip-card { perspective: 1000px; cursor: pointer; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; }
+        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 1rem; }
+        .flip-card-back { transform: rotateY(180deg); }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        .pulse-soft { animation: pulseSoft 2s infinite; }
+        @keyframes pulseSoft {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-cyan-200">
+
+    <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-md border-b border-slate-200 z-40 shadow-sm transition-colors duration-300" id="main-nav">
+        <div class="max-w-5xl mx-auto px-4 h-16 md:h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div id="nav-icon-bg" class="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-xl flex items-center justify-center text-white font-bold shadow-lg transition-all duration-500">
+                    <i class="fas fa-comments text-lg md:text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-black text-sm md:text-lg leading-tight text-slate-800 tracking-tight truncate max-w-[180px] sm:max-w-xs">Intro & Routines</h1>
+                    <p class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-widest" id="nav-topic-title">Intro</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2 md:gap-4">
+                <span id="slide-counter-nav" class="font-bold text-sm md:text-base text-slate-500 bg-slate-100 px-3 py-1 rounded-lg">1/11</span>
+                <button onclick="toggleDictionary()" class="flex items-center gap-2 bg-slate-50 text-slate-700 px-3 py-2 md:px-4 md:py-2.5 rounded-xl font-bold border border-slate-200 hover:bg-slate-100 transition shadow-sm text-xs md:text-sm">
+                    <i class="fas fa-book"></i> <span class="hidden sm:inline">Diccionario</span>
+                </button>
+            </div>
+        </div>
+        <div class="w-full bg-slate-100 h-1.5 md:h-2">
+            <div id="main-progress" class="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 h-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-4 pt-24 pb-32 min-h-screen relative" id="slides-container">
+        
+        <!-- Slide 0: Intro -->
+        <section id="slide-0" class="slide-enter mt-4 md:mt-10">
+            <div class="bg-white rounded-[2rem] p-6 md:p-12 text-center shadow-2xl border border-slate-100 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-cyan-50 to-white"></div>
+                <div class="relative z-10">
+                    <div class="w-24 h-24 md:w-32 md:h-32 bg-white rounded-3xl flex items-center justify-center text-5xl md:text-6xl mx-auto mb-6 shadow-xl border-4 border-white pulse-soft rotate-3">💬</div>
+                    <h2 class="text-3xl md:text-5xl font-black text-slate-800 mb-4 tracking-tight">Introductions & Routines</h2>
+                    <p class="text-slate-600 mb-8 max-w-2xl mx-auto text-base md:text-xl font-medium">Aprende a presentarte, hacer preguntas, hablar sobre tu rutina diaria y sostener tu primera conversación real en inglés.</p>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-4xl mx-auto mb-10 text-left">
+                        <div class="bg-cyan-50 p-4 rounded-2xl border border-cyan-100">
+                            <div class="text-cyan-500 text-2xl mb-2"><i class="fas fa-question-circle"></i></div>
+                            <h4 class="font-bold text-cyan-900 text-sm md:text-base">To Be Questions</h4>
+                        </div>
+                        <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100">
+                            <div class="text-emerald-500 text-2xl mb-2"><i class="fas fa-clock"></i></div>
+                            <h4 class="font-bold text-emerald-900 text-sm md:text-base">Daily Routines</h4>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100">
+                            <div class="text-blue-500 text-2xl mb-2"><i class="fas fa-exchange-alt"></i></div>
+                            <h4 class="font-bold text-blue-900 text-sm md:text-base">Do & Does</h4>
+                        </div>
+                        <div class="bg-violet-50 p-4 rounded-2xl border border-violet-100">
+                            <div class="text-violet-500 text-2xl mb-2"><i class="fas fa-comments"></i></div>
+                            <h4 class="font-bold text-violet-900 text-sm md:text-base">Chat Simulator</h4>
+                        </div>
+                    </div>
+                    
+                    <button onclick="nextSlide()" class="bg-slate-800 hover:bg-slate-900 text-white text-lg md:text-2xl font-black py-4 md:py-5 px-10 md:px-16 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1 w-full sm:w-auto">
+                        Iniciar Clase <i class="fas fa-rocket ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 1: To Be Questions -->
+        <section id="slide-1" class="hidden-slide">
+            <div class="flex items-center gap-4 mb-6">
+                <span class="bg-cyan-100 text-cyan-700 font-black text-xl w-12 h-12 flex items-center justify-center rounded-2xl shadow-sm">1</span>
+                <h2 class="text-2xl md:text-4xl font-black text-slate-800">To Be Questions</h2>
+            </div>
+            
+            <div class="bg-white rounded-3xl shadow-lg border border-cyan-100 p-6 md:p-10 mb-6">
+                <p class="text-slate-600 mb-8 text-lg font-medium">Para hacer preguntas con el verbo <b>To Be</b> (ser/estar), solo tienes que invertir el orden del sujeto y el verbo.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-50 border border-slate-200 p-6 rounded-2xl text-center">
+                        <h4 class="font-bold text-slate-500 mb-4 uppercase tracking-wider text-sm">Afirmación</h4>
+                        <p class="text-2xl font-black text-slate-800 mb-2">You <span class="text-cyan-500">are</span> a student.</p>
+                        <p class="text-slate-500 font-medium">Tú eres un estudiante.</p>
+                    </div>
+                    <div class="bg-cyan-50 border-2 border-cyan-300 p-6 rounded-2xl text-center shadow-sm relative">
+                        <div class="absolute -top-3 -right-3 bg-cyan-500 text-white text-xs font-bold px-3 py-1 rounded-lg">¡Invertido!</div>
+                        <h4 class="font-bold text-cyan-700 mb-4 uppercase tracking-wider text-sm">Pregunta</h4>
+                        <p class="text-2xl font-black text-slate-800 mb-2"><span class="text-cyan-500">Are</span> you a student?</p>
+                        <p class="text-cyan-700 font-medium">¿Eres tú un estudiante?</p>
+                    </div>
+                </div>
+
+                <div class="mt-8 space-y-4">
+                    <div class="flex items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:bg-slate-50 transition" onclick="playTTS('Is he your brother?')">
+                        <div class="text-3xl">👦</div>
+                        <div>
+                            <p class="font-bold text-lg text-slate-800"><span class="text-cyan-500">Is</span> he your brother?</p>
+                            <p class="text-slate-500 text-sm">¿Es él tu hermano?</p>
+                        </div>
+                        <i class="fas fa-volume-up text-cyan-400 ml-auto text-xl"></i>
+                    </div>
+                    <div class="flex items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:bg-slate-50 transition" onclick="playTTS('Are they from Mexico?')">
+                        <div class="text-3xl">🌎</div>
+                        <div>
+                            <p class="font-bold text-lg text-slate-800"><span class="text-cyan-500">Are</span> they from Mexico?</p>
+                            <p class="text-slate-500 text-sm">¿Son ellos de México?</p>
+                        </div>
+                        <i class="fas fa-volume-up text-cyan-400 ml-auto text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 2: Quiz 1 -->
+        <section id="slide-2" class="hidden-slide">
+            <div class="flex items-center gap-4 mb-6">
+                <span class="bg-cyan-100 text-cyan-700 font-black text-xl w-12 h-12 flex items-center justify-center rounded-2xl shadow-sm">2</span>
+                <h2 class="text-2xl md:text-4xl font-black text-slate-800">Practice: To Be</h2>
+            </div>
+            <div class="bg-white rounded-3xl shadow-lg border border-cyan-100 p-6 md:p-10">
+                <div id="quiz-tobe" class="space-y-6">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 3: Routine Vocab -->
+        <section id="slide-3" class="hidden-slide">
+            <div class="flex items-center gap-4 mb-6">
+                <span class="bg-emerald-100 text-emerald-700 font-black text-xl w-12 h-12 flex items-center justify-center rounded-2xl shadow-sm">3</span>
+                <h2 class="text-2xl md:text-4xl font-black text-slate-800">Daily Routines</h2>
+            </div>
+            
+            <div class="bg-white rounded-3xl shadow-lg border border-emerald-100 p-6 md:p-8 mb-6">
+                <p class="text-slate-600 mb-6 text-lg font-medium flex items-center gap-2"><i class="fas fa-hand-pointer text-emerald-500"></i> Toca las tarjetas para girarlas y escuchar la pronunciación de las rutinas.</p>
+                
+                <h3 class="font-bold text-slate-700 text-xl mb-3 border-b pb-2">Morning Routine</h3>
+                <div id="flashcards-routine-1" class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8"></div>
+
+                <h3 class="font-bold text-slate-700 text-xl mb-3 border-b pb-2">Afternoon & Evening</h3>
+                <div id="flashcards-routine-2" class="grid grid-cols-2 md:grid-cols-5 gap-4"></div>
+            </div>
+        </section>
+
+        <!-- Slide 4: Do & Does -->
+        <section id="slide-4" class="hidden-slide">
+            <div class="flex items-center gap-4 mb-6">
+                <span class="bg-blue-100 text-blue-700 font-black text-xl w-12 h-12 flex items-center justify-center rounded-2xl shadow-sm">4</span>
+                <h2 class="text-2xl md:text-4xl font-black text-slate-800">Present Simple (Do & Does)</h2>
+            </div>
+            
+            <div class="bg-white rounded-3xl shadow-lg border border-blue-100 p-6 md:p-10 mb-6">
+                <p class="text-slate-600 mb-8 text-lg font-medium">Para hacer preguntas sobre <b>rutinas o acciones</b> (como trabajar, comer, estudiar), <span class="text-red-500 font-bold">NO</span> usamos el verbo To Be. Usamos los auxiliares <b>Do</b> y <b>Does</b> al principio de la pregunta.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-blue-50 border border-blue-200 p-6 rounded-2xl">
+                        <h4 class="font-black text-3xl text-blue-700 mb-2 text-center">DO</h4>
+                        <p class="text-center font-bold text-slate-500 mb-4 pb-2 border-b border-blue-200">I / You / We / They</p>
+                        <div class="space-y-3 font-bold text-slate-700 text-lg">
+                            <p class="cursor-pointer hover:text-blue-600 transition" onclick="playTTS('Do you wake up early?')">❓ <span class="text-blue-600">Do</span> you wake up early?</p>
+                            <p class="cursor-pointer hover:text-blue-600 transition" onclick="playTTS('Do they work here?')">❓ <span class="text-blue-600">Do</span> they work here?</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-indigo-50 border border-indigo-200 p-6 rounded-2xl shadow-md">
+                        <h4 class="font-black text-3xl text-indigo-700 mb-2 text-center">DOES</h4>
+                        <p class="text-center font-bold text-slate-500 mb-4 pb-2 border-b border-indigo-200">He / She / It</p>
+                        <div class="space-y-3 font-bold text-slate-700 text-lg">
+                            <p class="cursor-pointer hover:text-indigo-600 transition" onclick="playTTS('Does she have breakfast?')">❓ <span class="text-indigo-600">Does</span> she have breakfast?</p>
+                            <p class="cursor-pointer hover:text-indigo-600 transition" onclick="playTTS('Does he study English?')">❓ <span class="text-indigo-600">Does</span> he study English?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-xl text-yellow-800 text-sm font-medium">
+                    <i class="fas fa-exclamation-triangle text-yellow-600 mr-2"></i><b>Importante:</b> Cuando usas <b>Does</b>, el verbo principal NO lleva "s" al final. Es <i>Does she <b>work</b>?</i> (No <i>Does she works?</i>).
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: WH- Questions -->
+        <section id="slide-5" class="hidden-slide">
+            <div class="flex items-center gap-4 mb-6">
+                <span class="bg-blue-100 text-blue-700 font-black text-xl w-12 h-12 flex items-center justify-center rounded-2xl shadow-sm">5</span>
+                <h2 class="text-2xl md:text-4xl font-black text-slate-800">WH- Questions</h2>
+            </div>
+            
+            <div class="bg-white rounded-3xl shadow-lg border border-blue-100 p-6 md:p-10 mb-6">
+                <p class="text-slate-600 mb-6 text-lg font-medium">Para preguntar Qué, Dónde, Cuándo, etc., simplemente ponemos la palabra <b>WH-</b> antes del Do/Does.</p>
+                
+                <div class="bg-slate-800 text-white font-mono text-center p-4 rounded-xl font-bold md:text-lg mb-8 shadow-md">
+                    <span class="text-pink-400">[WH Word]</span> + <span class="text-blue-400">[Do/Does]</span> + <span class="text-emerald-400">[Subject]</span> + <span class="text-yellow-400">[Verb]</span>?
+                </div>
+
+                <div class="space-y-3">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between bg-slate-50 p-4 rounded-xl border border-slate-200 cursor-pointer hover:bg-blue-50 transition" onclick="playTTS('Where do you live?')">
+                        <div class="font-bold text-lg text-slate-800"><span class="text-pink-500">Where</span> <span class="text-blue-500">do</span> <span class="text-emerald-600">you</span> <span class="text-yellow-600">live</span>?</div>
+                        <div class="text-slate-500 font-medium">📍 ¿Dónde vives?</div>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between bg-slate-50 p-4 rounded-xl border border-slate-200 cursor-pointer hover:bg-blue-50 transition" onclick="playTTS('What time does he wake up?')">
+                        <div class="font-bold text-lg text-slate-800"><span class="text-pink-500">What time</span> <span class="text-blue-500">does</span> <span class="text-emerald-600">he</span> <span class="text-yellow-600">wake up</span>?</div>
+                        <div class="text-slate-500 font-medium">⏰ ¿A qué hora se despierta?</div>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between bg-slate-50 p-4 rounded-xl border border-slate-200 cursor-pointer hover:bg-blue-50 transition" onclick="playTTS('What do you do?')">
+                        <div class="font-bold text-lg text-slate-800"><span class="text-pink-500">What</span> <span class="text-blue-500">do</span> <span class="text-emerald-600">you</span> <span class="text-yellow-600">do</span>?</div>
+                        <div class="text-slate-500 font-medium">💼 ¿A qué te dedicas?</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: Quiz 2 -->
+        <section id="slide-6" class="hidden-slide">
+            <div class="flex items-center gap-4 mb-6">
+                <span class="bg-blue-100 text-blue-700 font-black text-xl w-12 h-12 flex items-center justify-center rounded-2xl shadow-sm">6</span>
+                <h2 class="text-2xl md:text-4xl font-black text-slate-800">Practice: Do & Does</h2>
+            </div>
+            <div class="bg-white rounded-3xl shadow-lg border border-blue-100 p-6 md:p-10">
+                <div id="quiz-dodoes" class="space-y-6">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7: To Be vs Do/Does -->
+        <section id="slide-7" class="hidden-slide">
+            <div class="flex items-center gap-4 mb-6">
+                <span class="bg-amber-100 text-amber-700 font-black text-xl w-12 h-12 flex items-center justify-center rounded-2xl shadow-sm">7</span>
+                <h2 class="text-2xl md:text-4xl font-black text-slate-800">To Be vs Do/Does</h2>
+            </div>
+            
+            <div class="bg-white rounded-3xl shadow-lg border border-amber-100 p-6 md:p-10 mb-6">
+                <p class="text-slate-600 mb-8 text-lg font-medium">¡El error más común es mezclar ambos! Aquí tienes la regla de oro:</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-cyan-50 border-2 border-cyan-200 p-6 rounded-2xl relative">
+                        <h4 class="font-black text-2xl text-cyan-800 mb-2">To Be (Am, Is, Are)</h4>
+                        <p class="text-sm font-bold text-cyan-600 mb-4">Para profesiones, adjetivos o lugares.</p>
+                        <div class="space-y-2">
+                            <p class="font-bold text-slate-700">✅ <span class="text-cyan-600">Are</span> you a doctor?</p>
+                            <p class="font-bold text-red-500 line-through decoration-2">❌ Do you a doctor?</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-blue-50 border-2 border-blue-200 p-6 rounded-2xl relative">
+                        <h4 class="font-black text-2xl text-blue-800 mb-2">Do / Does</h4>
+                        <p class="text-sm font-bold text-blue-600 mb-4">Para acciones (verbos como trabajar, vivir).</p>
+                        <div class="space-y-2">
+                            <p class="font-bold text-slate-700">✅ <span class="text-blue-600">Do</span> you live here?</p>
+                            <p class="font-bold text-red-500 line-through decoration-2">❌ Are you live here?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 8: Chat Intro -->
+        <section id="slide-8" class="hidden-slide">
+            <div class="flex items-center gap-4 mb-6">
+                <span class="bg-violet-100 text-violet-700 font-black text-xl w-12 h-12 flex items-center justify-center rounded-2xl shadow-sm">8</span>
+                <h2 class="text-2xl md:text-4xl font-black text-slate-800">Conversation Basics</h2>
+            </div>
+            
+            <div class="bg-white rounded-3xl shadow-lg border border-violet-100 p-6 md:p-10 mb-6">
+                <p class="text-slate-600 mb-6 text-lg font-medium">Antes del simulador, repasa estas preguntas y respuestas comunes. Toca para escuchar.</p>
+                
+                <div class="space-y-3">
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 hover:bg-violet-50 transition cursor-pointer group" onclick="playTTS('Where are you from? I am from Mexico.')">
+                        <p class="font-bold text-slate-800 text-lg mb-1"><span class="text-violet-600">Q:</span> Where are you from?</p>
+                        <p class="font-bold text-slate-600 text-base"><span class="text-emerald-500">A:</span> I am from Mexico.</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 hover:bg-violet-50 transition cursor-pointer group" onclick="playTTS('What do you do? I am an engineer.')">
+                        <p class="font-bold text-slate-800 text-lg mb-1"><span class="text-violet-600">Q:</span> What do you do?</p>
+                        <p class="font-bold text-slate-600 text-base"><span class="text-emerald-500">A:</span> I am an engineer.</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 hover:bg-violet-50 transition cursor-pointer group" onclick="playTTS('Do you like your job? Yes, I do.')">
+                        <p class="font-bold text-slate-800 text-lg mb-1"><span class="text-violet-600">Q:</span> Do you like your job?</p>
+                        <p class="font-bold text-slate-600 text-base"><span class="text-emerald-500">A:</span> Yes, I do. / No, I don't.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 9: Chat Simulator -->
+        <section id="slide-9" class="hidden-slide">
+            <div class="flex items-center gap-4 mb-6">
+                <span class="bg-violet-100 text-violet-700 font-black text-xl w-12 h-12 flex items-center justify-center rounded-2xl shadow-sm">9</span>
+                <h2 class="text-2xl md:text-4xl font-black text-slate-800">Chat Simulator</h2>
+            </div>
+            
+            <div class="bg-white rounded-3xl shadow-lg border border-violet-100 p-6 md:p-8">
+                <p class="text-slate-600 mb-6 text-base font-medium">Elige la respuesta correcta para mantener la conversación fluyendo. ¡Cuidado con la gramática!</p>
+                
+                <div class="max-w-md mx-auto">
+                    <!-- Chat UI -->
+                    <div id="chat-simulator-container" class="bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-slate-100 rounded-3xl p-4 h-[350px] md:h-[400px] flex flex-col gap-4 overflow-y-auto shadow-inner border border-slate-200 mb-4 custom-scrollbar">
+                        <!-- Bot button to start -->
+                        <div class="flex flex-col items-center justify-center h-full text-center">
+                            <div class="w-16 h-16 bg-violet-500 text-white rounded-full flex items-center justify-center text-3xl mb-4 shadow-lg">🤖</div>
+                            <p class="font-bold text-slate-500 mb-4">¿Listo para platicar con Alex?</p>
+                            <button onclick="startChat()" class="bg-violet-600 text-white font-bold py-2 px-6 rounded-full shadow hover:bg-violet-700 transition">Start Chat</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Options UI -->
+                    <div id="chat-simulator-options" class="grid grid-cols-1 gap-2 min-h-[100px]">
+                        <!-- Buttons injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 10: Mega Quiz -->
+        <section id="slide-10" class="hidden-slide">
+            <div id="mega-quiz-intro" class="text-center mt-12 mb-8 slide-enter">
+                <div class="w-32 h-32 bg-gradient-to-tr from-rose-500 via-pink-500 to-orange-400 rounded-full flex items-center justify-center text-6xl mx-auto mb-8 text-white shadow-2xl shadow-rose-500/40 animate-bounce">🏆</div>
+                <h2 class="text-4xl md:text-6xl font-black text-slate-800 tracking-tight mb-4">¡Examen Final!</h2>
+                <p class="text-slate-600 text-xl md:text-2xl font-medium max-w-2xl mx-auto mb-10">Un mega-examen de 10 preguntas. Combina To Be, Do/Does, rutinas y preguntas WH-. ¡Tú puedes!</p>
+                <button onclick="startMegaQuiz();" class="bg-slate-900 hover:bg-black text-white text-2xl font-black py-5 px-16 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1 w-full sm:w-auto">
+                    Iniciar Examen
+                </button>
+            </div>
+
+            <div id="mega-quiz-container" class="hidden bg-white rounded-3xl shadow-2xl border border-rose-100 p-6 md:p-12 max-w-3xl mx-auto relative overflow-hidden mt-4">
+                <div class="absolute top-0 left-0 w-full h-2 bg-slate-100">
+                    <div id="mega-quiz-progress" class="h-full bg-gradient-to-r from-emerald-400 to-green-500 transition-all duration-300" style="width: 0%"></div>
+                </div>
+
+                <div id="mega-quiz-area">
+                    <div class="flex justify-between items-center mb-8 border-b border-slate-100 pb-4">
+                        <span class="text-sm md:text-base font-bold text-slate-400 uppercase tracking-widest" id="mega-quiz-counter">Pregunta 1 de 10</span>
+                    </div>
+                    
+                    <h3 class="text-2xl md:text-4xl font-medium text-slate-800 mb-10 leading-relaxed text-center" id="mega-quiz-question">Question?</h3>
+                    
+                    <div id="mega-quiz-options" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Options generated by JS -->
+                    </div>
+
+                    <div id="mega-quiz-feedback" class="hidden mt-8 p-5 rounded-2xl text-center font-bold text-xl border"></div>
+                </div>
+
+                <div id="mega-quiz-result" class="hidden text-center py-10 slide-enter">
+                    <div class="text-7xl mb-6" id="mq-emoji">🎉</div>
+                    <h3 class="text-4xl font-black text-slate-800 mb-4">¡Clase Completada!</h3>
+                    <p class="text-xl text-slate-600 mb-8 font-medium">Tu puntuación: <span id="mq-score" class="font-black text-indigo-600 text-5xl mx-2"></span> / 10</p>
+                    <button onclick="location.reload()" class="bg-gradient-to-r from-rose-500 to-pink-600 text-white font-black text-xl py-4 px-10 rounded-2xl shadow-xl transition hover:-translate-y-1 w-full sm:w-auto">Finalizar y Repetir</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation Buttons -->
+        <div class="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-md border-t border-slate-200 p-4 md:p-6 z-30 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+            <div class="max-w-5xl mx-auto flex justify-between gap-4">
+                <button id="btn-prev" onclick="prevSlide()" class="flex-1 bg-slate-100 text-slate-600 font-black text-base md:text-lg py-3 md:py-4 px-4 rounded-2xl hover:bg-slate-200 transition opacity-50 cursor-not-allowed disabled">
+                    <i class="fas fa-arrow-left mr-2"></i> Atrás
+                </button>
+                <button id="btn-next" onclick="nextSlide()" class="flex-1 bg-cyan-600 text-white font-black text-base md:text-lg py-3 md:py-4 px-4 rounded-2xl shadow-lg transition hover:-translate-y-1 transition-colors duration-300">
+                    Siguiente <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Dictionary Modal -->
+    <div id="dictionary-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 hidden flex justify-center items-end sm:items-center">
+        <div class="bg-white w-full sm:max-w-3xl h-[85vh] sm:h-[80vh] sm:rounded-3xl rounded-t-3xl shadow-2xl flex flex-col slide-enter border border-slate-200">
+            <!-- Header -->
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-800 text-white sm:rounded-t-3xl rounded-t-3xl">
+                <div>
+                    <h3 class="font-black text-2xl flex items-center gap-3"><i class="fas fa-book-open"></i> English Dictionary</h3>
+                </div>
+                <button onclick="toggleDictionary()" class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition text-xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="flex border-b border-slate-200 overflow-x-auto custom-scrollbar bg-slate-50 px-2">
+                <button onclick="switchDictTab('verbs')" id="tab-verbs" class="px-6 py-4 font-black text-base text-emerald-600 border-b-4 border-emerald-600 whitespace-nowrap"><i class="fas fa-clock mr-2"></i> Routines</button>
+                <button onclick="switchDictTab('tobe')" id="tab-tobe" class="px-6 py-4 font-bold text-base text-slate-400 border-b-4 border-transparent hover:text-slate-600 whitespace-nowrap"><i class="fas fa-question-circle mr-2"></i> To Be</button>
+                <button onclick="switchDictTab('questions')" id="tab-questions" class="px-6 py-4 font-bold text-base text-slate-400 border-b-4 border-transparent hover:text-slate-600 whitespace-nowrap"><i class="fas fa-search mr-2"></i> WH- Words</button>
+            </div>
+
+            <!-- Content Area -->
+            <div class="flex-1 overflow-y-auto p-4 md:p-6 custom-scrollbar bg-slate-50">
+                <div id="dict-verbs" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+                <div id="dict-tobe" class="grid grid-cols-1 md:grid-cols-2 gap-3 hidden"></div>
+                <div id="dict-questions" class="grid grid-cols-1 md:grid-cols-2 gap-3 hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dictData = {
+            verbs: [
+                { en: "Wake up", es: "Despertarse", emoji: "🥱" },
+                { en: "Get up", es: "Levantarse", emoji: "🛏️" },
+                { en: "Take a shower", es: "Bañarse", emoji: "🚿" },
+                { en: "Have breakfast", es: "Desayunar", emoji: "🍳" },
+                { en: "Go to work", es: "Ir al trabajo", emoji: "💼" },
+                { en: "Go to school", es: "Ir a la escuela", emoji: "🏫" },
+                { en: "Have lunch", es: "Almorzar", emoji: "🥗" },
+                { en: "Finish work", es: "Terminar de trabajar", emoji: "🏁" },
+                { en: "Have dinner", es: "Cenar", emoji: "🍽️" },
+                { en: "Go to bed", es: "Ir a dormir", emoji: "🛌" }
+            ],
+            tobe: [
+                { en: "Are you...?", es: "¿Eres / Estás...?", emoji: "❓" },
+                { en: "Is he...?", es: "¿Es / Está (él)...?", emoji: "👦" },
+                { en: "Is she...?", es: "¿Es / Está (ella)...?", emoji: "👧" },
+                { en: "Are they...?", es: "¿Son / Están (ellos)...?", emoji: "👥" }
+            ],
+            questions: [
+                { en: "What", es: "Qué", emoji: "🤷" },
+                { en: "Where", es: "Dónde", emoji: "📍" },
+                { en: "When", es: "Cuándo", emoji: "⏰" },
+                { en: "Why", es: "Por qué", emoji: "🤔" },
+                { en: "How", es: "Cómo", emoji: "🛠️" },
+                { en: "Who", es: "Quién", emoji: "👤" },
+                { en: "What time", es: "A qué hora", emoji: "⌚" }
+            ]
+        };
+
+        const totalSlides = 11; // 0 to 10
+        let currentSlide = 0;
+        
+        const slideThemes = [
+            { color: 'cyan', title: 'Intro' },
+            { color: 'cyan', title: 'To Be Questions' },
+            { color: 'cyan', title: 'Quiz 1' },
+            { color: 'emerald', title: 'Routine Vocab' },
+            { color: 'blue', title: 'Do & Does' },
+            { color: 'blue', title: 'WH- Questions' },
+            { color: 'blue', title: 'Quiz 2' },
+            { color: 'amber', title: 'To Be vs Do/Does' },
+            { color: 'violet', title: 'Chat Intro' },
+            { color: 'violet', title: 'Chat Simulator' },
+            { color: 'rose', title: 'Mega Quiz' }
+        ];
+
+        function updateNavUI() {
+            const theme = slideThemes[currentSlide];
+            
+            const progress = (currentSlide / (totalSlides - 1)) * 100;
+            document.getElementById('main-progress').style.width = `${progress}%`;
+            
+            const colorMap = {
+                'cyan': 'from-cyan-400 to-blue-500',
+                'emerald': 'from-emerald-400 to-teal-500',
+                'blue': 'from-blue-500 to-indigo-600',
+                'amber': 'from-amber-400 to-orange-500',
+                'violet': 'from-violet-500 to-fuchsia-500',
+                'rose': 'from-rose-500 to-pink-500'
+            };
+            const btnColorMap = {
+                'cyan': 'bg-cyan-600 hover:bg-cyan-700',
+                'emerald': 'bg-emerald-600 hover:bg-emerald-700',
+                'blue': 'bg-blue-600 hover:bg-blue-700',
+                'amber': 'bg-amber-500 hover:bg-amber-600',
+                'violet': 'bg-violet-600 hover:bg-violet-700',
+                'rose': 'bg-slate-800 hover:bg-slate-900'
+            };
+            
+            const navIconBg = document.getElementById('nav-icon-bg');
+            navIconBg.className = `w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center text-white font-bold shadow-lg transition-all duration-500 bg-gradient-to-br ${colorMap[theme.color]}`;
+            
+            const btnNext = document.getElementById('btn-next');
+            btnNext.className = `flex-1 text-white font-black text-base md:text-lg py-3 md:py-4 px-4 rounded-2xl shadow-lg transition hover:-translate-y-1 transition-colors duration-300 ${btnColorMap[theme.color]}`;
+
+            document.getElementById('nav-topic-title').innerText = theme.title;
+            document.getElementById('slide-counter-nav').innerText = `${currentSlide + 1}/${totalSlides}`;
+
+            for (let i = 0; i < totalSlides; i++) {
+                const s = document.getElementById(`slide-${i}`);
+                if(s) {
+                    s.classList.add('hidden-slide');
+                    s.classList.remove('slide-enter');
+                }
+            }
+
+            const current = document.getElementById(`slide-${currentSlide}`);
+            if (current) {
+                current.classList.remove('hidden-slide');
+                void current.offsetWidth; 
+                current.classList.add('slide-enter');
+            }
+
+            const btnPrev = document.getElementById('btn-prev');
+            if (currentSlide === 0) {
+                btnPrev.classList.add('opacity-50', 'cursor-not-allowed');
+                btnPrev.setAttribute('disabled', 'true');
+            } else {
+                btnPrev.classList.remove('opacity-50', 'cursor-not-allowed');
+                btnPrev.removeAttribute('disabled');
+            }
+
+            if (currentSlide === totalSlides - 1) { 
+                btnNext.classList.add('hidden');
+            } else {
+                btnNext.classList.remove('hidden');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.speechSynthesis.cancel();
+        }
+
+        function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; updateNavUI(); } }
+        function prevSlide() { if (currentSlide > 0) { currentSlide--; updateNavUI(); } }
+
+        function playTTS(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); 
+                const msg = new SpeechSynthesisUtterance(text);
+                msg.lang = 'en-US'; 
+                msg.rate = 0.9;     
+                window.speechSynthesis.speak(msg);
+            }
+        }
+
+        // --- STREAMING_CHUNK:Javascript Logic - Flashcards & Basic Quizzes... ---
+        function generateFlashcards(dataArray, containerId, themeColor = 'blue') {
+            const container = document.getElementById(containerId);
+            if(!container) return;
+            
+            const colorMap = {
+                'emerald': { front: 'bg-emerald-50 border-emerald-200 text-emerald-900', back: 'bg-emerald-600 border-emerald-600' }
+            };
+            const c = colorMap[themeColor];
+
+            let html = '';
+            dataArray.forEach(item => {
+                html += `
+                <div class="flip-card h-32 md:h-36" onclick="this.classList.toggle('flipped'); if(this.classList.contains('flipped')) playTTS('${item.en}');">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front ${c.front} border-2 shadow-sm flex flex-col items-center justify-center p-2 transition hover:shadow-md">
+                            <span class="text-4xl md:text-5xl mb-2 drop-shadow-sm">${item.emoji}</span>
+                            <span class="font-bold text-base md:text-lg text-center leading-tight">${item.en}</span>
+                        </div>
+                        <div class="flip-card-back ${c.back} border-2 shadow-md flex items-center justify-center p-3 text-white text-center">
+                            <span class="font-black text-lg md:text-xl">${item.es}</span>
+                        </div>
+                    </div>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        const quizzesData = {
+            'quiz-tobe': [
+                { q: "You are a doctor. (Convert to question)", options: ["Are you a doctor?", "Is you a doctor?", "Do you a doctor?"], ans: 0 },
+                { q: "_____ she your sister?", options: ["Are", "Is", "Am"], ans: 1 },
+                { q: "_____ they at home?", options: ["Are", "Is", "Do"], ans: 0 }
+            ],
+            'quiz-dodoes': [
+                { q: "_____ you wake up early?", options: ["Do", "Does", "Are"], ans: 0 },
+                { q: "_____ he work in a hospital?", options: ["Do", "Does", "Is"], ans: 1 },
+                { q: "Where _____ they live?", options: ["do", "does", "are"], ans: 0 },
+                { q: "What time _____ she have dinner?", options: ["do", "does", "is"], ans: 1 }
+            ]
+        };
+
+        function renderQuiz(containerId, themeColor = 'slate') {
+            const container = document.getElementById(containerId);
+            if(!container || !quizzesData[containerId]) return;
+            const data = quizzesData[containerId];
+            
+            let themeClass = 'border-slate-200 bg-slate-50';
+            let hoverClass = 'hover:border-indigo-400 hover:bg-indigo-50';
+            
+            if(themeColor === 'cyan') { themeClass = 'border-cyan-100 bg-cyan-50/50'; hoverClass = 'hover:border-cyan-400 hover:bg-cyan-100'; }
+            if(themeColor === 'blue') { themeClass = 'border-blue-100 bg-blue-50/50'; hoverClass = 'hover:border-blue-400 hover:bg-blue-100'; }
+
+            let html = '';
+            data.forEach((q, index) => {
+                const gridCols = q.options.length > 2 ? 'sm:grid-cols-3' : 'sm:grid-cols-2';
+                html += `
+                    <div class="${themeClass} p-5 md:p-6 rounded-2xl border" id="${containerId}-q-${index}">
+                        <p class="font-bold text-lg md:text-xl text-slate-800 mb-6">${index + 1}. ${q.q}</p>
+                        <div class="grid grid-cols-1 ${gridCols} gap-3 md:gap-4">
+                            ${q.options.map((opt, i) => `
+                                <button onclick="checkQuizAnswer('${containerId}', ${index}, ${i}, ${q.ans})" class="bg-white border-2 border-slate-200 text-slate-700 font-bold text-base md:text-lg py-3 px-4 rounded-xl ${hoverClass} transition quiz-btn shadow-sm hover:-translate-y-0.5 w-full">
+                                    ${opt}
+                                </button>
+                            `).join('')}
+                        </div>
+                        <div id="${containerId}-feedback-${index}" class="hidden mt-4 font-bold text-base p-4 rounded-xl border"></div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function checkQuizAnswer(containerId, qIndex, selectedIndex, correctIndex) {
+            const qContainer = document.getElementById(`${containerId}-q-${qIndex}`);
+            const buttons = qContainer.querySelectorAll('.quiz-btn');
+            const feedback = document.getElementById(`${containerId}-feedback-${qIndex}`);
+            
+            buttons.forEach(b => {
+                b.disabled = true;
+                b.className = b.className.replace(/hover:[^\s]+/g, '');
+            });
+
+            feedback.classList.remove('hidden', 'bg-red-50', 'text-red-700', 'border-red-200', 'bg-green-50', 'text-green-700', 'border-green-200');
+
+            if (selectedIndex === correctIndex) {
+                buttons[selectedIndex].classList.replace('border-slate-200', 'border-green-500');
+                buttons[selectedIndex].classList.add('bg-green-500', 'text-white');
+                buttons[selectedIndex].classList.remove('text-slate-700', 'bg-white');
+                feedback.classList.add('bg-green-50', 'text-green-700', 'border-green-200');
+                feedback.innerHTML = '<i class="fas fa-check-circle mr-2"></i> ¡Correcto!';
+            } else {
+                buttons[selectedIndex].classList.replace('border-slate-200', 'border-red-500');
+                buttons[selectedIndex].classList.add('bg-red-500', 'text-white');
+                buttons[selectedIndex].classList.remove('text-slate-700', 'bg-white');
+                
+                buttons[correctIndex].classList.replace('border-slate-200', 'border-green-400');
+                buttons[correctIndex].classList.add('bg-green-50', 'text-green-800');
+                
+                feedback.classList.add('bg-red-50', 'text-red-700', 'border-red-200');
+                feedback.innerHTML = '<i class="fas fa-times-circle mr-2"></i> Incorrecto.';
+            }
+        }
+
+        // --- STREAMING_CHUNK:Javascript Logic - Chat Simulator... ---
+        const chatScript = [
+            { bot: "Hello! Nice to meet you. I am Alex.", options: ["Nice to meet you too, Alex.", "I am a student."], correct: 0 },
+            { bot: "Where are you from?", options: ["I live in New York.", "I am from Mexico."], correct: 1 },
+            { bot: "Oh, cool! What do you do?", options: ["I am fine, thanks.", "I am an engineer."], correct: 1 },
+            { bot: "That sounds interesting. What time do you wake up for work?", options: ["I wake up at 7:00 AM.", "I am 7:00 AM."], correct: 0 },
+            { bot: "Do you like your job?", options: ["Yes, I do.", "Yes, I am."], correct: 0 },
+            { bot: "Great! Well, I have to go to work now. See you later!", options: ["Good morning!", "Goodbye! Have a nice day."], correct: 1 }
+        ];
+        let chatStep = 0;
+
+        function startChat() {
+            chatStep = 0;
+            document.getElementById('chat-simulator-container').innerHTML = '';
+            showBotMessage(chatScript[chatStep].bot);
+        }
+
+        function showBotMessage(msg) {
+            const container = document.getElementById('chat-simulator-container');
+            const bubble = document.createElement('div');
+            bubble.className = "self-start bg-white p-3 rounded-2xl rounded-tl-sm shadow-sm max-w-[85%] text-slate-700 font-medium slide-enter border border-slate-200 text-sm md:text-base";
+            bubble.innerText = msg;
+            container.appendChild(bubble);
+            container.scrollTop = container.scrollHeight;
+            
+            showChatOptions();
+            playTTS(msg);
+        }
+
+        function showChatOptions() {
+            const optionsContainer = document.getElementById('chat-simulator-options');
+            optionsContainer.innerHTML = '';
+            const script = chatScript[chatStep];
+            
+            script.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = "bg-white hover:bg-violet-50 text-violet-700 font-bold p-3 rounded-2xl border-2 border-violet-200 transition text-left text-sm md:text-base shadow-sm hover:border-violet-400";
+                btn.innerText = opt;
+                btn.onclick = () => handleChatOption(index, script.correct, opt);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function handleChatOption(selectedIndex, correctIndex, text) {
+            if(selectedIndex === correctIndex) {
+                const container = document.getElementById('chat-simulator-container');
+                const bubble = document.createElement('div');
+                bubble.className = "self-end bg-violet-600 text-white p-3 rounded-2xl rounded-tr-sm shadow-sm max-w-[85%] font-medium slide-enter text-sm md:text-base";
+                bubble.innerText = text;
+                container.appendChild(bubble);
+                container.scrollTop = container.scrollHeight;
+                
+                document.getElementById('chat-simulator-options').innerHTML = '';
+                
+                chatStep++;
+                if(chatStep < chatScript.length) {
+                    setTimeout(() => {
+                        showBotMessage(chatScript[chatStep].bot);
+                    }, 800);
+                } else {
+                    setTimeout(() => {
+                        const endMsg = document.createElement('div');
+                        endMsg.className = "text-center text-slate-500 font-bold mt-4 slide-enter bg-white py-2 px-4 rounded-full border shadow-sm self-center text-sm";
+                        endMsg.innerText = "¡Conversación completada con éxito! 🎉";
+                        container.appendChild(endMsg);
+                        container.scrollTop = container.scrollHeight;
+                    }, 500);
+                }
+            } else {
+                const btn = document.getElementById('chat-simulator-options').children[selectedIndex];
+                btn.classList.add('bg-red-50', 'text-red-600', 'border-red-400');
+                btn.classList.remove('bg-white', 'text-violet-700', 'border-violet-200');
+                setTimeout(() => {
+                    btn.classList.remove('bg-red-50', 'text-red-600', 'border-red-400');
+                    btn.classList.add('bg-white', 'text-violet-700', 'border-violet-200');
+                }, 500);
+            }
+        }
+
+        // --- STREAMING_CHUNK:Javascript Logic - Mega Quiz & Dictionary... ---
+        const megaQuizQuestions = [
+            { q: "_____ you a student?", options: ["Are", "Do"], ans: 0 },
+            { q: "_____ you study English?", options: ["Are", "Do"], ans: 1 },
+            { q: "_____ she your mother?", options: ["Is", "Does"], ans: 0 },
+            { q: "_____ she cook everyday?", options: ["Is", "Does"], ans: 1 },
+            { q: "Where _____ you from?", options: ["are", "do"], ans: 0 },
+            { q: "Where _____ you live?", options: ["are", "do"], ans: 1 },
+            { q: "_____ they doctors?", options: ["Are", "Do"], ans: 0 },
+            { q: "_____ they work in a hospital?", options: ["Are", "Do"], ans: 1 },
+            { q: "What time _____ he wake up?", options: ["is", "does"], ans: 1 },
+            { q: "I _____ breakfast at 8:00 AM.", options: ["have", "has"], ans: 0 } 
+        ];
+
+        let megaQuizCurrent = 0;
+        let megaQuizScore = 0;
+
+        function startMegaQuiz() {
+            document.getElementById('mega-quiz-intro').classList.add('hidden');
+            document.getElementById('mega-quiz-container').classList.remove('hidden');
+            megaQuizQuestions.sort(() => Math.random() - 0.5); 
+            megaQuizCurrent = 0;
+            megaQuizScore = 0;
+            renderMegaQuizQuestion();
+        }
+
+        function renderMegaQuizQuestion() {
+            if (megaQuizCurrent >= megaQuizQuestions.length) {
+                showMegaQuizResult();
+                return;
+            }
+
+            const q = megaQuizQuestions[megaQuizCurrent];
+            document.getElementById('mega-quiz-counter').innerText = `Question ${megaQuizCurrent + 1} of ${megaQuizQuestions.length}`;
+            
+            let formattedQ = q.q.replace('_____', `<span id="mega-blank" class="inline-block px-1 border-b-4 border-dashed border-slate-300 text-indigo-500 font-bold mx-1 pb-1 min-w-[3rem] text-center">___</span>`);
+            document.getElementById('mega-quiz-question').innerHTML = formattedQ;
+            
+            const progress = ((megaQuizCurrent) / megaQuizQuestions.length) * 100;
+            document.getElementById('mega-quiz-progress').style.width = `${progress}%`;
+
+            let optionsHtml = '';
+            q.options.forEach((opt, i) => {
+                optionsHtml += `<button onclick="handleMegaQuizAnswer(${i}, ${q.ans})" class="mega-option w-full bg-slate-50 border-2 border-slate-200 text-slate-700 font-bold py-5 px-6 rounded-2xl hover:border-blue-400 hover:bg-blue-50 transition text-lg shadow-sm hover:-translate-y-0.5">${opt}</button>`;
+            });
+            document.getElementById('mega-quiz-options').innerHTML = optionsHtml;
+            document.getElementById('mega-quiz-feedback').classList.add('hidden');
+        }
+
+        function handleMegaQuizAnswer(selected, correct) {
+            const buttons = document.querySelectorAll('.mega-option');
+            buttons.forEach(b => {
+                b.disabled = true;
+                b.classList.remove('hover:border-blue-400', 'hover:bg-blue-50', 'hover:-translate-y-0.5');
+            });
+
+            const feedback = document.getElementById('mega-quiz-feedback');
+            const blank = document.getElementById('mega-blank');
+            const q = megaQuizQuestions[megaQuizCurrent];
+
+            feedback.classList.remove('hidden', 'bg-green-50', 'text-green-700', 'border-green-200', 'bg-red-50', 'text-red-700', 'border-red-200');
+
+            if (selected === correct) {
+                buttons[selected].classList.replace('border-slate-200', 'border-green-500');
+                buttons[selected].classList.replace('bg-slate-50', 'bg-green-500');
+                buttons[selected].classList.replace('text-slate-700', 'text-white');
+                megaQuizScore++;
+                
+                if(blank) {
+                    blank.innerText = q.options[q.ans];
+                    blank.classList.replace('border-slate-300', 'border-green-400');
+                    blank.classList.replace('text-indigo-500', 'text-green-600');
+                }
+                
+                feedback.classList.add('bg-green-50', 'text-green-700', 'border', 'border-green-200');
+                feedback.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Correct!';
+            } else {
+                buttons[selected].classList.replace('border-slate-200', 'border-red-500');
+                buttons[selected].classList.replace('bg-slate-50', 'bg-red-500');
+                buttons[selected].classList.replace('text-slate-700', 'text-white');
+                
+                buttons[correct].classList.replace('border-slate-200', 'border-green-400');
+                buttons[correct].classList.replace('bg-slate-50', 'bg-green-50');
+                
+                feedback.classList.add('bg-red-50', 'text-red-700', 'border', 'border-red-200');
+                feedback.innerHTML = '<i class="fas fa-times-circle mr-2"></i> Incorrect.';
+            }
+
+            setTimeout(() => {
+                megaQuizCurrent++;
+                renderMegaQuizQuestion();
+            }, 1200);
+        }
+
+        function showMegaQuizResult() {
+            document.getElementById('mega-quiz-area').classList.add('hidden');
+            document.getElementById('mega-quiz-progress').style.width = `100%`;
+            const resultArea = document.getElementById('mega-quiz-result');
+            resultArea.classList.remove('hidden');
+            
+            document.getElementById('mq-score').innerText = megaQuizScore;
+            const emoji = document.getElementById('mq-emoji');
+            
+            if (megaQuizScore === 10) { emoji.innerText = '🏆'; }
+            else if (megaQuizScore >= 7) { emoji.innerText = '🌟'; }
+            else { emoji.innerText = '💪'; }
+        }
+
+        function toggleDictionary() {
+            const modal = document.getElementById('dictionary-modal');
+            modal.classList.toggle('hidden');
+            if(!modal.classList.contains('hidden')){
+                if(document.getElementById('dict-verbs').innerHTML === "") {
+                    renderDictionaryList(dictData.verbs, 'dict-verbs', 'text-emerald-600', 'bg-emerald-50');
+                    renderDictionaryList(dictData.tobe, 'dict-tobe', 'text-cyan-600', 'bg-cyan-50');
+                    renderDictionaryList(dictData.questions, 'dict-questions', 'text-blue-600', 'bg-blue-50');
+                }
+            }
+        }
+
+        function switchDictTab(tabName) {
+            ['verbs', 'tobe', 'questions'].forEach(t => {
+                const tab = document.getElementById(`tab-${t}`);
+                tab.className = tab.className.replace(/text-[a-z]+-600/g, 'text-slate-400');
+                tab.className = tab.className.replace(/border-[a-z]+-600/g, 'border-transparent');
+                
+                document.getElementById(`dict-${t}`).classList.add('hidden');
+            });
+            
+            const activeTab = document.getElementById(`tab-${tabName}`);
+            const color = tabName === 'verbs' ? 'emerald' : tabName === 'tobe' ? 'cyan' : 'blue';
+            
+            activeTab.classList.remove('text-slate-400', 'border-transparent');
+            activeTab.classList.add(`text-${color}-600`, `border-${color}-600`);
+            
+            document.getElementById(`dict-${tabName}`).classList.remove('hidden');
+        }
+
+        function renderDictionaryList(data, containerId, textColorClass, bgClass) {
+            const container = document.getElementById(containerId);
+            let html = '';
+            data.forEach(item => {
+                html += `
+                    <div class="bg-white p-3 rounded-2xl border border-slate-200 flex items-center gap-3 hover:shadow-md transition-all cursor-pointer group" onclick="playTTS('${item.en}')">
+                        <div class="text-2xl ${bgClass} w-12 h-12 rounded-xl flex items-center justify-center border border-slate-100 shadow-sm shrink-0">${item.emoji}</div>
+                        <div class="flex-1">
+                            <p class="font-bold text-slate-800 text-base">${item.en}</p>
+                            <p class="text-xs text-slate-500 font-medium">${item.es}</p>
+                        </div>
+                        <div class="w-8 h-8 rounded-full ${bgClass} ${textColorClass} flex items-center justify-center shrink-0 group-hover:scale-110 transition">
+                            <i class="fas fa-volume-up text-xs"></i>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            generateFlashcards(dictData.verbs.slice(0, 5), 'flashcards-routine-1', 'emerald');
+            generateFlashcards(dictData.verbs.slice(5, 10), 'flashcards-routine-2', 'emerald');
+            
+            renderQuiz('quiz-tobe', 'cyan');
+            renderQuiz('quiz-dodoes', 'blue');
+            
+            updateNavUI();
+        });
+
+    </script>
+</body>
+</html>
